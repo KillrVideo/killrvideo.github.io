@@ -7,7 +7,7 @@
     "build:assets": "webpack --progress",
     "build": "node ./build.js",
     "watch": "npm-run-all --parallel \"build -- --watch\" serve",
-    "serve": "static -p 3000 out"
+    "serve": "live-server out --port=3000 --no-browser"
   },
   "repository": {
     "type": "git",
@@ -29,7 +29,7 @@
     "css-loader": "^0.23.1",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.9.0",
-    "node-static": "^0.7.7",
+    "live-server": "^1.0.0",
     "npm-run-all": "^2.3.0",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.1"
