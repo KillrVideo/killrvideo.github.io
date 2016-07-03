@@ -4,7 +4,9 @@
   "description": "The docs and info site for Killrvideo at https://killrvideo.github.io",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "node ./build.js",
+    "watch": "npm-run-all --parallel \"build -- --watch\" serve",
+    "serve": "static -p 3000 out"
   },
   "repository": {
     "type": "git",
@@ -17,6 +19,11 @@
   },
   "homepage": "https://killrvideo.github.io",
   "private": true,
-  "devDependencies": {},
+  "devDependencies": {
+    "metalsmith": "^2.1.0",
+    "metalsmith-watch": "^1.0.3",
+    "node-static": "^0.7.7",
+    "npm-run-all": "^2.3.0"
+  },
   "dependencies": {}
 }
