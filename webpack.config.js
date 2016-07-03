@@ -48,7 +48,14 @@ module.exports = {
       { test: /\.jsx?$/, include: Paths.JS, loader: 'babel' },
 
       // Extract CSS files from our app that are referenced by require('') calls
-      { test: /\.css$/, loader: ExtractTextPlugin.extract('style-loader', 'css-loader', {}) }
+      { test: /\.css$/, loader: ExtractTextPlugin.extract('style-loader', 'css-loader', {}) },
+
+      // Allow font loading (to support third party CSS referencing fonts)
+      {
+        test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d\.\d\.\d)?$/, 
+        loader: 'file',
+        query: { name: 'fonts/[name].[ext]' }
+      }
     ]
   },
   plugins
