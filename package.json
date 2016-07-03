@@ -21,6 +21,7 @@
   "private": true,
   "devDependencies": {
     "metalsmith": "^2.1.0",
+    "metalsmith-assets": "^0.1.0",
     "metalsmith-watch": "^1.0.3",
     "node-static": "^0.7.7",
     "npm-run-all": "^2.3.0"

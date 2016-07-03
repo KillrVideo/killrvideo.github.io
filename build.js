@@ -1,6 +1,7 @@
 const path = require('path');
 const Metalsmith = require('metalsmith');
 const watch = require('metalsmith-watch');
+const assets = require('metalsmith-assets');
 
 const Paths = {
     SRC: path.resolve(__dirname, 'src'),
@@ -16,7 +17,10 @@ if (process.argv.length > 2 && process.argv[2] === '--watch') {
     ms.use(watch({ livereload: true }));
 }
 
-// Add more plugins here
+// Copy assets to output folder
+ms.use(assets({
+    source: "./assets"
+}));
 
 // Build
 ms.build(function (err) {
