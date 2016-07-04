@@ -1,4 +1,57 @@
+@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700");
+
+/**
+ * Common styles
+ */
+
+body {
+  font-family: "Source Sans Pro", Calibri, Candara, Arial, sans-serif;
+}
+
+.title, .subtitle {
+  font-weight: 300;
+}
+
+/**
+ * Header
+ */
+
 header {
-    background-color: #000;
-    padding: 1em;
+  padding: 5px 10px;
+}
+
+header, header > nav.nav {
+  background-color: #222;
+}
+
+header > nav.nav a.nav-item {
+  color: #ddd;
+  font-size: 110%;
+}
+
+header > nav.nav a.nav-item:hover {
+  color: #95E027;
+}
+
+/**
+ * Home page
+ */
+
+.hero-image-home {
+  background-color: #BCE086;
+}
+
+.hero-image-home img {
+  height: 200px;
+  width: auto;
+  position: relative;
+  top: 25px;
+}
+
+/* Tablet and larger */
+@media screen and (min-width: 769px) {
+  .hero-image-home img {
+    height: 300px;
+    top: 40px;
+  }
 }

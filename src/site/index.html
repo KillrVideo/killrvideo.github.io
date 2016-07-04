@@ -4,27 +4,56 @@
   <title>KillrVideo: A Reference Application for Apache Cassandra and DataStax Enterprise</title>
   <link href="/assets/bundle.css" rel="stylesheet">
   <link rel="icon" type="image/png" href="/assets/images/killrvideo-icon.png"/>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
   <header>
-    <div class="container">
-      <a href="/">
-        <img src="/assets/images/killrvideo.png" />
-      </a>
-      <nav>
-        <a href="/getting-started">Getting Started</a>
-        <a href="/docs">Docs</a>
-        <a href="/blog">Blog</a>
-        <a href="https://github.com/killrvideo" target="_blank">GitHub</a>
-      </nav>
-    </div>
+    <nav class="nav">
+      <div class="container">
+        <div class="nav-left">
+          <a href="/" class="nav-item">
+            <img src="/assets/images/killrvideo.png" alt="KillrVideo logo" />
+          </a>
+        </div>
+
+        <!-- Nav Toggle on mobile -->
+        <span class="nav-toggle">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+
+        <div class="nav-right nav-menu">
+          <a href="/getting-started" class="nav-item">
+            Getting Started
+          </a>
+          <a href="/docs" class="nav-item">
+            Docs
+          </a>
+          <a href="/blog" class="nav-item">
+            Blog
+          </a>
+          <a href="https://github.com/killrvideo" target="_blank" class="nav-item">
+            GitHub
+          </a>
+        </div>
+      </div>
+    </nav>
   </header>
-  <section class="jumbotron">
+  <section class="hero-image-home has-text-centered">
     <div class="container">
-      <h1>Learn how to develop applications with Apache Cassandra and DataStax Enterprise</h1>
-      <p>
-        A Reference Application for Learning about developing applications with Apache Cassandra and DataStax Enterprise
-      </p>
+      <img src="/assets/images/devices.png" />
+    </div>
+  </section>
+  <section class="hero has-text-centered">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title">Learn to build applications</h1>
+        <p class="subtitle">
+          with Apache Cassandra and DataStax Enterprise
+        </p>
+      </div>
     </div>
   </section>
 </body>

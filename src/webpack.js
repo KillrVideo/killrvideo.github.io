@@ -3,8 +3,10 @@
  */
 
 // Include all CSS in the bundle
-const bootswatchCss = require('bootswatch/cosmo/bootstrap.css');
-const siteCss = require('css/site.css');
+const css = [
+  require('bulma/css/bulma.css'),
+  require('css/site.css')
+];
 
 // Just export the JS by default
 module.exports = require('js');

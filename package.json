@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build:assets": "webpack --progress",
-    "build": "node ./build.js",
-    "watch": "npm-run-all --parallel \"build -- --watch\" serve",
+    "build:site": "node ./metalsmith.js",
+    "watch": "npm-run-all --parallel \"build:* -- --watch\" serve",
     "serve": "live-server out --port=3000 --no-browser"
   },
   "repository": {
@@ -30,11 +30,13 @@
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.9.0",
     "live-server": "^1.0.0",
+    "metalsmith": "^2.1.0",
+    "metalsmith-watch": "^1.0.3",
     "npm-run-all": "^2.3.0",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.1"
   },
   "dependencies": {
-    "bootswatch": "^3.3.6"
+    "bulma": "^0.1.0"
   }
 }
