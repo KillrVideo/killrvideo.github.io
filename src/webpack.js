@@ -4,9 +4,7 @@
 
 // Include all CSS in the bundle
 const css = [
-  require('css/bulma.scss'),
-  require('font-awesome/css/font-awesome.css'),
-  require('css/site.css')
+  require('css/all.scss')
 ];
 
 // Just export the JS by default

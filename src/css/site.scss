@@ -1,11 +1,19 @@
 @import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700");
 
 /**
+ * Site styles
+ */
+
+/**
  * Common styles
  */
 
 .title, .subtitle {
   font-weight: 300;
+}
+
+.button > .fa {
+  margin-right: 3px;
 }
 
 /**
@@ -20,12 +28,12 @@ header, header > nav.nav {
   background-color: #222;
 }
 
-header > nav.nav a.nav-item {
+header > nav.nav .nav-item {
   color: #ddd;
   font-size: 110%;
 }
 
-header > nav.nav a.nav-item:hover {
+header > nav.nav .nav-item:hover {
   color: #95E027;
 }
 
@@ -42,6 +50,10 @@ header > nav.nav a.nav-item:hover {
   width: auto;
   position: relative;
   top: 25px;
+}
+
+.hero-home {
+  border-bottom: 1px solid $grey-light;
 }
 
 /* Tablet and larger */
