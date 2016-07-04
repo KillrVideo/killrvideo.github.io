@@ -37,6 +37,7 @@
     "webpack": "^1.13.1"
   },
   "dependencies": {
-    "bulma": "^0.1.0"
+    "bulma": "^0.1.0",
+    "font-awesome": "^4.6.3"
   }
 }

@@ -5,6 +5,7 @@
 // Include all CSS in the bundle
 const css = [
   require('bulma/css/bulma.css'),
+  require('font-awesome/css/font-awesome.css'),
   require('css/site.css')
 ];
 
