@@ -4,10 +4,6 @@
  * Common styles
  */
 
-body {
-  font-family: "Source Sans Pro", Calibri, Candara, Arial, sans-serif;
-}
-
 .title, .subtitle {
   font-weight: 300;
 }

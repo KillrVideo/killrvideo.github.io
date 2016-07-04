@@ -32,7 +32,9 @@
     "live-server": "^1.0.0",
     "metalsmith": "^2.1.0",
     "metalsmith-watch": "^1.0.3",
+    "node-sass": "^3.8.0",
     "npm-run-all": "^2.3.0",
+    "sass-loader": "^4.0.0",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.1"
   },
