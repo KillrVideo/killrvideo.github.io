@@ -1,14 +1,10 @@
 const path = require('path');
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 // Path constants
 const Paths = {
     SRC: path.resolve(__dirname, 'src'),
     JS: path.resolve(__dirname, 'src/js'),
-    CSS: path.resolve(__dirname, 'src/css'),
-    IMAGES: path.resolve(__dirname, 'src/images'),
     OUT: path.resolve(__dirname, 'out/assets')
 };
 
@@ -19,15 +15,7 @@ let plugins = [
     'process.env': {
       'NODE_ENV': JSON.stringify(process.env.NODE_ENV === 'production' ? 'production' : 'development')
     }
-  }),
-
-  // Put CSS that's extracted into bundle.css
-  new ExtractTextPlugin('bundle.css', { allChunks: true }),
-
-  // Copy our images to a corresponsing images folder in the output
-  new CopyWebpackPlugin([
-    { from: Paths.IMAGES, to: 'images' }
-  ])
+  })
 ];
 
 module.exports = {
@@ -45,20 +33,7 @@ module.exports = {
   module: {
     loaders: [
       // Babel transpiler (see .babelrc file for presets)
-      { test: /\.jsx?$/, include: Paths.JS, loader: 'babel' },
-
-      // Extract CSS files from our app that are referenced by require('') calls
-      { test: /\.css$/, loader: ExtractTextPlugin.extract('style-loader', 'css-loader') },
-
-      // Allow loading of SASS files (so we can customize any CSS libs) and include in the CSS bundle
-      { test: /\.scss$/, loader: ExtractTextPlugin.extract('style-loader', [ 'css-loader', 'sass-loader' ]) },
-
-      // Allow font loading (to support third party CSS referencing fonts)
-      {
-        test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d\.\d\.\d)?$/, 
-        loader: 'file',
-        query: { name: 'fonts/[name].[ext]' }
-      }
+      { test: /\.jsx?$/, include: Paths.JS, loader: 'babel' }
     ]
   },
   plugins

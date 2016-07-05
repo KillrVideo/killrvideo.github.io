@@ -4,11 +4,17 @@
   "description": "The docs and info site for Killrvideo at https://killrvideo.github.io",
   "main": "index.js",
   "scripts": {
-    "build:assets": "webpack --progress",
+    "clean": "npm-run-all clean:rm clean:mkdirp",
+    "clean:rm": "rimraf out",
+    "clean:mkdirp": "mkdirp out",
+    "build:js": "webpack --progress",
+    "build:sass": "node-sass src/sass --output out/assets --include-path node_modules",
     "build:site": "node ./metalsmith.js",
+    "build:fonts": "cpx node_modules/font-awesome/fonts/* out/fonts --verbose",
+    "build:images": "cpx src/images/* out/assets/images --verbose",
     "build": "npm-run-all --parallel \"build:*\"",
-    "watch": "npm-run-all --parallel \"build:* -- --watch\" serve",
-    "serve": "live-server out --port=3000 --no-browser"
+    "watch": "npm-run-all clean --parallel build:sass \"build:* -- --watch\" serve",
+    "serve": "livereloadx -s -p 3000 out"
   },
   "repository": {
     "type": "git",
@@ -26,17 +32,14 @@
     "babel-loader": "^6.2.4",
     "babel-plugin-transform-object-rest-spread": "^6.8.0",
     "babel-preset-es2015": "^6.9.0",
-    "copy-webpack-plugin": "^3.0.1",
-    "css-loader": "^0.23.1",
-    "extract-text-webpack-plugin": "^1.0.1",
-    "file-loader": "^0.9.0",
-    "live-server": "^1.0.0",
+    "cpx": "^1.3.1",
+    "livereloadx": "^0.3.9",
     "metalsmith": "^2.1.0",
     "metalsmith-watch": "^1.0.3",
+    "mkdirp": "^0.5.1",
     "node-sass": "^3.8.0",
     "npm-run-all": "^2.3.0",
-    "sass-loader": "^4.0.0",
-    "style-loader": "^0.13.1",
+    "rimraf": "^2.5.3",
     "webpack": "^1.13.1"
   },
   "dependencies": {
