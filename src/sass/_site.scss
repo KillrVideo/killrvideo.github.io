@@ -24,6 +24,10 @@
 .flex-card {
   display: flex;
   flex-flow: column nowrap;
+  padding: 10px 10px 40px 10px;
+}
+
+.flex-card:last-child {
   padding: 10px;
 }
 
@@ -31,8 +35,15 @@
   flex: 1;
 }
 
+// Tablet and larger
+@include tablet {
+  .flex-card {
+    padding: 10px;
+  }
+}
+
 // Desktop and larger
-@media screen and (min-width: 980px) {
+@include desktop {
   .hr {
     width: 50%;
     margin: 80px auto;
@@ -79,8 +90,8 @@ header > nav.nav .nav-item:hover {
   border-bottom: 1px solid $grey-light;
 }
 
-/* Tablet and larger */
-@media screen and (min-width: 769px) {
+// Tablet and larger
+@include tablet {
   .hero-image-home img {
     height: 300px;
     top: 40px;
