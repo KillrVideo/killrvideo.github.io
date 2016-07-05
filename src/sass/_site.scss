@@ -16,6 +16,29 @@
   margin-right: 3px;
 }
 
+.hr {
+  width: 75%;
+  margin: 40px auto;
+}
+
+.flex-card {
+  display: flex;
+  flex-flow: column nowrap;
+  padding: 10px;
+}
+
+.flex-card > .flex-card-content {
+  flex: 1;
+}
+
+// Desktop and larger
+@media screen and (min-width: 980px) {
+  .hr {
+    width: 50%;
+    margin: 80px auto;
+  }
+}
+
 /**
  * Header
  */

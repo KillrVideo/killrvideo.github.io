@@ -47,7 +47,7 @@
       <img src="/assets/images/devices.png" />
     </div>
   </section>
-  <section class="hero hero-home has-text-centered has-bottom-border">
+  <section class="hero hero-home has-text-centered">
     <div class="hero-body">
       <div class="container">
         <h1 class="title is-1">Learn to build applications</h1>
@@ -57,20 +57,76 @@
       </div>
     </div>
   </section>
-  <section class="section is-medium">
+  <section class="section is-medium has-text-centered">
     <div class="container">
       <div class="columns">
-        <div class="column is-8 is-offset-2 has-text-centered">
+        <div class="column is-8 is-offset-2">
           <h2 class="title is-2">What is KillrVideo?</h2>
           <p class="subtitle is-4">
             KillrVideo is a video sharing web application designed to be used as a reference application for
-            developers looking to learn how to build applications with Apache Cassandra and DataStax Enterprise.
+            developers looking to learn how to build applications with 
+            <a href="http://cassandra.apache.org/" target="_blank">Apache Cassandra</a> and 
+            <a href="http://www.datastax.com/products/datastax-enterprise" target="_blank">DataStax Enterprise</a>.
           </p>
           <a href="/getting-started" class="button is-primary is-large">
             <i class="fa fa-code fa-fw"></i> Get Started
           </a>
         </div>
       </div>
+      
+      <hr class="hr" />
+
+      <div class="tile is-ancestor is-parent">
+        <div class="tile is-4 is-child flex-card">
+          <h4 class="title is-4 flex-card-header">Multiple Languages</h4>
+          <div class="content flex-card-content">
+            <p>
+              KillrVideo is available in multiple programming languages so you can learn in the language you're most
+              comfortable with. You'll find the list of available programming languages along with instructions for
+              running the code locally in the Getting Started section.
+            </p>
+          </div>
+          <div class="flex-card-footer">
+            <a class="button is-medium is-success" href="/getting-started">
+              Getting Started
+            </a>
+          </div>
+        </div>
+        <div class="tile is-4 is-child flex-card">
+          <h4 class="title is-4 flex-card-header">Microservices Architecture</h4>
+          <div class="content flex-card-content">
+            <p>
+              This is a modern application with a microservices architecture and uses libraries like 
+              <a href="http://www.grpc.io/" target="_blank">Grpc</a> from Google and 
+              <a href="http://netflix.github.io/falcor/" target="_blank">Falcor</a> from Netflix. If you want to
+              learn more about KillrVideo's architecture and how we're using those libraries, check out the Docs.
+            </p>
+          </div>
+          <div class="flex-card-footer">
+            <a class="button is-medium is-success" href="/docs">
+              Documentation
+            </a>
+          </div>
+        </div>
+        <div class="tile is-4 is-child flex-card">
+          <h4 class="title is-4 flex-card-header">Powered by Cassandra</h4>
+          <div class="content flex-card-content">
+            <p>
+              Apache Cassandra's peer-to-peer architecture makes it a great choice when you need scalability and high 
+              availability. It's also a lot different from the RDBMS systems you might be used to. You can get free
+              self-paced training for Cassandra at DataStax Academy.
+            </p>
+          </div>
+          <div class="flex-card-footer">
+            <a class="button is-medium is-success" href="https://academy.datastax.com/" target="_blank">
+              DataStax Academy
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <hr class="hr" />
+
     </div>
   </section>
   <script type="text/javascript" src="/assets/bundle.js"></script>
