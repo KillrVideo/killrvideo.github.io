@@ -22,8 +22,7 @@
       <div class="column is-8 is-offset-2">
         <h2 class="title is-2">What is KillrVideo?</h2>
         <p class="subtitle is-4">
-          KillrVideo is a video sharing web application designed to be used as a reference application for
-          developers looking to learn how to build applications with 
+          KillrVideo is a reference application for developers looking to learn how to build applications with 
           <a href="http://cassandra.apache.org/" target="_blank">Apache Cassandra</a> and 
           <a href="http://www.datastax.com/products/datastax-enterprise" target="_blank">DataStax Enterprise</a>.
         </p>

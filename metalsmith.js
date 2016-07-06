@@ -50,12 +50,12 @@ let ms = Metalsmith(__dirname)
   .use(collections(Paths.SITE))
   // Add new href now that processing is done
   .use(href('href'))
-  // Allow nunjucks layouts to be used on all HTML pages
+  // Allow nunjucks layouts to be used on all docs pages
   .use(layouts({
     engine: 'nunjucks',
-    default: 'default.nj',
+    default: 'docs.nj',
     directory: Paths.LAYOUTS,
-    pattern: '**/*.html',
+    pattern: 'docs/**/*.html',
     rename: true,
     loader: Loader
   }))

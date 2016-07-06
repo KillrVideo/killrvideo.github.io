@@ -1,0 +1,15 @@
+{% extends "base.nj" %}
+
+{% block content %}
+<section class="hero is-light-green">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title is-1">Blog</h1>
+    </div>
+  </div>
+</section>
+<section class="section">
+  <div class="container">
+  </div>
+</section>
+{% endblock %}
