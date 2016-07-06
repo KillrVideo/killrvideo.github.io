@@ -1,6 +1,9 @@
 language: node_js
 node_js:
-- "6"
+  - "6"
 script:
-- npm run clean
-- npm run build
+  - npm run clean
+  - npm run build
+branches:
+  except:
+    - master
