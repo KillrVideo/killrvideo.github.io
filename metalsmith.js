@@ -6,6 +6,7 @@ const nj = require('nunjucks');
 const paths = require('metalsmith-paths');
 const md = require('metalsmith-markdown');
 const headings = require('metalsmith-headings');
+const metafiles = require('metalsmith-metafiles');
 
 // Build paths
 const Paths = {
@@ -47,9 +48,12 @@ function log() {
 
 let ms = Metalsmith(__dirname)
   .clean(false)
+  .frontmatter(false)
   .source(Paths.SITE)
   .destination(Paths.OUT)
   .metadata(GLOBAL_METADATA)
+  // Parse frontmatter metadata from .meta.yaml files instead of the files themselves
+  .use(metafiles({ parsers: { ".yaml": true } }))
   // Add the original path info to metadata before any processing is done
   .use(paths({ property: "original_path" }))
   // Convert markdown files to HTML
