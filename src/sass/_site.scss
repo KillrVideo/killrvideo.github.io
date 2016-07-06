@@ -36,6 +36,14 @@ $light-green: #D1E0BA;
   margin-bottom: 0.5em;
 }
 
+.link-list-item .link-list-item {
+  margin-bottom: 0;
+  font-size: 0.9em;
+  list-style-type: disc;
+  list-style-position: outside;
+  margin-left: 2em;
+}
+
 // Tablet and larger
 @include tablet {
   html, .button {

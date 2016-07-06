@@ -6,7 +6,8 @@ const inPlace = require('metalsmith-in-place');
 const nj = require('nunjucks');
 const md = require('metalsmith-markdown');
 const metafiles = require('metalsmith-metafiles');
-const logMeta = require('./plugins/log');
+const headings = require('metalsmith-headings');
+const log = require('./plugins/log');
 const globalMetadata = require('./plugins/global-metadata');
 const setTitle = require('./plugins/set-title');
 const collections = require('./plugins/collections');
@@ -48,8 +49,11 @@ let ms = Metalsmith(__dirname)
   .use(setTitle())
   // Add files to collections
   .use(collections(Paths.SITE))
+  .use(log.globalMetadata())
   // Add new href now that processing is done
   .use(href('href'))
+  // Find all h2 headings in documents
+  .use(headings('h2'))
   // Allow nunjucks layouts to be used on all docs pages
   .use(layouts({
     engine: 'nunjucks',

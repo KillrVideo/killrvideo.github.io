@@ -7,7 +7,7 @@ function href(prop) {
   return function hrefPlugin(files) {
     Object.keys(files).forEach(fileName => {
       let file = files[fileName];
-      let href = fileName.replace('\\', '/');
+      let href = fileName.replace(/\\/gi, '/');
       file[prop] = `/${href}`;
     });
   };

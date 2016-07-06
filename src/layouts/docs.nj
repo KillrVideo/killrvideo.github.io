@@ -2,8 +2,28 @@
 
 {% block content %}
 <section class="section">
-  <article class="container content">
-    {{contents|safe}}
-  </article>
+  <div class="container">
+    <div class="columns">
+      <article class="column is-9 content">
+        {{ contents|safe }}
+      </article>
+      <nav class="column is-3">
+        <ul>
+          {% for doc in collections[collection[0]] %}
+          <li class="link-list-item">
+            <a href="{{ doc.href }}">{{ doc.title }}</a>
+            <ul>
+            {% for heading in doc.headings %}
+              <li class="link-list-item">
+                <a href="{{ doc.href }}#{{ heading.id }}">{{ heading.text }}</a>
+              </li>
+            {% endfor %}
+            </ul>
+          </li>
+          {% endfor %}
+        </ul>
+      </nav>
+    </div>
+  </div>
 </section>
 {% endblock %}

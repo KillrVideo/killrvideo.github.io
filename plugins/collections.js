@@ -11,16 +11,19 @@ function collectionsPlugin(sitePath) {
     guides: {
       pattern: 'docs/guides/*.html',
       sortBy: 'title',
+      refer: false,
       metadata: path.resolve(sitePath, 'docs/guides/collection.meta.yaml')
     },
     languages: {
       pattern: 'docs/languages/*.html',
       sortBy: 'title',
+      refer: false,
       metadata: path.resolve(sitePath, 'docs/languages/collection.meta.yaml')
     },
     development: {
       pattern: 'docs/development/*.html',
       sortBy: 'title',
+      refer: false,
       metadata: path.resolve(sitePath, 'docs/development/collection.meta.yaml')
     }
   };
