@@ -60,7 +60,7 @@
       </div>
       <div class="level-right">
         <div class="level-right">
-          <a class="button level-item" href="{{ github.source }}{{ original_path.href }}" target="_blank">
+          <a class="button level-item" href="{{ github.source }}{{ source_href }}" target="_blank">
             <i class="fa fa-github fa-fw"></i>Improve this page
           </a>
         </div>

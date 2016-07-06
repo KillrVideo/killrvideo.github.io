@@ -9,7 +9,7 @@ function log() {
       let meta = files[f];
       console.log(f);
       Object.keys(meta).forEach(m => {
-        if (m === 'content') return;
+        if (m === 'contents') return;
         console.log('%s: %j', m, meta[m]);
       });
     });

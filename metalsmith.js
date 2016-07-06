@@ -4,13 +4,13 @@ const watch = require('metalsmith-watch');
 const layouts = require('metalsmith-layouts');
 const inPlace = require('metalsmith-in-place');
 const nj = require('nunjucks');
-const paths = require('metalsmith-paths');
 const md = require('metalsmith-markdown');
 const metafiles = require('metalsmith-metafiles');
 const logMeta = require('./plugins/log');
 const globalMetadata = require('./plugins/global-metadata');
 const setTitle = require('./plugins/set-title');
 const collections = require('./plugins/collections');
+const href = require('./plugins/href');
 
 // Build paths
 const Paths = {
@@ -40,14 +40,16 @@ let ms = Metalsmith(__dirname)
   .use(globalMetadata(Paths.SRC))
   // Parse frontmatter metadata from .meta.yaml files instead of the files themselves
   .use(metafiles({ parsers: { ".yaml": true }, onMissingMainFile: 'delete' }))
-  // Add the original path info to metadata before any processing is done
-  .use(paths({ property: 'original_path' }))
+  // Add an href to the original file
+  .use(href('source_href'))
   // Convert markdown files to HTML
   .use(md({ gfm: true }))
   // Add title metadata if not specified
   .use(setTitle())
   // Add files to collections
   .use(collections(Paths.SITE))
+  // Add new href now that processing is done
+  .use(href('href'))
   // Allow nunjucks layouts to be used on all HTML pages
   .use(layouts({
     engine: 'nunjucks',

@@ -18,7 +18,7 @@
         <ul>
         {% for doc in collections.guides %}
           <li class="link-list-item">
-            <a href="">{{ doc.title }}</a>
+            <a href="{{ doc.href }}">{{ doc.title }}</a>
           </li>
         {% else %}
           <li>Coming soon</li>
@@ -32,7 +32,7 @@
         <ul>
         {% for doc in collections.languages %}
           <li class="link-list-item">
-            <a href="">{{ doc.title }}</a>
+            <a href="{{ doc.href }}">{{ doc.title }}</a>
           </li>
         {% else %}
           <li>Coming soon</li>
@@ -46,7 +46,7 @@
         <ul>
         {% for doc in collections.development %}
           <li class="link-list-item">
-            <a href="">{{ doc.title }}</a>
+            <a href="{{ doc.href }}">{{ doc.title }}</a>
           </li>
         {% else %}
           <li>Coming soon</li>
