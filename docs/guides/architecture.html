@@ -1,0 +1,236 @@
+<!doctype html>
+<html>
+<head>
+  <title>KillrVideo - High Level Architecture Overview</title>
+  <link href="/assets/bundle.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="/assets/images/killrvideo-icon.png"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  
+  <header>
+    <nav class="nav">
+      <div class="container">
+        <div class="nav-left">
+          <a href="/" class="nav-item">
+            <img src="/assets/images/killrvideo.png" alt="KillrVideo logo" />
+          </a>
+        </div>
+
+        <!-- Nav Toggle on mobile -->
+        <span class="nav-toggle">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+
+        <div class="nav-right nav-menu">
+          <span class="nav-item">
+            <a href="/docs/guides/getting-started.html" class="button is-primary">
+              <i class="fa fa-code fa-fw"></i> Get Started
+            </a>
+          </span>
+          <a href="/docs" class="nav-item">
+            Docs
+          </a>
+          <a href="/blog" class="nav-item">
+            Blog
+          </a>
+          <a href="https://github.com/KillrVideo" target="_blank" class="nav-item">
+            <i class="fa fa-github fa-2x"></i>
+          </a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  
+  
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <article class="column is-9 content">
+        <h1 id="high-level-architecture-overview">High Level Architecture Overview</h1>
+<p>KillrVideo is a video sharing web application. As such, it&#39;s got a tiered setup that&#39;s
+pretty common for web applications:</p>
+<ul>
+<li><strong>Web Client:</strong> The web UI that runs in a browser and is interacted with by the user. It
+sends requests to a Web Server (via HTTP, web sockets, etc.)</li>
+<li><strong>Web Server:</strong> Serves up static assets for the client (i.e. JavaScript, CSS, images) and
+responds to requests from the Web Client by routing them to the appropriate service(s) on
+the backend.</li>
+<li><strong>Microservices Tier:</strong> A tier of independent services that house the data and the logic
+for the features and functionality of the site.</li>
+</ul>
+<p>We&#39;ll get into the details of how these tiers are actually implemented in the <a href="./web-tier.md">next section</a>,
+but first let&#39;s take a closer look at the Microservices Tier conceptually.  </p>
+<h2 id="microservices-tier">Microservices Tier</h2>
+<p>KillrVideo uses a <a href="http://martinfowler.com/articles/microservices.html">microservices</a> style 
+architecture where the site is broken up into multiple smaller services where each service
+is responsible for providing the functionality for a specific feature. This is the current
+list of services and the functionality they are responsible for:</p>
+<ul>
+<li><strong>Comments:</strong> Allows users to comment on videos and keeps track of those comments.</li>
+<li><strong>Ratings:</strong> Allows users to rate videos (on a scale of 1-5) and keeps track of those
+ratings.</li>
+<li><strong>Search:</strong> Indexes the available videos for searching by keyword and provides search
+suggestions (i.e. typeahead) support.</li>
+<li><strong>Statistics:</strong> Keeps track of statistics for videos like how many times they&#39;ve been
+played back.</li>
+<li><strong>Suggested Videos:</strong> Provides suggestions for videos similar to another video as well
+as personalized video suggestions for a particular user.</li>
+<li><strong>Uploads:</strong> Allows users to upload videos to the site and handles converting uploaded
+video files to a format that&#39;s compatible with the site.</li>
+<li><strong>User Management:</strong> Manages user accounts including signing up and logging in/out.</li>
+<li><strong>Video Catalog:</strong> Keeps track of all the videos available for playback and the details
+of those videos (i.e. title, description, etc.)</li>
+</ul>
+<p>Each of these services is designed to be completely independent and not have a dependency 
+on any other service being available to do its job. What does this mean in practice? That 
+the implementations of our services shouldn&#39;t be making calls to other service APIs in 
+order to do their work when at all possible.</p>
+<p>So if we don&#39;t want our services directly calling other service APIs, how will the services
+interact with each other?</p>
+<h2 id="using-events-for-service-collaboration">Using Events for Service Collaboration</h2>
+<p>In KillrVideo we&#39;ve chosen to use <a href="http://martinfowler.com/eaaDev/EventCollaboration.html">events for collaboration</a>
+between services rather than having services calling each other directly. Each service is
+for publishing events about interesting things that happen inside of them. Other services
+can then subscribe to any events they are interested in and react accordingly.</p>
+<blockquote>
+<h3 id="an-example-from-killrvideo">An Example from KillrVideo</h3>
+<p>Whenever a new YouTube video is added to the video catalog, the <strong>Video Catalog</strong> 
+service publishes a <code>YouTubeVideoAdded</code> event. That event contains some of the details
+of the video that was added (like it&#39;s id, name, description, etc.). Other services can
+(and do) subscribe to this event if they are interested. For example, the <strong>Search</strong>
+service might want to add the video to its index so the video starts showing up in
+search results. Or the <strong>Suggested Videos</strong> service may want to figure out what other
+videos are similar to that one so it can offer suggestions.</p>
+</blockquote>
+<p>If services are publishing events and possibly subscribing to them as well, this implies
+that we&#39;ll need some sort of mechanism for doing <a href="https://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern">Publish-subscribe</a> 
+messaging. We&#39;ll cover the specifics of actually implementing pub-sub shortly.</p>
+<p><a href="./web-tier.md">Next: Web Tier Implementation</a></p>
+
+      </article>
+      <nav class="column is-3">
+        <ul>
+          
+          <li class="link-list-item">
+            <a href="/docs/guides/docker.html">Docker and Infrastructure Dependencies</a>
+            <ul>
+            
+              <li class="link-list-item">
+                <a href="/docs/guides/docker.html#docker-compose-for-starting-dependencies">Docker Compose for Starting Dependencies</a>
+              </li>
+            
+              <li class="link-list-item">
+                <a href="/docs/guides/docker.html#docker-environment-scripts">Docker Environment Scripts</a>
+              </li>
+            
+            </ul>
+          </li>
+          
+          <li class="link-list-item">
+            <a href="/docs/guides/architecture.html">High Level Architecture Overview</a>
+            <ul>
+            
+              <li class="link-list-item">
+                <a href="/docs/guides/architecture.html#microservices-tier">Microservices Tier</a>
+              </li>
+            
+              <li class="link-list-item">
+                <a href="/docs/guides/architecture.html#using-events-for-service-collaboration">Using Events for Service Collaboration</a>
+              </li>
+            
+            </ul>
+          </li>
+          
+          <li class="link-list-item">
+            <a href="/docs/guides/microservices-tier.html">Microservice Tier Implementation</a>
+            <ul>
+            
+              <li class="link-list-item">
+                <a href="/docs/guides/microservices-tier.html#service-and-event-definitions-with-protocol-buffers">Service and Event Definitions with Protocol Buffers</a>
+              </li>
+            
+              <li class="link-list-item">
+                <a href="/docs/guides/microservices-tier.html#grpc-client-on-the-web-server">Grpc Client on the Web Server</a>
+              </li>
+            
+              <li class="link-list-item">
+                <a href="/docs/guides/microservices-tier.html#grpc-server-in-microservices">Grpc Server in Microservices</a>
+              </li>
+            
+              <li class="link-list-item">
+                <a href="/docs/guides/microservices-tier.html#pub-sub-messaging-and-other-supporting-infrastructure">Pub-Sub Messaging and Other Supporting Infrastructure</a>
+              </li>
+            
+            </ul>
+          </li>
+          
+          <li class="link-list-item">
+            <a href="/docs/guides/service-discovery.html">Service Discovery with etcd</a>
+            <ul>
+            
+              <li class="link-list-item">
+                <a href="/docs/guides/service-discovery.html#querying-etcd">Querying etcd</a>
+              </li>
+            
+              <li class="link-list-item">
+                <a href="/docs/guides/service-discovery.html#registering-services-in-etcd">Registering services in etcd</a>
+              </li>
+            
+            </ul>
+          </li>
+          
+          <li class="link-list-item">
+            <a href="/docs/guides/web-tier.html">Web Tier Implementation</a>
+            <ul>
+            
+              <li class="link-list-item">
+                <a href="/docs/guides/web-tier.html#web-client">Web Client</a>
+              </li>
+            
+              <li class="link-list-item">
+                <a href="/docs/guides/web-tier.html#web-server">Web Server</a>
+              </li>
+            
+              <li class="link-list-item">
+                <a href="/docs/guides/web-tier.html#web-client-and-server-communication-via-falcor">Web Client and Server Communication via Falcor</a>
+              </li>
+            
+              <li class="link-list-item">
+                <a href="/docs/guides/web-tier.html#session-storage-in-cassandra-datastax-enterprise">Session Storage in Cassandra / DataStax Enterprise</a>
+              </li>
+            
+            </ul>
+          </li>
+          
+        </ul>
+      </nav>
+    </div>
+  </div>
+</section>
+
+
+  
+  <footer class="footer">
+    <div class="container level">
+      <div class="level-left">
+        <div class="level-item">
+          <strong>KillrVideo</strong> is open source and available under an 
+          <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> license.
+        </div>
+      </div>
+      <div class="level-right">
+        <div class="level-right">
+          <a class="button level-item" href="https://github.com/KillrVideo/killrvideo.github.io/tree/source/src/site/docs/guides/architecture.md" target="_blank">
+            <i class="fa fa-github fa-fw"></i>Improve this page
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script type="text/javascript" src="/assets/bundle.js"></script>
+</body>
+</html>
