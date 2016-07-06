@@ -1,3 +1,6 @@
+{% extends "base.nj" %}
+
+{% block content %}
 <section class="hero-image-home has-text-centered">
   <div class="container">
     <img src="/assets/images/devices.png" />
@@ -24,7 +27,7 @@
           <a href="http://cassandra.apache.org/" target="_blank">Apache Cassandra</a> and 
           <a href="http://www.datastax.com/products/datastax-enterprise" target="_blank">DataStax Enterprise</a>.
         </p>
-        <a href="/getting-started" class="button is-primary is-large">
+        <a href="{{ nav.getting_started }}" class="button is-primary is-large">
           <i class="fa fa-code fa-fw"></i> Get Started
         </a>
       </div>
@@ -43,7 +46,7 @@
           </p>
         </div>
         <div class="flex-card-footer">
-          <a class="button is-medium is-success" href="/getting-started">
+          <a class="button is-medium is-success" href="{{ nav.getting_started }}">
             Getting Started
           </a>
         </div>
@@ -59,7 +62,7 @@
           </p>
         </div>
         <div class="flex-card-footer">
-          <a class="button is-medium is-success" href="/docs">
+          <a class="button is-medium is-success" href="{{ nav.docs }}">
             Documentation
           </a>
         </div>
@@ -82,3 +85,4 @@
     </div>
   </div>
 </section>
+{% endblock %}

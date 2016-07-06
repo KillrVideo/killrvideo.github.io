@@ -2,23 +2,20 @@ const path = require('path');
 const Metalsmith = require('metalsmith');
 const watch = require('metalsmith-watch');
 const layouts = require('metalsmith-layouts');
+const inPlace = require('metalsmith-in-place');
 const nj = require('nunjucks');
 const paths = require('metalsmith-paths');
 const md = require('metalsmith-markdown');
-const headings = require('metalsmith-headings');
 const metafiles = require('metalsmith-metafiles');
+const globalMetadata = require('./plugins/global-metadata');
+const setTitle = require('./plugins/set-title');
 
 // Build paths
 const Paths = {
+  SRC: path.resolve(__dirname, 'src'),
   SITE: path.resolve(__dirname, 'src/site'),
   LAYOUTS: path.resolve(__dirname, 'src/layouts'),
   OUT: path.resolve(__dirname, 'out')
-};
-
-// Global metadata available to all files
-const GLOBAL_METADATA = {
-  "github_org_url": "https://github.com/KillrVideo",
-  "github_site_url": "https://github.com/KillrVideo/killrvideo.github.io"
 };
 
 // Loader for nunjucks templates
@@ -26,20 +23,6 @@ class Loader extends nj.FileSystemLoader {
   constructor(opts) {
     super(Paths.LAYOUTS, opts);
   }
-}
-
-// Helper plugin that will log metadata to the console
-function log() {
-  return function logMetadata(files) {
-    Object.keys(files).forEach(f => {
-      let meta = files[f];
-      console.log(f);
-      Object.keys(meta).forEach(m => {
-        if (m === 'content') return;
-        console.log('%s: %j', m, meta[m]);
-      });
-    });
-  };
 }
 
 /**
@@ -51,20 +34,30 @@ let ms = Metalsmith(__dirname)
   .frontmatter(false)
   .source(Paths.SITE)
   .destination(Paths.OUT)
-  .metadata(GLOBAL_METADATA)
+  // Read global metadata from a YAML file
+  .use(globalMetadata(Paths.SRC))
   // Parse frontmatter metadata from .meta.yaml files instead of the files themselves
   .use(metafiles({ parsers: { ".yaml": true } }))
   // Add the original path info to metadata before any processing is done
   .use(paths({ property: "original_path" }))
   // Convert markdown files to HTML
   .use(md({ gfm: true }))
-  // Extract h1 tags and add to metadata
-  .use(headings('h1'))
-  // Use handlebars layouts on all site pages
+  // Add title metadata if not specified
+  .use(setTitle())
+  // Allow nunjucks layouts to be used on all HTML pages
   .use(layouts({
     engine: 'nunjucks',
     default: 'default.nj',
     directory: Paths.LAYOUTS,
+    pattern: '*.html',
+    rename: true,
+    loader: Loader
+  }))
+  // Convert any nunjucks pages in place to HTML
+  .use(inPlace({
+    engine: 'nunjucks',
+    pattern: '*.nj',
+    rename: true,
     loader: Loader
   }));
 
