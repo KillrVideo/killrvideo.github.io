@@ -4,9 +4,7 @@
   "description": "The docs and info site for Killrvideo at https://killrvideo.github.io",
   "main": "index.js",
   "scripts": {
-    "clean": "npm-run-all clean:rm clean:mkdirp",
-    "clean:rm": "rimraf out",
-    "clean:mkdirp": "mkdirp out",
+    "clean": "rimraf out/*",
     "build:js": "webpack --progress",
     "build:sass": "node-sass src/sass --output out/assets --include-path node_modules",
     "build:site": "node ./metalsmith.js",
@@ -43,7 +41,6 @@
     "metalsmith-markdown": "^0.2.1",
     "metalsmith-metafiles": "^2.0.0",
     "metalsmith-watch": "^1.0.3",
-    "mkdirp": "^0.5.1",
     "node-sass": "^3.8.0",
     "npm-run-all": "^2.3.0",
     "nunjucks": "^2.4.2",
