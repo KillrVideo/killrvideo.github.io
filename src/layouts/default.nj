@@ -1,0 +1,9 @@
+{% extends "base.nj" %}
+
+{% block content %}
+<section class="section">
+  <article class="container content">
+    {{contents|safe}}
+  </article>
+</section>
+{% endblock %}

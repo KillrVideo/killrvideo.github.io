@@ -2,7 +2,9 @@ const path = require('path');
 const Metalsmith = require('metalsmith');
 const watch = require('metalsmith-watch');
 const layouts = require('metalsmith-layouts');
+const nj = require('nunjucks');
 const paths = require('metalsmith-paths');
+const md = require('metalsmith-markdown');
 
 // Build paths
 const Paths = {
@@ -17,6 +19,13 @@ const GLOBAL_METADATA = {
   "github_site_url": "https://github.com/KillrVideo/killrvideo.github.io"
 };
 
+// Loader for nunjucks templates
+class Loader extends nj.FileSystemLoader {
+  constructor(opts) {
+    super(Paths.LAYOUTS, opts);
+  }
+}
+
 /**
  * Do the metalsmith build for the site.
  */
@@ -28,11 +37,14 @@ let ms = Metalsmith(__dirname)
   .metadata(GLOBAL_METADATA)
   // Add the original path info to metadata before any processing is done
   .use(paths({ property: "original_path" }))
+  // Convert markdown files to HTML
+  .use(md({ gfm: true }))
   // Use handlebars layouts on all site pages
   .use(layouts({
-    engine: 'handlebars',
-    default: 'default.hbs',
-    directory: Paths.LAYOUTS
+    engine: 'nunjucks',
+    default: 'default.nj',
+    directory: Paths.LAYOUTS,
+    loader: Loader
   }));
 
 // Should we watch?

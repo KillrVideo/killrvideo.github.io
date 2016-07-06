@@ -1,13 +1,13 @@
 <!doctype html>
 <html>
 <head>
-  <title>{{title}}</title>
+  <title>KillrVideo - {{title}}</title>
   <link href="/assets/bundle.css" rel="stylesheet">
   <link rel="icon" type="image/png" href="/assets/images/killrvideo-icon.png"/>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-  {{!-- The site's header --}}
+  {# The site's header #}
   <header>
     <nav class="nav">
       <div class="container">
@@ -44,10 +44,12 @@
     </nav>
   </header>
 
-  {{!-- The file's contents --}}
-  {{{contents}}}
+  {# The file's contents #}
+  {% block content %}
+  {{contents|safe}}
+  {% endblock %}
 
-  {{!-- The site's footer --}}
+  {# The site's footer #}
   <footer class="footer">
     <div class="container level">
       <div class="level-left">
