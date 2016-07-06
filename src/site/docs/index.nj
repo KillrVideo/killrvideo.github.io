@@ -1,0 +1,59 @@
+{% extends "base.nj" %}
+
+{% block content %}
+<section class="hero is-light-green">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title is-1">Documentation</h1>
+    </div>
+  </div>
+</section>
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <div class="column is-4">
+        <h3 class="title is-3">
+          <i class="fa fa-info"></i> General Guides
+        </h3>
+        <ul>
+        {% for doc in collections.guides %}
+          <li class="link-list-item">
+            <a href="">{{ doc.title }}</a>
+          </li>
+        {% else %}
+          <li>Coming soon</li>
+        {% endfor %}
+        </ul>
+      </div>
+      <div class="column is-4">
+        <h3 class="title is-3">
+          <i class="fa fa-code"></i> Language Guides
+        </h3>
+        <ul>
+        {% for doc in collections.languages %}
+          <li class="link-list-item">
+            <a href="">{{ doc.title }}</a>
+          </li>
+        {% else %}
+          <li>Coming soon</li>
+        {% endfor %}
+        </ul>
+      </div>
+      <div class="column is-4">
+        <h3 class="title is-3">
+          <i class="fa fa-wrench"></i> Advanced
+        </h3>
+        <ul>
+        {% for doc in collections.development %}
+          <li class="link-list-item">
+            <a href="">{{ doc.title }}</a>
+          </li>
+        {% else %}
+          <li>Coming soon</li>
+        {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

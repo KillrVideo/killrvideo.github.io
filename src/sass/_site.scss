@@ -3,16 +3,13 @@
 /**
  * Site styles
  */
+$light-green: #D1E0BA;
 
 /**
  * Common styles
  */
-
-.title, .subtitle {
-  font-weight: 300;
-}
-
-.button > .fa {
+.button > .fa,
+.title > .fa {
   margin-right: 3px;
 }
 
@@ -35,8 +32,16 @@
   flex: 1;
 }
 
+.link-list-item {
+  margin-bottom: 0.5em;
+}
+
 // Tablet and larger
 @include tablet {
+  html, .button {
+    font-size: 16px;
+  }
+
   .flex-card {
     padding: 10px;
   }
@@ -64,20 +69,23 @@ header, header > nav.nav {
 
 header > nav.nav .nav-item {
   color: #ddd;
-  font-size: 110%;
 }
 
 header > nav.nav .nav-item:hover {
-  color: #95E027;
+  color: $green;
+}
+
+.hero.is-light-green {
+  background-color: $light-green;
 }
 
 /**
  * Home page
  */
 
-.hero-image-home {
-  background-color: #BCE086;
-}
+ .hero-image-home {
+   background-color: $light-green;
+ }
 
 .hero-image-home img {
   height: 200px;

@@ -18,7 +18,7 @@ function setTitle() {
         let file = files[fileName];
         
         // If a title isn't already specified for the file, set it based on the first heading found
-        if (!file.title && file.headings.length > 0) {
+        if (!file.title && file.headings && file.headings.length > 0) {
           file.title = file.headings[0].text;
         }
 
