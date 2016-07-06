@@ -49,7 +49,6 @@ let ms = Metalsmith(__dirname)
   .use(setTitle())
   // Add files to collections
   .use(collections(Paths.SITE))
-  .use(log.globalMetadata())
   // Add new href now that processing is done
   .use(href('href'))
   // Find all h2 headings in documents
