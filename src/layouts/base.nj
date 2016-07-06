@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-  <title>KillrVideo - {{title}}</title>
+  <title>KillrVideo - {{ title | default(headings[0].text) }}</title>
   <link href="/assets/bundle.css" rel="stylesheet">
   <link rel="icon" type="image/png" href="/assets/images/killrvideo-icon.png"/>
   <meta name="viewport" content="width=device-width, initial-scale=1">

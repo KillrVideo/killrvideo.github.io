@@ -5,6 +5,7 @@ const layouts = require('metalsmith-layouts');
 const nj = require('nunjucks');
 const paths = require('metalsmith-paths');
 const md = require('metalsmith-markdown');
+const headings = require('metalsmith-headings');
 
 // Build paths
 const Paths = {
@@ -26,6 +27,20 @@ class Loader extends nj.FileSystemLoader {
   }
 }
 
+// Helper plugin that will log metadata to the console
+function log() {
+  return function logMetadata(files) {
+    Object.keys(files).forEach(f => {
+      let meta = files[f];
+      console.log(f);
+      Object.keys(meta).forEach(m => {
+        if (m === 'content') return;
+        console.log('%s: %j', m, meta[m]);
+      });
+    });
+  };
+}
+
 /**
  * Do the metalsmith build for the site.
  */
@@ -39,6 +54,8 @@ let ms = Metalsmith(__dirname)
   .use(paths({ property: "original_path" }))
   // Convert markdown files to HTML
   .use(md({ gfm: true }))
+  // Extract h1 tags and add to metadata
+  .use(headings('h1'))
   // Use handlebars layouts on all site pages
   .use(layouts({
     engine: 'nunjucks',
