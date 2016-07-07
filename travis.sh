@@ -51,6 +51,9 @@ fi
 git add .
 git commit -m "Deploy to GitHub Pages: ${SHA}"
 
+# Back to source to get the deploy key
+cd ..
+
 # Get the deploy key by using Travis's stored variables to decrypt deploy_key.enc
 ENCRYPTED_KEY_VAR="encrypted_${ENCRYPTION_LABEL}_key"
 ENCRYPTED_IV_VAR="encrypted_${ENCRYPTION_LABEL}_iv"
@@ -61,5 +64,6 @@ chmod 600 deploy_key
 eval `ssh-agent -s`
 ssh-add deploy_key
 
-# Now that we're all set up, we can push.
+# Now that we're all set up, we can push the out folder
+cd out
 git push $SSH_REPO $TARGET_BRANCH
