@@ -10,3 +10,7 @@ branches:
   except:
     - master
 sudo: false
+addons:
+  apt:
+    packages:
+      - g++
