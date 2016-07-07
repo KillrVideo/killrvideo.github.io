@@ -9,8 +9,8 @@
     "build:js": "webpack --progress",
     "build:sass": "node-sass src/sass --output out/assets --include-path node_modules",
     "build:site": "node ./metalsmith.js",
-    "build:fonts": "cpx node_modules/font-awesome/fonts/* out/fonts --verbose",
-    "build:images": "cpx src/images/* out/assets/images --verbose",
+    "build:fonts": "cpx \"node_modules/font-awesome/fonts/*\" out/fonts --verbose",
+    "build:images": "cpx \"src/images/*\" out/assets/images --verbose",
     "build": "npm-run-all --parallel \"build:*\"",
     "watch": "npm-run-all clean --parallel build:sass \"build:* -- --watch\" serve",
     "serve": "livereloadx -s -p 3000 out"
