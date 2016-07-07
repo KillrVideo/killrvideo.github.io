@@ -13,7 +13,7 @@ env:
   global:
     - CXX=g++-4.8
     - COMMIT_AUTHOR_EMAIL="travisci@killrvideo.com"
-    - ENCRYPTION_LABEL=3af42ab84467
+    - ENCRYPTION_LABEL=6bf3d914b891
 addons:
   apt:
     sources:
