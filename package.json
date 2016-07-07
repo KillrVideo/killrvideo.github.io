@@ -4,6 +4,7 @@
   "description": "The docs and info site for Killrvideo at https://killrvideo.github.io",
   "main": "index.js",
   "scripts": {
+    "ci": "npm-run-all clean \"build:*\"",
     "clean": "rimraf out/*",
     "build:js": "webpack --progress",
     "build:sass": "node-sass src/sass --output out/assets --include-path node_modules",
