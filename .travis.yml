@@ -3,6 +3,9 @@ node_js:
   - "6"
 script:
   - npm run ci
+cache:
+  directories:
+    - node_modules
 branches:
   except:
     - master
