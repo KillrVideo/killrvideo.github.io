@@ -10,7 +10,9 @@ branches:
   except:
     - master
 sudo: false
+env:
+  - CXX=g++-4.8
 addons:
   apt:
     packages:
-      - g++
+      - g++-4.8
