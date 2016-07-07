@@ -3,7 +3,8 @@
 # Github URLs and info
 github:
   org: https://github.com/KillrVideo
-  source: https://github.com/KillrVideo/killrvideo.github.io/tree/source/src/site
+  source: https://github.com/KillrVideo/killrvideo.github.io/tree/source
+  commit: https://github.com/KillrVideo/killrvideo.github.io/commit
 
 # Main/common navigation URLs
 nav:

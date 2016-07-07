@@ -54,13 +54,18 @@
     <div class="container level">
       <div class="level-left">
         <div class="level-item">
-          <strong>KillrVideo</strong> is open source and available under an 
-          <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> license.
+          <p>
+            <strong>KillrVideo</strong> is open source and available under an 
+            <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> license.
+          <p>
+          <p>
+            <small>Site version <a href="{{ github.commit }}/{{ version.long }}" target="_blank">{{ version.short }}</a></small>
+          </p>
         </div>
       </div>
       <div class="level-right">
         <div class="level-right">
-          <a class="button level-item" href="{{ github.source }}{{ source_href }}" target="_blank">
+          <a class="button level-item" href="{{ github.source }}/src/site{{ source_href }}" target="_blank">
             <i class="fa fa-github fa-fw"></i>Improve this page
           </a>
         </div>

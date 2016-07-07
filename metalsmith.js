@@ -12,6 +12,7 @@ const globalMetadata = require('./plugins/global-metadata');
 const setTitle = require('./plugins/set-title');
 const collections = require('./plugins/collections');
 const href = require('./plugins/href');
+const version = require('./plugins/version');
 
 // Build paths
 const Paths = {
@@ -39,6 +40,8 @@ let ms = Metalsmith(__dirname)
   .destination(Paths.OUT)
   // Read global metadata from a YAML file
   .use(globalMetadata(Paths.SRC))
+  // Add git hash version info
+  .use(version())
   // Parse frontmatter metadata from .meta.yaml files instead of the files themselves
   .use(metafiles({ parsers: { ".yaml": true }, onMissingMainFile: 'delete' }))
   // Add an href to the original file
