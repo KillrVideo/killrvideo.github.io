@@ -10,8 +10,10 @@ branches:
     - master
 sudo: false
 env:
-  - CXX=g++-4.8
-  - COMMIT_AUTHOR_EMAIL=travisci@killrvideo.com
+  global:
+    - CXX=g++-4.8
+    - COMMIT_AUTHOR_EMAIL=travisci@killrvideo.com
+    - ENCRYPTION_LABEL="3af42ab84467"
 addons:
   apt:
     sources:
