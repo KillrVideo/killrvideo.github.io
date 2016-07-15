@@ -4,8 +4,9 @@
   "description": "The docs and info site for Killrvideo at https://killrvideo.github.io",
   "main": "index.js",
   "scripts": {
-    "clean": "rimraf out/*",
-    "build": "broccoli build"
+    "clean": "rimraf out",
+    "build": "npm-run-all clean build:broccoli",
+    "build:broccoli": "broccoli build out"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,7 @@
     "broccoli": "^0.16.9",
     "broccoli-cli": "^1.0.0",
     "broccoli-funnel": "^1.0.3",
+    "npm-run-all": "^2.3.0",
     "rimraf": "^2.5.3"
   },
   "dependencies": {
