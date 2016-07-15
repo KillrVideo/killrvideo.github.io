@@ -5,14 +5,7 @@
   "main": "index.js",
   "scripts": {
     "clean": "rimraf out/*",
-    "build:js": "webpack --progress",
-    "build:sass": "node-sass src/sass --output out/assets --include-path node_modules",
-    "build:site": "node ./metalsmith.js",
-    "build:fonts": "cpx \"node_modules/font-awesome/fonts/*\" out/fonts --verbose",
-    "build:images": "cpx \"src/images/*\" out/assets/images --verbose",
-    "build": "npm-run-all --parallel \"build:*\"",
-    "watch": "npm-run-all clean --parallel build:sass \"build:* -- --watch\" serve",
-    "serve": "livereloadx -s -p 3000 out"
+    "build": "broccoli build"
   },
   "repository": {
     "type": "git",
@@ -26,27 +19,10 @@
   "homepage": "https://killrvideo.github.io",
   "private": true,
   "devDependencies": {
-    "babel-core": "^6.10.4",
-    "babel-loader": "^6.2.4",
-    "babel-plugin-transform-object-rest-spread": "^6.8.0",
-    "babel-preset-es2015": "^6.9.0",
-    "cpx": "^1.3.1",
-    "git-rev": "^0.2.1",
-    "js-yaml": "^3.6.1",
-    "livereloadx": "^0.3.9",
-    "metalsmith": "^2.1.0",
-    "metalsmith-collections": "^0.7.0",
-    "metalsmith-headings": "^0.1.0",
-    "metalsmith-in-place": "^1.4.4",
-    "metalsmith-layouts": "^1.6.5",
-    "metalsmith-markdown": "^0.2.1",
-    "metalsmith-metafiles": "^2.0.0",
-    "metalsmith-watch": "^1.0.3",
-    "node-sass": "^3.8.0",
-    "npm-run-all": "^2.3.0",
-    "nunjucks": "^2.4.2",
-    "rimraf": "^2.5.3",
-    "webpack": "^1.13.1"
+    "broccoli": "^0.16.9",
+    "broccoli-cli": "^1.0.0",
+    "broccoli-funnel": "^1.0.3",
+    "rimraf": "^2.5.3"
   },
   "dependencies": {
     "bulma": "^0.1.0",
