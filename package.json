@@ -6,7 +6,8 @@
   "scripts": {
     "clean": "rimraf out",
     "build": "npm-run-all clean build:broccoli",
-    "build:broccoli": "broccoli build out"
+    "build:broccoli": "broccoli build out",
+    "watch": "broccoli serve"
   },
   "repository": {
     "type": "git",
@@ -27,6 +28,7 @@
     "broccoli-merge-trees": "^1.1.2",
     "broccoli-sass": "^0.7.0",
     "npm-run-all": "^2.3.0",
+    "resolve": "^1.1.7",
     "rimraf": "^2.5.3"
   },
   "dependencies": {
