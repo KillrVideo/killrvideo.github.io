@@ -1,8 +1,7 @@
-const fs = require('fs');
+const fs = require('fs-extra');
 const path = require('path');
 const nj = require('nunjucks');
 const walkSync = require('walk-sync');
-const mkdirp = require('mkdirp');
 const Plugin = require('broccoli-caching-writer');
 
 class NunjucksRender extends Plugin {
@@ -25,7 +24,7 @@ class NunjucksRender extends Plugin {
 
       // Create output folder if not exists
       let destPath = path.parse(path.join(this.outputPath, templatePath));
-      mkdirp.sync(destPath.dir);
+      fs.mkdirsSync(destPath.dir);
 
       // Change file extension to HTML and write
       fs.writeFileSync(path.format({ dir: destPath.dir, name: destPath.name, ext: '.html' }), output);

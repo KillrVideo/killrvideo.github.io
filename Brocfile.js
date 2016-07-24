@@ -7,6 +7,7 @@ const Markdown = require('broccoli-marked');
 const MergeTrees = require('broccoli-merge-trees');
 
 const NunjucksRender = require('./plugins/nunjucks-render');
+const Template = require('./plugins/template');
 
 const Paths = {
   IMAGES: 'src/images',
@@ -25,12 +26,24 @@ const imageFiles = new Funnel(Paths.IMAGES, {
 // Compile SASS to CSS
 const cssFiles = new Sass([ Paths.SASS, Paths.BULMA, Paths.FONT_AWESOME ], 'bundle.scss', 'css/bundle.css');
 
-// Convert markdown to HTML
+// Markdown and nunjucks pages
 const markdownFiles = new Funnel(Paths.SITE, { include: [ '**/*.md' ] });
+const nunjucksFiles = new Funnel(Paths.SITE, { include: [ '**/*.nj' ] });
+const pageFiles = new MergeTrees([ markdownFiles, nunjucksFiles ]);
+
+// Select a template for each page file
+const templates = new Template(pageFiles, Paths.LAYOUTS, {
+  defaultLayout: 'base.nj',
+  layouts: [
+    { pattern: 'docs/**/*.md', layout: 'docs.nj' }
+  ]
+});
+
+// Convert markdown to HTML
 const markdownHtml = new Markdown(markdownFiles, { gfm: true });
 
-const nunjucksFiles = new Funnel(Paths.SITE, { include: [ '**/*.nj' ] });
-const nunjucksHtml = new NunjucksRender(nunjucksFiles, Paths.LAYOUTS);
+// Render all page templates to produce pages
+const pages = new NunjucksRender(templates, Paths.LAYOUTS);
 
 // Merge output
-module.exports = new MergeTrees([ imageFiles, cssFiles, markdownHtml, nunjucksHtml ]);
+module.exports = new MergeTrees([ imageFiles, cssFiles, pages ]);
