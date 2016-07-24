@@ -23,6 +23,7 @@
     "broccoli": "^0.16.9",
     "broccoli-cli": "^1.0.0",
     "broccoli-funnel": "^1.0.3",
+    "broccoli-marked": "git+https://github.com/bjfletcher/broccoli-marked.git",
     "broccoli-merge-trees": "^1.1.2",
     "broccoli-sass": "^0.7.0",
     "npm-run-all": "^2.3.0",
