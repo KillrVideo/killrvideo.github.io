@@ -6,15 +6,16 @@ const Sass = require('broccoli-sass');
 const Markdown = require('broccoli-marked');
 const MergeTrees = require('broccoli-merge-trees');
 
+const NunjucksRender = require('./plugins/nunjucks-render');
+
 const Paths = {
   IMAGES: 'src/images',
   BULMA: path.dirname(resolve.sync('bulma')),
   FONT_AWESOME: path.dirname(resolve.sync('font-awesome/css/font-awesome.css')),
   SASS: 'src/sass',
-  SITE: 'src/site'
+  SITE: 'src/site',
+  LAYOUTS: 'src/layouts'
 };
-
-console.log(Paths.FONT_AWESOME);
 
 // Copy images to output as-is
 const imageFiles = new Funnel(Paths.IMAGES, {
@@ -28,5 +29,8 @@ const cssFiles = new Sass([ Paths.SASS, Paths.BULMA, Paths.FONT_AWESOME ], 'bund
 const markdownFiles = new Funnel(Paths.SITE, { include: [ '**/*.md' ] });
 const markdownHtml = new Markdown(markdownFiles, { gfm: true });
 
+const nunjucksFiles = new Funnel(Paths.SITE, { include: [ '**/*.nj' ] });
+const nunjucksHtml = new NunjucksRender(nunjucksFiles, Paths.LAYOUTS);
+
 // Merge output
-module.exports = new MergeTrees([ imageFiles, cssFiles, markdownHtml ]);
+module.exports = new MergeTrees([ imageFiles, cssFiles, markdownHtml, nunjucksHtml ]);

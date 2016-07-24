@@ -22,14 +22,19 @@
   "private": true,
   "devDependencies": {
     "broccoli": "^0.16.9",
+    "broccoli-caching-writer": "^3.0.0",
     "broccoli-cli": "^1.0.0",
     "broccoli-funnel": "^1.0.3",
     "broccoli-marked": "git+https://github.com/bjfletcher/broccoli-marked.git",
     "broccoli-merge-trees": "^1.1.2",
+    "broccoli-plugin": "^1.2.1",
     "broccoli-sass": "^0.7.0",
+    "mkdirp": "^0.5.1",
     "npm-run-all": "^2.3.0",
+    "nunjucks": "^2.4.2",
     "resolve": "^1.1.7",
-    "rimraf": "^2.5.3"
+    "rimraf": "^2.5.3",
+    "walk-sync": "^0.2.7"
   },
   "dependencies": {
     "bulma": "^0.1.0",
