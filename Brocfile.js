@@ -10,6 +10,7 @@ const Yaml = require('./plugins/yaml');
 const Version = require('./plugins/version');
 const Href = require('./plugins/href');
 const Markdown = require('./plugins/markdown');
+const Headings = require('./plugins/headings');
 const MergeJson = require('./plugins/merge-json');
 const Template = require('./plugins/template');
 const Context = require('./plugins/context');
@@ -61,7 +62,8 @@ const globalContext = new MergeJson([
 // Local context for each page
 const localContext = new MergeJson([
   new Yaml(new Funnel(Paths.SITE, { include: [ '**/*.meta.yaml' ] })),
-  new Href(pageFiles)
+  new Href(pageFiles),
+  new Headings(markdownHtml)
 ], {
   annotation: 'LocalContext',
   getOutputPath(relativePath) { return pluginUtils.getBaseFilePath(relativePath) + '.json'; }
