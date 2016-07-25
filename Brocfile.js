@@ -58,4 +58,4 @@ const context = new Context(pageFiles, globalContext, localContext);
 const pages = new NunjucksRender(templates, Paths.LAYOUTS, context);
 
 // Merge output
-module.exports = new MergeTrees([ imageFiles, cssFiles, templates, context, pages ]);
+module.exports = new MergeTrees([ imageFiles, cssFiles, pages ]);
