@@ -6,13 +6,15 @@ const Filter = require('broccoli-filter');
 
 /**
  * Plugin that extracts headings (i.e. <h1>, <h2>, etc.) from HTML and exports a same-named
- * JSON file with an object with those headings: 
- *  { 
- *    h1: [ 
- *      { id: 'id-attribute', text: 'Contents of Heading' },
- *      ... 
- *    ],
- *    h2: [ ... ]
+ * JSON file with an object with those headings:
+ *  {
+ *    headings: { 
+ *      h1: [ 
+ *        { id: 'id-attribute', text: 'Contents of Heading' },
+ *        ... 
+ *      ],
+ *      h2: [ ... ]
+ *    }
  *  }
  */
 class Headings extends Filter {
@@ -45,7 +47,7 @@ class Headings extends Filter {
     }, {});
 
     // Export as JSON
-    return JSON.stringify(output);
+    return JSON.stringify({ headings: output });
   }
 }
 
