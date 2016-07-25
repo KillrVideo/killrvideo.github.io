@@ -3,9 +3,11 @@ const fs = require('fs-extra');
 const Plugin = require('broccoli-plugin');
 const walkSync = require('walk-sync');
 const minimatch = require('minimatch');
+const pluginUtils = require('./utils');
 
 /**
- * Selects a template for each file in the pagesNode and copies to a same-named output file.
+ * Selects a template for each file in the pagesNode and copies to a same-named output file with
+ * a '.nj' extension.
  */
 class TemplatePlugin extends Plugin {
   constructor(pagesNode, layoutsNode, options) {
@@ -36,8 +38,8 @@ class TemplatePlugin extends Plugin {
         copyFrom = path.join(this.inputPaths[1], layout);
       }
 
-      // Copy to same-named file in output path
-      let copyTo = path.join(this.outputPath, inputFile);
+      // Copy to same-named file in output path only with .nj extension
+      let copyTo = path.join(this.outputPath, pluginUtils.changeFileExtension(inputFile, '.nj'));
 
       // Copy the template
       fs.mkdirsSync(path.dirname(copyTo));

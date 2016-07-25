@@ -3,6 +3,7 @@ const path = require('path');
 const nj = require('nunjucks');
 const walkSync = require('walk-sync');
 const Plugin = require('broccoli-caching-writer');
+const pluginUtils = require('./utils');
 
 class NunjucksRender extends Plugin {
   constructor(templatesNode, layoutsNode, contextNode, options) {
@@ -16,29 +17,36 @@ class NunjucksRender extends Plugin {
     // Environment that will load layouts from the layout node input path
     let env = new nj.Environment(new nj.FileSystemLoader(this.inputPaths[1]));
 
-    let contexts = walkSync(this.inputPaths[2], { directories: false })
-      .reduce((acc, contextFile) => {
-        acc[contextFile] = path.join(this.inputPaths[2], contextFile);
+    // Match up templates and context based on the canonical path
+    let templateAndContext = walkSync(this.inputPaths[0], { directories: false })
+      .reduce((acc, templateFile) => {
+        let pagePath = pluginUtils.getCanonicalPath(templateFile);
+        if (acc.hasOwnProperty(pagePath) === false) {
+          acc[pagePath] = {};
+        }
+        acc[pagePath].templateSrcPath = path.join(this.inputPaths[0], templateFile);
         return acc;
       }, {});
 
-    walkSync(this.inputPaths[0], { directories: false }).forEach(templatePath => {
-      // Read the template contents
-      let srcPath = path.join(this.inputPaths[0], templatePath);
-      let template = fs.readFileSync(srcPath, 'utf8');
+    walkSync(this.inputPaths[2], { directories: false })
+      .reduce((acc, contextFile) => {
+        let pagePath = pluginUtils.getCanonicalPath(contextFile);
+        if (acc.hasOwnProperty(pagePath) === false) {
+          throw new Error(`Found context ${contextFile} without a template`);
+        }
+        acc[pagePath].contextSrcPath = path.join(this.inputPaths[2], contextFile);
+        return acc;
+      }, templateAndContext);
 
-      // Get the context
-      if (contexts.hasOwnProperty(templatePath) === false) {
-        throw new Error(`Could not find context for template ${templatePath}`);
-      }
-      let context = contexts[templatePath];
+    // Render templates at canonical path as index.html files
+    Object.keys(templateAndContext).forEach(pagePath => {
+      let { templateSrcPath, contextSrcPath } = templateAndContext[pagePath];
+      let template = fs.readFileSync(templateSrcPath, 'utf8');
+      let context = JSON.parse(fs.readFileSync(contextSrcPath, 'utf8'));
 
-      // Create output folder if not exists
-      let destPath = path.parse(path.join(this.outputPath, templatePath));
-      fs.mkdirsSync(destPath.dir);
-
-      // Change file extension to HTML and render
-      fs.writeFileSync(path.format({ dir: destPath.dir, name: destPath.name, ext: '.html' }), env.renderString(template, context));
+      let destPath = path.join(this.outputPath, pagePath, 'index.html');
+      fs.mkdirsSync(path.dirname(destPath));
+      fs.writeFileSync(destPath, env.renderString(template, context), 'utf8');
     });
   }
 }

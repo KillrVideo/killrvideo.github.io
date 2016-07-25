@@ -6,6 +6,7 @@ const Sass = require('broccoli-sass');
 const Markdown = require('broccoli-marked');
 const MergeTrees = require('broccoli-merge-trees');
 
+const Yaml = require('./plugins/yaml');
 const Template = require('./plugins/template');
 const Context = require('./plugins/context');
 const NunjucksRender = require('./plugins/nunjucks-render');
@@ -16,7 +17,8 @@ const Paths = {
   FONT_AWESOME: path.dirname(resolve.sync('font-awesome/css/font-awesome.css')),
   SASS: 'src/sass',
   SITE: 'src/site',
-  LAYOUTS: 'src/layouts'
+  LAYOUTS: 'src/layouts',
+  SRC: 'src'
 };
 
 // Copy images to output as-is
@@ -40,8 +42,14 @@ const templates = new Template(pageFiles, Paths.LAYOUTS, {
   ]
 });
 
+// Global context shared by all pages
+const globalContext = new Yaml(new Funnel(Paths.SRC, { files: [ 'global.meta.yaml' ] }));
+
+// Local context for each page
+const localContext = new Yaml(new Funnel(Paths.SITE, { include: [ '**/*.meta.yaml' ]}));
+
 // Generate context for each page file
-const context = new Context(pageFiles, []);
+const context = new Context(pageFiles, globalContext, localContext);
 
 // Convert markdown to HTML
 // const markdownHtml = new Markdown(markdownFiles, { gfm: true });
@@ -50,4 +58,4 @@ const context = new Context(pageFiles, []);
 const pages = new NunjucksRender(templates, Paths.LAYOUTS, context);
 
 // Merge output
-module.exports = new MergeTrees([ imageFiles, cssFiles, pages ]);
+module.exports = new MergeTrees([ imageFiles, cssFiles, templates, context, pages ]);
