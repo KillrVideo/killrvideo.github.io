@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs-extra');
+const walkSync = require('walk-sync');
 const merge = require('merge').recursive;
 const Plugin = require('broccoli-plugin');
 

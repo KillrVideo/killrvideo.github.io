@@ -7,6 +7,8 @@ const Markdown = require('broccoli-marked');
 const MergeTrees = require('broccoli-merge-trees');
 
 const Yaml = require('./plugins/yaml');
+const Version = require('./plugins/version');
+const MergeJson = require('./plugins/merge-json');
 const Template = require('./plugins/template');
 const Context = require('./plugins/context');
 const NunjucksRender = require('./plugins/nunjucks-render');
@@ -43,7 +45,12 @@ const templates = new Template(pageFiles, Paths.LAYOUTS, {
 });
 
 // Global context shared by all pages
-const globalContext = new Yaml(new Funnel(Paths.SRC, { files: [ 'global.meta.yaml' ] }));
+const globalContext = new MergeJson([
+  new Yaml(new Funnel(Paths.SRC, { files: [ 'global.meta.yaml' ] })),
+  new Version()
+], {
+  getOutputPath() { return 'global.json'; }
+});
 
 // Local context for each page
 const localContext = new Yaml(new Funnel(Paths.SITE, { include: [ '**/*.meta.yaml' ]}));
