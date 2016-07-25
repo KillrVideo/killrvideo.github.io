@@ -4,12 +4,12 @@ const pluginUtils = require('./plugins/utils');
 
 const Funnel = require('broccoli-funnel');
 const Sass = require('broccoli-sass');
-const Markdown = require('broccoli-marked');
 const MergeTrees = require('broccoli-merge-trees');
 
 const Yaml = require('./plugins/yaml');
 const Version = require('./plugins/version');
 const Href = require('./plugins/href');
+const Markdown = require('./plugins/markdown');
 const MergeJson = require('./plugins/merge-json');
 const Template = require('./plugins/template');
 const Context = require('./plugins/context');
@@ -46,6 +46,9 @@ const templates = new Template(pageFiles, Paths.LAYOUTS, {
   ]
 });
 
+// Convert markdown to HTML
+const markdownHtml = new Markdown(markdownFiles, { gfm: true });
+
 // Global context shared by all pages
 const globalContext = new MergeJson([
   new Yaml(new Funnel(Paths.SRC, { files: [ 'global.meta.yaml' ] })),
@@ -66,9 +69,6 @@ const localContext = new MergeJson([
 
 // Generate context for each page file
 const context = new Context(pageFiles, globalContext, localContext);
-
-// Convert markdown to HTML
-// const markdownHtml = new Markdown(markdownFiles, { gfm: true });
 
 // Render all page templates using context to produce pages
 const pages = new NunjucksRender(templates, Paths.LAYOUTS, context);
