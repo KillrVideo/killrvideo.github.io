@@ -1,5 +1,6 @@
 const resolve = require('resolve');
 const path = require('path');
+const pluginUtils = require('./plugins/utils');
 
 const Funnel = require('broccoli-funnel');
 const Sass = require('broccoli-sass');
@@ -8,6 +9,7 @@ const MergeTrees = require('broccoli-merge-trees');
 
 const Yaml = require('./plugins/yaml');
 const Version = require('./plugins/version');
+const Href = require('./plugins/href');
 const MergeJson = require('./plugins/merge-json');
 const Template = require('./plugins/template');
 const Context = require('./plugins/context');
@@ -49,11 +51,18 @@ const globalContext = new MergeJson([
   new Yaml(new Funnel(Paths.SRC, { files: [ 'global.meta.yaml' ] })),
   new Version()
 ], {
+  annotation: 'GlobalContext',
   getOutputPath() { return 'global.json'; }
 });
 
 // Local context for each page
-const localContext = new Yaml(new Funnel(Paths.SITE, { include: [ '**/*.meta.yaml' ]}));
+const localContext = new MergeJson([
+  new Yaml(new Funnel(Paths.SITE, { include: [ '**/*.meta.yaml' ]})),
+  new Href(pageFiles)
+], {
+  annotation: 'LocalContext',
+  getOutputPath(relativePath) { return pluginUtils.getBaseFilePath(relativePath) + '.json'; }
+});
 
 // Generate context for each page file
 const context = new Context(pageFiles, globalContext, localContext);

@@ -1,27 +1,39 @@
 const path = require('path');
 
 /**
+ * Given a relative path, returns the same path minus any suffix or extension (i.e. remove everything after the
+ * first dot in the file name).
+ */
+function getBaseFilePath(relativePath) {
+  let baseName = path.basename(relativePath, path.extname(relativePath));
+  let firstDot = baseName.indexOf('.');
+  baseName = firstDot >= 0
+    ? baseName.substr(0, firstDot)
+    : baseName;
+  return path.join(path.dirname(relativePath), baseName);
+}
+
+/**
  * Given the relative path to a file, gets the canonical page's path that it belongs to. Always includes
- * a trailing slash.
+ * a trailing slash and returns a posix-style path.
  */
 function getCanonicalPath(relativePath) {
-  let parsedPath = path.parse(relativePath);
+  // Remove any extension and suffix from the file
+  let canonicalPath = getBaseFilePath(relativePath).toLowerCase();
 
-  // Start with directory and add trailing slash if not root (i.e. no directory)
-  let canonicalPath = parsedPath.dir.replace(/\\/gi, '/');
-  
-  // Look for the first dot in the file name (without extension) and ignore everything after the first dot
-  let firstDot = parsedPath.name.indexOf('.');
-  let name = firstDot >= 0
-    ? parsedPath.name.substr(0, firstDot).toLowerCase() 
-    : parsedPath.name.toLowerCase();
-
-  // If not already an index page, use the name
-  if (name !== 'index') {
-    canonicalPath += `/${name}`;
+  // Remove index if an index file
+  if (canonicalPath.endsWith('index')) {
+    canonicalPath = canonicalPath.substr(0, canonicalPath.length - 5);
   }
 
-  canonicalPath += '/';
+  // Posix path and leading slash
+  canonicalPath = canonicalPath.replace(/\\/gi, '/');
+  canonicalPath = '/' + canonicalPath;
+
+  // Add trailing slash
+  if (canonicalPath.endsWith('/') === false) {
+    canonicalPath += '/';
+  }
 
   return canonicalPath;
 }
@@ -35,6 +47,7 @@ function changeFileExtension(relativePath, newExt) {
 }
 
 module.exports = {
+  getBaseFilePath,
   getCanonicalPath,
   changeFileExtension
 };
