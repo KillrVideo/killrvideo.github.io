@@ -60,7 +60,7 @@ const globalContext = new MergeJson([
 
 // Local context for each page
 const localContext = new MergeJson([
-  new Yaml(new Funnel(Paths.SITE, { include: [ '**/*.meta.yaml' ]})),
+  new Yaml(new Funnel(Paths.SITE, { include: [ '**/*.meta.yaml' ] })),
   new Href(pageFiles)
 ], {
   annotation: 'LocalContext',
@@ -71,7 +71,7 @@ const localContext = new MergeJson([
 const context = new Context(pageFiles, globalContext, localContext);
 
 // Render all page templates using context to produce pages
-const pages = new NunjucksRender(templates, Paths.LAYOUTS, context);
+const pages = new NunjucksRender(templates, Paths.LAYOUTS, markdownHtml, context);
 
 // Merge output
 module.exports = new MergeTrees([ imageFiles, cssFiles, pages ]);

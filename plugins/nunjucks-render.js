@@ -5,10 +5,31 @@ const walkSync = require('walk-sync');
 const Plugin = require('broccoli-caching-writer');
 const pluginUtils = require('./utils');
 
+/**
+ * Returns a reduce function for grouping files based on the canonical path of a file.
+ */
+function groupByCanonicalPath(inputPath, prop, throwIfNotFound) {
+  return (acc, file) => {
+    let pagePath = pluginUtils.getCanonicalPath(file);
+    if (acc.hasOwnProperty(pagePath) === false) {
+      if (throwIfNotFound) {
+        throw new Error(`Cannot set prop ${prop} because page ${pagePath} doesn't exist.`)
+      }
+
+      acc[pagePath] = {};
+    }
+    acc[pagePath][prop] = path.join(inputPath, file);
+    return acc;
+  };
+}
+
+/**
+ * Plugin that will render nunjucks templates.
+ */
 class NunjucksRender extends Plugin {
-  constructor(templatesNode, layoutsNode, contextNode, options) {
+  constructor(templatesNode, layoutsNode, contentsNode, contextNode, options) {
     options = options || {};
-    super([ templatesNode, layoutsNode, contextNode ], { annotation: options.anotation });
+    super([ templatesNode, layoutsNode, contentsNode, contextNode ], { annotation: options.anotation });
 
     this.options = options;
   }
@@ -17,32 +38,24 @@ class NunjucksRender extends Plugin {
     // Environment that will load layouts from the layout node input path
     let env = new nj.Environment(new nj.FileSystemLoader(this.inputPaths[1]));
 
-    // Match up templates and context based on the canonical path
+    // Match up templates, contents, and context based on the canonical path
     let templateAndContext = walkSync(this.inputPaths[0], { directories: false })
-      .reduce((acc, templateFile) => {
-        let pagePath = pluginUtils.getCanonicalPath(templateFile);
-        if (acc.hasOwnProperty(pagePath) === false) {
-          acc[pagePath] = {};
-        }
-        acc[pagePath].templateSrcPath = path.join(this.inputPaths[0], templateFile);
-        return acc;
-      }, {});
-
+      .reduce(groupByCanonicalPath(this.inputPaths[0], 'templateSrcPath', false), {});
+    
     walkSync(this.inputPaths[2], { directories: false })
-      .reduce((acc, contextFile) => {
-        let pagePath = pluginUtils.getCanonicalPath(contextFile);
-        if (acc.hasOwnProperty(pagePath) === false) {
-          throw new Error(`Found context ${contextFile} without a template`);
-        }
-        acc[pagePath].contextSrcPath = path.join(this.inputPaths[2], contextFile);
-        return acc;
-      }, templateAndContext);
+      .reduce(groupByCanonicalPath(this.inputPaths[2], 'contentsSrcPath', true), templateAndContext);
+
+    walkSync(this.inputPaths[3], { directories: false })
+      .reduce(groupByCanonicalPath(this.inputPaths[3], 'contextSrcPath', true), templateAndContext);
 
     // Render templates at canonical path as index.html files
     Object.keys(templateAndContext).forEach(pagePath => {
-      let { templateSrcPath, contextSrcPath } = templateAndContext[pagePath];
+      let { templateSrcPath, contentsSrcPath, contextSrcPath } = templateAndContext[pagePath];
       let template = fs.readFileSync(templateSrcPath, 'utf8');
       let context = JSON.parse(fs.readFileSync(contextSrcPath, 'utf8'));
+      if (contentsSrcPath) {
+        context.contents = fs.readFileSync(contentsSrcPath, 'utf8');
+      }
 
       let destPath = path.join(this.outputPath, pagePath, 'index.html');
       fs.mkdirsSync(path.dirname(destPath));
