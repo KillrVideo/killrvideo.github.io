@@ -6,8 +6,9 @@ const Sass = require('broccoli-sass');
 const Markdown = require('broccoli-marked');
 const MergeTrees = require('broccoli-merge-trees');
 
-const NunjucksRender = require('./plugins/nunjucks-render');
 const Template = require('./plugins/template');
+const Context = require('./plugins/context');
+const NunjucksRender = require('./plugins/nunjucks-render');
 
 const Paths = {
   IMAGES: 'src/images',
@@ -39,11 +40,14 @@ const templates = new Template(pageFiles, Paths.LAYOUTS, {
   ]
 });
 
-// Convert markdown to HTML
-const markdownHtml = new Markdown(markdownFiles, { gfm: true });
+// Generate context for each page file
+const context = new Context(pageFiles, []);
 
-// Render all page templates to produce pages
-const pages = new NunjucksRender(templates, Paths.LAYOUTS);
+// Convert markdown to HTML
+// const markdownHtml = new Markdown(markdownFiles, { gfm: true });
+
+// Render all page templates using context to produce pages
+const pages = new NunjucksRender(templates, Paths.LAYOUTS, context);
 
 // Merge output
 module.exports = new MergeTrees([ imageFiles, cssFiles, pages ]);
