@@ -6,13 +6,6 @@ const Funnel = require('broccoli-funnel');
 const Sass = require('broccoli-sass');
 const MergeTrees = require('broccoli-merge-trees');
 
-const Yaml = require('./plugins/yaml');
-const Version = require('./plugins/version');
-const Href = require('./plugins/href');
-const Markdown = require('./plugins/markdown');
-const Headings = require('./plugins/headings');
-const MergeJson = require('./plugins/merge-json');
-const Template = require('./plugins/template');
 const Context = require('./plugins/context');
 const NunjucksRender = require('./plugins/nunjucks-render');
 
@@ -23,7 +16,6 @@ const Paths = {
   SASS: 'src/sass',
   SITE: 'src/site',
   LAYOUTS: 'src/layouts',
-  SRC: 'src'
 };
 
 // Copy images to output as-is
@@ -34,46 +26,19 @@ const imageFiles = new Funnel(Paths.IMAGES, {
 // Compile SASS to CSS
 const cssFiles = new Sass([ Paths.SASS, Paths.BULMA, Paths.FONT_AWESOME ], 'bundle.scss', 'css/bundle.css');
 
-// Markdown and nunjucks pages
-const markdownFiles = new Funnel(Paths.SITE, { include: [ '**/*.md' ] });
-const nunjucksFiles = new Funnel(Paths.SITE, { include: [ '**/*.nj' ] });
-const pageFiles = new MergeTrees([ markdownFiles, nunjucksFiles ]);
+// Pages are all markdown and nunjucks files under the site node
+const pageFiles = new Funnel(Paths.SITE, { include: [ '**/*.md', '**/*.nj' ] });
 
-// Select a template for each page file
-const templates = new Template(pageFiles, Paths.LAYOUTS, {
+// Generate context for each page file to be used when rendering
+const contextFiles = new Context(pageFiles, Paths.SITE);
+
+// Render all page files using context to produce pages
+const pages = new NunjucksRender(pageFiles, Paths.LAYOUTS, contextFiles, {
   defaultLayout: 'base.nj',
   layouts: [
     { pattern: 'docs/**/*.md', layout: 'docs.nj' }
   ]
 });
-
-// Convert markdown to HTML
-const markdownHtml = new Markdown(markdownFiles, { gfm: true });
-
-// Global context shared by all pages
-const globalContext = new MergeJson([
-  new Yaml(new Funnel(Paths.SRC, { files: [ 'global.meta.yaml' ] })),
-  new Version()
-], {
-  annotation: 'GlobalContext',
-  getOutputPath() { return 'global.json'; }
-});
-
-// Local context for each page
-const localContext = new MergeJson([
-  new Yaml(new Funnel(Paths.SITE, { include: [ '**/*.meta.yaml' ] })),
-  new Href(pageFiles),
-  new Headings(markdownHtml)
-], {
-  annotation: 'LocalContext',
-  getOutputPath(relativePath) { return pluginUtils.getBaseFilePath(relativePath) + '.json'; }
-});
-
-// Generate context for each page file
-const context = new Context(pageFiles, globalContext, localContext);
-
-// Render all page templates using context to produce pages
-const pages = new NunjucksRender(templates, Paths.LAYOUTS, markdownHtml, context);
 
 // Merge output
 module.exports = new MergeTrees([ imageFiles, cssFiles, pages ]);
