@@ -16,3 +16,4 @@ node_modules
 # Build and package output
 /out
 /tmp
+/publish

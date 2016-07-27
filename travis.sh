@@ -7,9 +7,13 @@ set -e # Exit with nonzero exit code if anything fails
 
 SOURCE_BRANCH="source"
 TARGET_BRANCH="master"
+OUTPUT_DIR="publish"
 
 function doCompile {
-  npm run build
+    # Run the build, then copy build output to the directory where we're publishing from
+    npm run build
+    mkdir -p $OUTPUT_DIR
+    cp -a out/ $OUTPUT_DIR
 }
 
 # Pull requests and commits to other branches shouldn't try to deploy, just build to verify
@@ -26,8 +30,8 @@ SHA=`git rev-parse --verify HEAD`
 
 # Clone the existing gh-pages for this repo into out/
 # Create a new empty branch if gh-pages doesn't exist yet (should only happen on first deply)
-git clone $REPO out
-cd out
+git clone $REPO $OUTPUT_DIR
+cd $OUTPUT_DIR
 git checkout $TARGET_BRANCH || git checkout --orphan $TARGET_BRANCH
 cd ..
 
@@ -35,7 +39,7 @@ cd ..
 doCompile
 
 # Now let's go have some fun with the cloned repo
-cd out
+cd $OUTPUT_DIR
 git config user.name "Travis CI"
 git config user.email "$COMMIT_AUTHOR_EMAIL"
 
@@ -64,5 +68,5 @@ eval `ssh-agent -s`
 ssh-add deploy_key
 
 # Now that we're all set up, we can push the out folder
-cd out
+cd $OUTPUT_DIR
 git push $SSH_REPO $TARGET_BRANCH
