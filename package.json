@@ -22,6 +22,7 @@
   "private": true,
   "devDependencies": {
     "broccoli": "^0.16.9",
+    "broccoli-browser-sync": "^1.0.0",
     "broccoli-caching-writer": "^3.0.0",
     "broccoli-cli": "^1.0.0",
     "broccoli-filter": "^1.2.3",

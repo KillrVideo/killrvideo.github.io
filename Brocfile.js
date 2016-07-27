@@ -5,6 +5,7 @@ const pluginUtils = require('./plugins/utils');
 const Funnel = require('broccoli-funnel');
 const Sass = require('broccoli-sass');
 const MergeTrees = require('broccoli-merge-trees');
+const BrowserSync = require('broccoli-browser-sync');
 
 const Context = require('./plugins/context');
 const CollectionsPlugin = require('./plugins/collections');
@@ -44,5 +45,12 @@ const pages = new NunjucksRender(pageFiles, Paths.LAYOUTS, contextWithCollection
   ]
 });
 
+let output = [ imageFiles, cssFiles, pages ];
+
+// Watch for changes if running serve
+if (process.argv.indexOf('serve') > 0) {
+  output.push(new BrowserSync(output.slice(0)));
+}
+
 // Merge output
-module.exports = new MergeTrees([ imageFiles, cssFiles, pages ]);
+module.exports = new MergeTrees(output); 
