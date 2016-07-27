@@ -10,7 +10,7 @@
       <nav class="column is-3">
         <ul>
           {% for doc in collections[0].items %}
-          <li class="link-list-item">
+          <li class="link-list-item{{" selected" if href == doc.href else "" }}">
             <a href="{{ doc.href }}">{{ doc.title if doc.title else doc.headings.h1[0].text }}</a>
             <ul>
             {% for heading in doc.headings.h2 %}

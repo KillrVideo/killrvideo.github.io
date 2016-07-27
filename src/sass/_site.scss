@@ -36,6 +36,10 @@ $light-green: #D1E0BA;
   margin-bottom: 0.5em;
 }
 
+.link-list-item.selected > a {
+  font-weight: bold;
+}
+
 .link-list-item .link-list-item {
   margin-bottom: 0;
   font-size: 0.9em;
