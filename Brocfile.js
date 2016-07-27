@@ -14,7 +14,7 @@ const NunjucksRender = require('./plugins/nunjucks-render');
 const Paths = {
   IMAGES: 'src/images',
   BULMA: path.dirname(resolve.sync('bulma')),
-  FONT_AWESOME: path.dirname(resolve.sync('font-awesome/css/font-awesome.css')),
+  FONT_AWESOME: path.dirname(resolve.sync('font-awesome/package.json')),
   SASS: 'src/sass',
   SITE: 'src/site',
   LAYOUTS: 'src/layouts',
@@ -26,7 +26,12 @@ const imageFiles = new Funnel(Paths.IMAGES, {
 });
 
 // Compile SASS to CSS
-const cssFiles = new Sass([ Paths.SASS, Paths.BULMA, Paths.FONT_AWESOME ], 'bundle.scss', 'css/bundle.css');
+const cssFiles = new Sass([ Paths.SASS, Paths.BULMA, path.join(Paths.FONT_AWESOME, 'css') ], 'bundle.scss', 'css/bundle.css');
+
+// Copy fonts
+const fontFiles = new Funnel(path.join(Paths.FONT_AWESOME, 'fonts'), {
+  destDir: 'fonts'
+});
 
 // Pages are all markdown and nunjucks files under the site node
 const pageFiles = new Funnel(Paths.SITE, { include: [ '**/*.md', '**/*.nj' ] });
@@ -45,7 +50,7 @@ const pages = new NunjucksRender(pageFiles, Paths.LAYOUTS, contextWithCollection
   ]
 });
 
-let output = [ imageFiles, cssFiles, pages ];
+let output = [ imageFiles, cssFiles, fontFiles, pages ];
 
 // Watch for changes if running serve
 if (process.argv.indexOf('serve') > 0) {
