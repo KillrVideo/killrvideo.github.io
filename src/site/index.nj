@@ -3,7 +3,7 @@
 {% block content %}
 <section class="hero-image-home has-text-centered">
   <div class="container">
-    <img src="/assets/images/devices.png" />
+    <img src="/images/devices.png" />
   </div>
 </section>
 <section class="hero hero-home has-text-centered">
