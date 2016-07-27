@@ -9,11 +9,11 @@
       </article>
       <nav class="column is-3">
         <ul>
-          {% for doc in collections[collection[0]] %}
+          {% for doc in collections[0].items %}
           <li class="link-list-item">
-            <a href="{{ doc.href }}">{{ doc.title }}</a>
+            <a href="{{ doc.href }}">{{ doc.title if doc.title else doc.headings.h1[0].text }}</a>
             <ul>
-            {% for heading in doc.headings %}
+            {% for heading in doc.headings.h2 %}
               <li class="link-list-item">
                 <a href="{{ doc.href }}#{{ heading.id }}">{{ heading.text }}</a>
               </li>

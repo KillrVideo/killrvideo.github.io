@@ -28,7 +28,7 @@ function createLocalInputNodes(pagesNode, siteNode) {
 
   return [
     // Local metadata
-    new Yaml(new Funnel(siteNode, { include: [ '**/*.meta.yaml' ], exclude: [ 'global.meta.yaml' ] })),
+    new Yaml(new Funnel(siteNode, { include: [ '**/*.meta.yaml' ], exclude: [ 'global.meta.yaml', '**/collection.meta.yaml' ] })),
     // Generate hrefs
     new Href(pagesNode),
     // Generate headings from the HTML
@@ -46,13 +46,9 @@ class ContextPlugin extends Plugin {
   constructor(pagesNode, siteNode, options) {
     options = options || {};
 
-    // Create nodes meant to be shared by all pages
+    // Create input nodes using functions above
     const globalContext = createGlobalInputNodes(siteNode);
-
-    // Create nodes meant to be local to each page
     const localContext = createLocalInputNodes(pagesNode, siteNode);
-    
-    // Call constructor with concated input nodes
     super([ pagesNode, ...globalContext, ...localContext ], { annotation: options.annotation });
 
     // Keep track of where local context nodes begin (+1 to account for pages node at index 0)

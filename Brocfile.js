@@ -7,6 +7,7 @@ const Sass = require('broccoli-sass');
 const MergeTrees = require('broccoli-merge-trees');
 
 const Context = require('./plugins/context');
+const CollectionsPlugin = require('./plugins/collections');
 const NunjucksRender = require('./plugins/nunjucks-render');
 
 const Paths = {
@@ -32,8 +33,11 @@ const pageFiles = new Funnel(Paths.SITE, { include: [ '**/*.md', '**/*.nj' ] });
 // Generate context for each page file to be used when rendering
 const contextFiles = new Context(pageFiles, Paths.SITE);
 
+// Use context to generate collections and create (possibly) new context for the pages that need it
+const contextWithCollections = new CollectionsPlugin(Paths.SITE, contextFiles);
+
 // Render all page files using context to produce pages
-const pages = new NunjucksRender(pageFiles, Paths.LAYOUTS, contextFiles, {
+const pages = new NunjucksRender(pageFiles, Paths.LAYOUTS, contextWithCollections, {
   defaultLayout: 'base.nj',
   layouts: [
     { pattern: 'docs/**/*.md', layout: 'docs.nj' }
