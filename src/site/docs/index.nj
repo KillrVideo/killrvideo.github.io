@@ -10,49 +10,23 @@
 </section>
 <section class="section">
   <div class="container">
-    <div class="columns">
+    <div class="columns is-multiline">
+      {% for collection in collections %}
       <div class="column is-4">
         <h3 class="title is-3">
-          <i class="fa fa-info"></i> General Guides
+          <i class="fa fa-{{ collection.icon }}"></i> {{ collection.title }}
         </h3>
         <ul>
-        {% for doc in collections.guides %}
+        {% for doc in collection.items %}
           <li class="link-list-item">
-            <a href="{{ doc.href }}">{{ doc.title }}</a>
+            <a href="{{ doc.href }}">{{ doc.title if doc.title else doc.headings.h1[0].text }}</a>
           </li>
         {% else %}
           <li>Coming soon</li>
         {% endfor %}
         </ul>
       </div>
-      <div class="column is-4">
-        <h3 class="title is-3">
-          <i class="fa fa-code"></i> Language Guides
-        </h3>
-        <ul>
-        {% for doc in collections.languages %}
-          <li class="link-list-item">
-            <a href="{{ doc.href }}">{{ doc.title }}</a>
-          </li>
-        {% else %}
-          <li>Coming soon</li>
-        {% endfor %}
-        </ul>
-      </div>
-      <div class="column is-4">
-        <h3 class="title is-3">
-          <i class="fa fa-wrench"></i> Advanced
-        </h3>
-        <ul>
-        {% for doc in collections.development %}
-          <li class="link-list-item">
-            <a href="{{ doc.href }}">{{ doc.title }}</a>
-          </li>
-        {% else %}
-          <li>Coming soon</li>
-        {% endfor %}
-        </ul>
-      </div>
+      {% endfor %}
     </div>
   </div>
 </section>
