@@ -5,7 +5,7 @@ the Video Catalog service know where to go to talk to Cassandra? How does the We
 where to talk to the Video Catalog service? There are really two parts to the common way of 
 solving this problem:
 
-1. Service Registration: We need well-known location and some mechanism to register the
+1. Service Registration: We need a well-known location and some mechanism to register the
 location of services.
 1. Service Discovery: We need some way to query the location of services.
 
@@ -53,14 +53,14 @@ service would use:
 http://${SOME_IP_ADDRESS}:2379/v2/keys/killrvideo/services/VideoCatalogService
 ```
 
-> ### Note on Grpc Service Naming Conventions
+> #### Note on Grpc Service Naming Conventions
 > All of the services defined in Protocol Buffers for use with Grpc use the service's "short
 > name" when registering with etcd. The short name for a service is the same name used in
-> `.proto` file and excludes the namespace.
+> `.proto` file and **excludes the namespace**.
 
 Again, for more details on the exact API request and response, see the [v2 API documentation][v2].
 
 [etcd]: https://github.com/coreos/etcd
 [v2]: https://github.com/coreos/etcd/blob/master/Documentation/v2/README.md
 [registrator]: http://gliderlabs.com/registrator/latest/
-[prev]: ./docker.md
+[prev]: /docs/guides/docker/

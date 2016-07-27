@@ -142,4 +142,4 @@ KillrVideo.
 [protobuf]: https://developers.google.com/protocol-buffers/
 [service-protos]: https://github.com/KillrVideo/killrvideo-service-protos
 [architecture]: ./architecture.md
-[next]: ./docker.md
+[next]: /docs/guides/docker/

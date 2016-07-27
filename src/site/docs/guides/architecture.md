@@ -51,7 +51,7 @@ between services rather than having services calling each other directly. Each s
 for publishing events about interesting things that happen inside of them. Other services
 can then subscribe to any events they are interested in and react accordingly.
 
-> ### An Example from KillrVideo
+> #### An Example from KillrVideo
 > Whenever a new YouTube video is added to the video catalog, the **Video Catalog** 
 > service publishes a `YouTubeVideoAdded` event. That event contains some of the details
 > of the video that was added (like it's id, name, description, etc.). Other services can
@@ -66,4 +66,4 @@ messaging. We'll cover the specifics of actually implementing pub-sub shortly.
 
 [Next: Web Tier Implementation][next]
 
-[next]: ./web-tier.md
+[next]: /docs/guides/web-tier/

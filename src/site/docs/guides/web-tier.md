@@ -4,8 +4,8 @@ When talking about the "Web Tier" in KillrVideo, we're really talking about two 
 components: the Web Client and the Web Server. KillrVideo is meant to be a reference
 application for people looking to learn about using Cassandra and DataStax Enterprise with
 the programming language of their choice. The Web Tier just supports the UI and doesn't 
-directly interact with DSE. All of the code that does interact with DSE lives in the 
-microservices which are called by the Web Server.
+directly interact with DSE. All of the "interesting" code that does interact with DSE lives 
+in the microservices.
 
 One of the goals of this project is to create a standalone Web Tier than can be reused by
 the various Microservices Tier implementations. As a result, the [killrvideo-web][killrvideo-web]
@@ -58,8 +58,8 @@ A complete explanation of [Falcor][falcor] is definitely outside of the scope of
 document (and the Netflix documentation is pretty good if you're interested in digging in).
 But let's take a quick high level look at one of those requests in KillrVideo.
 
-Falcor encourages you to think of your data model as a graph. When the Web Client makes a 
-request to the server, it makes a request for a path or paths in that graph. So for
+Falcor encourages you to think of your data model as a *graph*. When the Web Client makes a 
+request to the server, it makes a request for a *path* or *paths* in that graph. So for
 example, let's say I'm displaying a video in the UI. The paths I request via Falcor might 
 look something like this:
 
@@ -73,7 +73,7 @@ videosById['12345'].author['firstName', 'lastName', 'email']
 On the Web Server, the Falcor Router is setup to handle requests to `/model.json`. It takes
 the path or paths requested by the client, and then tries to match them against routes
 which have been defined on the server. Here's an example route definition that matches some
-of those paths and would be called by the Falcor Router to handle the request:
+of our example paths and would be called by the Falcor Router to handle the request:
 
 ```javascript
 // Get video details by id
@@ -132,7 +132,7 @@ KillrVideo's.
 
 ## Session Storage in Cassandra / DataStax Enterprise
 
-In the beginning of this section, we talked about how all the code that's actually
+In the beginning of this guide, we talked about how all the code that's actually
 interacting with DataStax Enterprise lives in the microservice implementations. (And as a
 result, most users looking to KillrVideo as a reference app probably won't be interested
 in digging through the code of the Web Tier.) There is, however, one exception to that
@@ -151,7 +151,7 @@ being called by the Web Server.
 [Next: Microservices Tier Implementation][next]
 
 
-[next]: ./microservices-tier.md
+[next]: /docs/guides/microservices-tier/
 [killrvideo-web]: https://github.com/killrvideo/killrvideo-web
 [falcor]: http://netflix.github.io/falcor/
 [grpc]: http://www.grpc.io/

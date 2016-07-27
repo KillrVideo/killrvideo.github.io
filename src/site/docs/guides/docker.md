@@ -71,7 +71,7 @@ Next, we'll take a quick look at service discovery in KillrVideo with etcd.
 [Next: Service Discovery with etcd][next]
 
 
-[next]: ./service-discovery.md
+[next]: /docs/guides/service-discovery/
 [dse]: http://www.datastax.com/products/datastax-enterprise
 [killrvideo-web]: https://github.com/killrvideo/killrvideo-web
 [etcd]: https://github.com/coreos/etcd

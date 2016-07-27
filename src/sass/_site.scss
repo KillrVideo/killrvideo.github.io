@@ -44,6 +44,10 @@ $light-green: #D1E0BA;
   margin-left: 2em;
 }
 
+.content > pre {
+  margin-bottom: 1em;
+}
+
 // Tablet and larger
 @include tablet {
   html, .button {
