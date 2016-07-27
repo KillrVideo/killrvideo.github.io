@@ -8,6 +8,6 @@ github:
 
 # Main/common navigation URLs
 nav:
-  docs: /docs
-  blog: /blog
-  getting_started: /docs/guides/getting-started.html
+  docs: /docs/
+  blog: /blog/
+  getting_started: /getting-started/

@@ -46,7 +46,11 @@
 
   {# The file's contents #}
   {% block content %}
-  {{contents|safe}}
+  <section class="section">
+    <div class="container content">
+      {{contents|safe}}
+    </div>
+  </section>
   {% endblock %}
 
   {# The site's footer #}
