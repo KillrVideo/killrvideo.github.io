@@ -52,6 +52,11 @@ $light-green: #D1E0BA;
   margin-bottom: 1em;
 }
 
+.content > pre code.hljs {
+  padding: 16px 20px;
+  background-color: $grey-lighter;
+}
+
 // Tablet and larger
 @include tablet {
   html, .button {
@@ -72,7 +77,7 @@ $light-green: #D1E0BA;
 }
 
 /**
- * Header
+ * Header and Footer
  */
 
 header {

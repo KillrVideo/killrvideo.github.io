@@ -15,6 +15,7 @@ const Paths = {
   IMAGES: 'src/images',
   BULMA: path.dirname(resolve.sync('bulma')),
   FONT_AWESOME: path.dirname(resolve.sync('font-awesome/package.json')),
+  HIGHLIGHT_JS: path.dirname(resolve.sync('highlight.js')),
   SASS: 'src/sass',
   SITE: 'src/site',
   LAYOUTS: 'src/layouts',
@@ -26,7 +27,12 @@ const imageFiles = new Funnel(Paths.IMAGES, {
 });
 
 // Compile SASS to CSS
-const cssFiles = new Sass([ Paths.SASS, Paths.BULMA, path.join(Paths.FONT_AWESOME, 'css') ], 'bundle.scss', 'css/bundle.css');
+const cssFiles = new Sass([ 
+  Paths.SASS, 
+  Paths.BULMA, 
+  path.join(Paths.FONT_AWESOME, 'css'),
+  path.join(Paths.HIGHLIGHT_JS, '../styles'),
+], 'bundle.scss', 'css/bundle.css');
 
 // Copy fonts
 const fontFiles = new Funnel(path.join(Paths.FONT_AWESOME, 'fonts'), {

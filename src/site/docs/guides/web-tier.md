@@ -92,16 +92,16 @@ of their response. In our Video Catalog service, we store a `userId` for the aut
 given video, but we don't store the details of that user. So our route above might return a
 response that looks something like this:
 
-```javascript
+```json
 {
-    videosById: {
+    "videosById": {
         "12345": {
-            name: "Burrito Cat",
-            description: "A cat wrapped in a burrito because who doesn't love that?",
-            addedDate: "2016-06-29T18:25:43.511Z",
-            author: {
-                $type: "ref",
-                value: [ "usersById", "99999" ]
+            "name": "Burrito Cat",
+            "description": "A cat wrapped in a burrito because who doesn't love that?",
+            "addedDate": "2016-06-29T18:25:43.511Z",
+            "author": {
+                "$type": "ref",
+                "value": [ "usersById", "99999" ]
             }
         }
     }

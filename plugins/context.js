@@ -24,7 +24,7 @@ function createGlobalInputNodes(siteNode) {
 
 function createLocalInputNodes(pagesNode, siteNode) {
   // Markdown files converted to HTML
-  const markdownHtml = new Markdown(new Funnel(pagesNode, { include: [ '**/*.md'] }), { gfm: true });
+  const markdownHtml = new Markdown(new Funnel(pagesNode, { include: [ '**/*.md'] }));
 
   return [
     // Local metadata
