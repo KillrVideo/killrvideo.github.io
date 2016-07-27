@@ -9,7 +9,6 @@ SOURCE_BRANCH="source"
 TARGET_BRANCH="master"
 
 function doCompile {
-  npm run clean
   npm run build
 }
 
