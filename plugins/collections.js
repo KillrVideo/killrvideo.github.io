@@ -54,7 +54,7 @@ class CollectionsPlugin extends Plugin {
       // Create the collection input node
       inputNodes.push(new Collection(
         new Funnel(contextNode, collectionDef.inputFunnel),
-        new Yaml(new Funnel(siteNode, { files: [ collectionDef.metadata ] })),
+        new Yaml(new Funnel(siteNode, { include: [ collectionDef.metadata ] })),
         name
       ));
 

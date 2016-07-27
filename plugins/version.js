@@ -9,11 +9,12 @@ const Plugin = require('broccoli-plugin');
 class Version extends Plugin {
   constructor(options) {
     options = options || {};
-    super([], { annotation: options.annotation });
+    super([], { annotation: options.annotation, persistentOutput: true });
     this._promise = null;
   }
 
   build() {
+    console.log('Getting version!');
     if (this._promise !== null) return this._promise;
 
     this._promise = new Promise((resolve, reject) => {

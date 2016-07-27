@@ -16,7 +16,7 @@ const Headings = require('./headings');
 function createGlobalInputNodes(siteNode) {
   return [
     // Global metadata
-    new Yaml(new Funnel(siteNode, { files: [ 'global.meta.yaml' ] })),
+    new Yaml(new Funnel(siteNode, { include: [ 'global.meta.yaml' ] })),
     // Git version information
     new Version()
   ];
@@ -60,7 +60,7 @@ class ContextPlugin extends Plugin {
     let globalContext = {};
 
     // For each path in global context nodes
-    for (let i = 1; i < this.localStartIndex; i ++) {
+    for (let i = 1; i < this.localStartIndex; i++) {
       // Walk all the files and merge JSON into the global context object
       walkSync(this.inputPaths[i], { directories: false })
         .reduce((acc, globalFile) => {

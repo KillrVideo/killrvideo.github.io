@@ -39,14 +39,17 @@ const fontFiles = new Funnel(path.join(Paths.FONT_AWESOME, 'fonts'), {
   destDir: 'fonts'
 });
 
+// All files under the src/site folder
+const siteFiles = new Funnel(Paths.SITE);
+
 // Pages are all markdown and nunjucks files under the site node
-const pageFiles = new Funnel(Paths.SITE, { include: [ '**/*.md', '**/*.nj' ] });
+const pageFiles = new Funnel(siteFiles, { include: [ '**/*.md', '**/*.nj' ] });
 
 // Generate context for each page file to be used when rendering
-const contextFiles = new Context(pageFiles, Paths.SITE);
+const contextFiles = new Context(pageFiles, siteFiles);
 
 // Use context to generate collections and create (possibly) new context for the pages that need it
-const contextWithCollections = new CollectionsPlugin(Paths.SITE, contextFiles);
+const contextWithCollections = new CollectionsPlugin(siteFiles, contextFiles);
 
 // Render all page files using context to produce pages
 const pages = new NunjucksRender(pageFiles, Paths.LAYOUTS, contextWithCollections, {
