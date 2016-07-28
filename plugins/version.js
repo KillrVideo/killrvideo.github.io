@@ -14,7 +14,6 @@ class Version extends Plugin {
   }
 
   build() {
-    console.log('Getting version!');
     if (this._promise !== null) return this._promise;
 
     this._promise = new Promise((resolve, reject) => {
