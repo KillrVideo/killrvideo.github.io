@@ -10,10 +10,12 @@ TARGET_BRANCH="master"
 OUTPUT_DIR="publish"
 
 function doCompile {
-    # Run the build, then copy build output to the directory where we're publishing from
+    # The actual build into out/
     npm run build
-    mkdir -p $OUTPUT_DIR
-    cp -a out/ $OUTPUT_DIR
+
+    # Remove contents of publish folder (leaving .git intact), then copy output
+    rm -rf $OUTPUT_DIR/*
+    cp -a out/. $OUTPUT_DIR/
 }
 
 # Pull requests and commits to other branches shouldn't try to deploy, just build to verify
