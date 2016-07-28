@@ -23,7 +23,7 @@ const Paths = {
 
 // Copy images to output as-is
 const imageFiles = new Funnel(Paths.IMAGES, {
-  destDir: 'images'
+  destDir: 'assets/images'
 });
 
 // Compile SASS to CSS
@@ -32,11 +32,11 @@ const cssFiles = new Sass([
   Paths.BULMA, 
   path.join(Paths.FONT_AWESOME, 'css'),
   path.join(Paths.HIGHLIGHT_JS, '../styles'),
-], 'bundle.scss', 'css/bundle.css');
+], 'bundle.scss', 'assets/css/bundle.css');
 
 // Copy fonts
 const fontFiles = new Funnel(path.join(Paths.FONT_AWESOME, 'fonts'), {
-  destDir: 'fonts'
+  destDir: 'assets/fonts'
 });
 
 // All files under the src/site folder
