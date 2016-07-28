@@ -3,9 +3,8 @@ const webpack = require('webpack');
 
 // Path constants
 const Paths = {
-    SRC: path.resolve(__dirname, 'src'),
     JS: path.resolve(__dirname, 'src/js'),
-    OUT: path.resolve(__dirname, 'out/assets')
+    OUT: path.resolve(__dirname, 'out/assets/js')
 };
 
 // Plugins for the build
@@ -20,15 +19,12 @@ let plugins = [
 
 module.exports = {
   devtool: 'source-map',
-  context: Paths.SRC,
-  entry: './webpack',
+  context: Paths.JS,
+  entry: './index',
   output: {
     path: Paths.OUT,
-    publicPath: '/assets/',
+    publicPath: '/assets/js/',
     filename: 'bundle.js'
-  },
-  resolve: {
-    root: Paths.SRC
   },
   module: {
     loaders: [

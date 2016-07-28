@@ -21,6 +21,10 @@
   "homepage": "https://killrvideo.github.io",
   "private": true,
   "devDependencies": {
+    "babel-core": "^6.11.4",
+    "babel-loader": "^6.2.4",
+    "babel-plugin-transform-object-rest-spread": "^6.8.0",
+    "babel-preset-es2015": "^6.9.0",
     "broccoli": "^0.16.9",
     "broccoli-browser-sync": "^1.0.0",
     "broccoli-caching-writer": "^3.0.0",
@@ -41,8 +45,9 @@
     "npm-run-all": "^2.3.0",
     "nunjucks": "^2.4.2",
     "resolve": "^1.1.7",
-    "rimraf": "^2.5.3",
-    "walk-sync": "^0.2.7"
+    "rimraf": "^2.5.4",
+    "walk-sync": "^0.3.0",
+    "webpack": "^1.13.1"
   },
   "dependencies": {
     "bulma": "^0.1.0",
