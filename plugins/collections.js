@@ -13,7 +13,7 @@ const Collection = require('./collection');
 const Patterns = {
   DOCS_INDEX: 'docs/index.json',
   GUIDES: 'docs/guides/*',
-  LANGUAGES: 'docs/languages/*',
+  LANGUAGES: 'docs/languages/**/*',
   DEVELOPMENT: 'docs/development/*',
   BLOG_INDEX: 'blog/index.json',
   BLOGS: 'blog/*'
