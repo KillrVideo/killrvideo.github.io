@@ -1,0 +1,297 @@
+<!doctype html>
+<html>
+<head>
+  <title>KillrVideo - Web Tier Implementation</title>
+  <link href="/css/bundle.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="/images/killrvideo-icon.png"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  
+  <header>
+    <nav class="nav">
+      <div class="container">
+        <div class="nav-left">
+          <a href="/" class="nav-item">
+            <img src="/images/killrvideo.png" alt="KillrVideo logo" />
+          </a>
+        </div>
+
+        <!-- Nav Toggle on mobile -->
+        <span class="nav-toggle">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+
+        <div class="nav-right nav-menu">
+          <span class="nav-item">
+            <a href="/getting-started/" class="button is-primary">
+              <i class="fa fa-code fa-fw"></i> Get Started
+            </a>
+          </span>
+          <a href="/docs/" class="nav-item">
+            Docs
+          </a>
+          <a href="/blog/" class="nav-item">
+            Blog
+          </a>
+          <a href="https://github.com/KillrVideo" target="_blank" class="nav-item">
+            <i class="fa fa-github fa-2x"></i>
+          </a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  
+  
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <article class="column is-9 content">
+        <h1 id="web-tier-implementation">Web Tier Implementation</h1>
+<p>When talking about the &quot;Web Tier&quot; in KillrVideo, we&#39;re really talking about two separate
+components: the Web Client and the Web Server. KillrVideo is meant to be a reference
+application for people looking to learn about using Cassandra and DataStax Enterprise with
+the programming language of their choice. The Web Tier just supports the UI and doesn&#39;t 
+directly interact with DSE. All of the &quot;interesting&quot; code that does interact with DSE lives 
+in the microservices.</p>
+<p>One of the goals of this project is to create a standalone Web Tier than can be reused by
+the various Microservices Tier implementations. As a result, the <a href="https://github.com/killrvideo/killrvideo-web" target="_blank">killrvideo-web</a>
+project was created. That project contains a standalone Web Server and Web Client (all 
+written in JavaScript) and is packaged as a <a href="https://hub.docker.com/r/luketillman/killrvideo-web/" target="_blank">Docker container</a>
+which can be run to provide a common UI for KillrVideo, regardless of what programming
+language the Microservices Tier is using. </p>
+<p>Let&#39;s take a look at how the Web Tier works before diving into the microservices in the
+<a href="/docs/guides/microservices-tier/">next section</a>.</p>
+<h2 id="web-client">Web Client</h2>
+<p>The Web Client is a <a href="https://en.wikipedia.org/wiki/Single-page_application" target="_blank">single page application</a>
+that runs in the browser is implemented in JavaScript. Some of the notable libraries used
+include:</p>
+<ul>
+<li><a href="https://facebook.github.io/react/" target="_blank"><strong>React</strong></a>: for rendering the UI based on the
+application state using components.</li>
+<li><a href="http://redux.js.org/" target="_blank"><strong>Redux</strong></a>: for maintaining the application state and changing it
+in a predictable way.</li>
+<li><a href="http://netflix.github.io/falcor/" target="_blank"><strong>Falcor</strong></a>: for fetching data from the Web Server
+efficiently.</li>
+<li><a href="http://getbootstrap.com/" target="_blank"><strong>Bootstrap</strong></a>: for base CSS styling and common components.</li>
+</ul>
+<p>All of the assets for the Web Client are bundled with <a href="https://webpack.github.io/" target="_blank">webpack</a>
+and then served up by the Web Server.</p>
+<h2 id="web-server">Web Server</h2>
+<p>The Web Server is a NodeJS application that serves up the static assets for the Web Client
+and routes requests to the Microservices Tier to retrieve data and support various user
+actions. Some of the notable libraries used include:</p>
+<ul>
+<li><a href="http://expressjs.com/" target="_blank"><strong>Express</strong></a>: for routing incoming HTTP requests to the 
+appropriate handlers.</li>
+<li><a href="http://netflix.github.io/falcor/documentation/router.html" target="_blank"><strong>Falcor Router</strong></a>: takes 
+requests routed through Express from the Falcor client and then calls the appropriate 
+backend microservices.</li>
+<li><a href="http://www.grpc.io/" target="_blank"><strong>Grpc</strong></a>: provides communication with the backend microservices over HTTP/2
+where the service contracts are defined via Protocol Buffers.</li>
+</ul>
+<p>The interaction between the Web Server and the Microservices Tier via <a href="http://www.grpc.io/" target="_blank">Grpc</a> will be
+covered in great detail in the <a href="/docs/guides/microservices-tier/">next section</a>. But it&#39;s probably worth discussing the
+typical interaction between the Web Client and the Web Server via <a href="http://netflix.github.io/falcor/" target="_blank">Falcor</a>.</p>
+<h2 id="web-client-and-server-communication-via-falcor">Web Client and Server Communication via Falcor</h2>
+<p>A complete explanation of <a href="http://netflix.github.io/falcor/" target="_blank">Falcor</a> is definitely outside of the scope of this
+document (and the Netflix documentation is pretty good if you&#39;re interested in digging in).
+But let&#39;s take a quick high level look at one of those requests in KillrVideo.</p>
+<p>Falcor encourages you to think of your data model as a <em>graph</em>. When the Web Client makes a 
+request to the server, it makes a request for a <em>path</em> or <em>paths</em> in that graph. So for
+example, let&#39;s say I&#39;m displaying a video in the UI. The paths I request via Falcor might 
+look something like this:</p>
+<pre><code>GET: /model.json
+
+videosById['12345']['name', 'description', 'addedDate']
+videosById['12345'].author['firstName', 'lastName', 'email']</code></pre><p>On the Web Server, the Falcor Router is setup to handle requests to <code>/model.json</code>. It takes
+the path or paths requested by the client, and then tries to match them against routes
+which have been defined on the server. Here&#39;s an example route definition that matches some
+of our example paths and would be called by the Falcor Router to handle the request:</p>
+<pre><code class="hljs"><span class="hljs-comment">// Get video details by id</span>
+{
+    route: <span class="hljs-string">'videosById[{keys:videoIds}]["videoId", "addedDate", "description", "name", "author"]'</span>,
+    get(pathSet) {
+        <span class="hljs-comment">// ... Handle request by making a call to the Video Catalog service via Grpc ...</span>
+    }
+}</pre></code><p>You might notice that this route matches <code>author</code>, but doesn&#39;t provide the <code>firstName</code>,
+<code>lastName</code>, and <code>email</code> attributes of the author. How are those retrieved? Well, one cool
+thing about Falcor is that routes can return references to other parts of the graph as part
+of their response. In our Video Catalog service, we store a <code>userId</code> for the author of a 
+given video, but we don&#39;t store the details of that user. So our route above might return a
+response that looks something like this:</p>
+<pre><code class="hljs">{
+    <span class="hljs-attr">"videosById"</span>: {
+        <span class="hljs-attr">"12345"</span>: {
+            <span class="hljs-attr">"name"</span>: <span class="hljs-string">"Burrito Cat"</span>,
+            <span class="hljs-attr">"description"</span>: <span class="hljs-string">"A cat wrapped in a burrito because who doesn't love that?"</span>,
+            <span class="hljs-attr">"addedDate"</span>: <span class="hljs-string">"2016-06-29T18:25:43.511Z"</span>,
+            <span class="hljs-attr">"author"</span>: {
+                <span class="hljs-attr">"$type"</span>: <span class="hljs-string">"ref"</span>,
+                <span class="hljs-attr">"value"</span>: [ <span class="hljs-string">"usersById"</span>, <span class="hljs-string">"99999"</span> ]
+            }
+        }
+    }
+}</pre></code><p>The <code>author</code> value returned is a special primitive type in Falcor&#39;s <a href="http://netflix.github.io/falcor/documentation/jsongraph.html" target="_blank">JSON Graph</a>
+spec that represents a reference to another part of the graph (in this case, we got a 
+reference to <code>usersById[&#39;99999&#39;]</code>). The Falcor router will automatically try to follow any
+references returned by routes (before returning a response to the client), so if we have 
+another route definition that looks like this:</p>
+<pre><code class="hljs"><span class="hljs-comment">// Get user details by id</span>
+{
+    route: <span class="hljs-string">'usersById[{keys:userIds}]["userId", "firstName", "lastName", "email"]'</span>,
+    get(pathSet) {
+        <span class="hljs-comment">// ... Handle request by making a call to the User Management service via Grpc ...</span>
+    }
+}</pre></code><p>That route will be called and asked for the <code>firstName</code>, <code>lastName</code>, and <code>email</code> of user
+<code>99999</code> in order to fill in the author information from the original request. In this way,
+multiple microservices can be involved in constructing the response for a given request.
+This makes Falcor a nice fit for sitting in front of a microservices architecture like
+KillrVideo&#39;s.</p>
+<h2 id="session-storage-in-cassandra-datastax-enterprise">Session Storage in Cassandra / DataStax Enterprise</h2>
+<p>In the beginning of this guide, we talked about how all the code that&#39;s actually
+interacting with DataStax Enterprise lives in the microservice implementations. (And as a
+result, most users looking to KillrVideo as a reference app probably won&#39;t be interested
+in digging through the code of the Web Tier.) There is, however, one exception to that
+statement: web session storage. The Web Server does use Cassandra to store session data
+for a given user.</p>
+<p>Web session storage in Cassandra is done with the <a href="https://github.com/expressjs/session" target="_blank">Express Session</a> 
+middleware and the <a href="https://github.com/webcc/cassandra-store" target="_blank">Cassandra Store</a> plugin for
+that middleware. Since that plugin does all the &quot;heavy lifting&quot; of interacting with
+Cassandra, it&#39;s still probably not of interest to end users. But that code is available in
+the <a href="https://github.com/killrvideo/killrvideo-web" target="_blank">GitHub repository for killrvideo-web</a> if you&#39;re interested.</p>
+<p>Next, let&#39;s take a look at some of the implementation details of the Microservices Tier 
+being called by the Web Server.</p>
+<p><a href="/docs/guides/microservices-tier/">Next: Microservices Tier Implementation</a></p>
+
+      </article>
+      <nav class="column is-3">
+        <ul>
+          
+          <li class="link-list-item">
+            <a href="/docs/guides/architecture/">High Level Architecture Overview</a>
+            <ul>
+            
+              <li class="link-list-item">
+                <a href="/docs/guides/architecture/#microservices-tier">Microservices Tier</a>
+              </li>
+            
+              <li class="link-list-item">
+                <a href="/docs/guides/architecture/#using-events-for-service-collaboration">Using Events for Service Collaboration</a>
+              </li>
+            
+            </ul>
+          </li>
+          
+          <li class="link-list-item">
+            <a href="/docs/guides/docker/">Docker and Infrastructure Dependencies</a>
+            <ul>
+            
+              <li class="link-list-item">
+                <a href="/docs/guides/docker/#docker-compose-for-starting-dependencies">Docker Compose for Starting Dependencies</a>
+              </li>
+            
+              <li class="link-list-item">
+                <a href="/docs/guides/docker/#docker-environment-scripts">Docker Environment Scripts</a>
+              </li>
+            
+            </ul>
+          </li>
+          
+          <li class="link-list-item">
+            <a href="/docs/guides/microservices-tier/">Microservice Tier Implementation</a>
+            <ul>
+            
+              <li class="link-list-item">
+                <a href="/docs/guides/microservices-tier/#service-and-event-definitions-with-protocol-buffers">Service and Event Definitions with Protocol Buffers</a>
+              </li>
+            
+              <li class="link-list-item">
+                <a href="/docs/guides/microservices-tier/#grpc-client-on-the-web-server">Grpc Client on the Web Server</a>
+              </li>
+            
+              <li class="link-list-item">
+                <a href="/docs/guides/microservices-tier/#grpc-server-in-microservices">Grpc Server in Microservices</a>
+              </li>
+            
+              <li class="link-list-item">
+                <a href="/docs/guides/microservices-tier/#pub-sub-messaging-and-other-supporting-infrastructure">Pub-Sub Messaging and Other Supporting Infrastructure</a>
+              </li>
+            
+            </ul>
+          </li>
+          
+          <li class="link-list-item">
+            <a href="/docs/guides/service-discovery/">Service Discovery with etcd</a>
+            <ul>
+            
+              <li class="link-list-item">
+                <a href="/docs/guides/service-discovery/#querying-etcd">Querying etcd</a>
+              </li>
+            
+              <li class="link-list-item">
+                <a href="/docs/guides/service-discovery/#registering-services-in-etcd">Registering services in etcd</a>
+              </li>
+            
+            </ul>
+          </li>
+          
+          <li class="link-list-item selected">
+            <a href="/docs/guides/web-tier/">Web Tier Implementation</a>
+            <ul>
+            
+              <li class="link-list-item">
+                <a href="/docs/guides/web-tier/#web-client">Web Client</a>
+              </li>
+            
+              <li class="link-list-item">
+                <a href="/docs/guides/web-tier/#web-server">Web Server</a>
+              </li>
+            
+              <li class="link-list-item">
+                <a href="/docs/guides/web-tier/#web-client-and-server-communication-via-falcor">Web Client and Server Communication via Falcor</a>
+              </li>
+            
+              <li class="link-list-item">
+                <a href="/docs/guides/web-tier/#session-storage-in-cassandra-datastax-enterprise">Session Storage in Cassandra / DataStax Enterprise</a>
+              </li>
+            
+            </ul>
+          </li>
+          
+        </ul>
+      </nav>
+    </div>
+  </div>
+</section>
+
+
+  
+  <footer class="footer">
+    <div class="container level">
+      <div class="level-left">
+        <div class="level-item">
+          <p>
+            <strong>KillrVideo</strong> is open source and available under an 
+            <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> license.
+          <p>
+          <p>
+            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/34b1988a0470154a1a68fb581b6d7b79657b56c8" target="_blank">34b1988</a></small>
+          </p>
+        </div>
+      </div>
+      <div class="level-right">
+        <div class="level-right">
+          <a class="button level-item" href="https://github.com/KillrVideo/killrvideo.github.io/tree/source/src/site/docs/guides/web-tier.md" target="_blank">
+            <i class="fa fa-github fa-fw"></i>Improve this page
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script type="text/javascript" src="/assets/bundle.js"></script>
+</body>
+</html>

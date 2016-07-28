@@ -1,0 +1,294 @@
+<!doctype html>
+<html>
+<head>
+  <title>KillrVideo - Microservice Tier Implementation</title>
+  <link href="/css/bundle.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="/images/killrvideo-icon.png"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  
+  <header>
+    <nav class="nav">
+      <div class="container">
+        <div class="nav-left">
+          <a href="/" class="nav-item">
+            <img src="/images/killrvideo.png" alt="KillrVideo logo" />
+          </a>
+        </div>
+
+        <!-- Nav Toggle on mobile -->
+        <span class="nav-toggle">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+
+        <div class="nav-right nav-menu">
+          <span class="nav-item">
+            <a href="/getting-started/" class="button is-primary">
+              <i class="fa fa-code fa-fw"></i> Get Started
+            </a>
+          </span>
+          <a href="/docs/" class="nav-item">
+            Docs
+          </a>
+          <a href="/blog/" class="nav-item">
+            Blog
+          </a>
+          <a href="https://github.com/KillrVideo" target="_blank" class="nav-item">
+            <i class="fa fa-github fa-2x"></i>
+          </a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  
+  
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <article class="column is-9 content">
+        <h1 id="microservice-tier-implementation">Microservice Tier Implementation</h1>
+<p>The Microservices Tier is where all the interesting code that interacts with DataStax 
+Enterprise and Cassandra lives. As a reference application, one of the goals of this project
+is to have microservice implementations available in most major programming languages. But 
+the goal of being able to write our services in multiple languages is not one that&#39;s unique 
+to this project just because it&#39;s a reference application. Many companies find themselves
+with mixed technology stacks.</p>
+<p>We wanted a way to define our service contracts in a single common format and then be able
+to generate client and server code for those services in all the languages we need to
+support. This meant generating code for both the client and the server that takes advantage
+of type checking in <a href="https://en.wikipedia.org/wiki/Strong_and_weak_typing" target="_blank">strongly typed languages</a>
+that support it. For example, in C# and Java we wanted classes representing our request and
+response objects, as well as generated client and server code (even if they were stubs) with
+method names that reflected our service definitions.</p>
+<p>After looking at various projects like <a href="http://thrift.apache.org/" target="_blank">Apache Thrift</a> and 
+<a href="http://avro.apache.org/" target="_blank">Apache Avro</a> we settled on using Google&#39;s relatively new <a href="http://www.grpc.io/" target="_blank">Grpc</a>
+framework.</p>
+<h2 id="service-and-event-definitions-with-protocol-buffers">Service and Event Definitions with Protocol Buffers</h2>
+<p>With <a href="http://www.grpc.io/" target="_blank">Grpc</a> you define your services using <a href="https://developers.google.com/protocol-buffers/" target="_blank">Protocol Buffers</a> as the 
+Interface Definition Language (IDL). So, for example, if we were defining the Ratings
+Service in KillrVideo, we might start with a definition like this:</p>
+<pre><code class="hljs">syntax = <span class="hljs-string">"proto3"</span>;
+<span class="hljs-keyword">package</span> killrvideo.ratings;
+<span class="hljs-keyword">import</span> <span class="hljs-string">"common/common_types.proto"</span>;
+
+<span class="hljs-comment">// Service that manages user's ratings of videos</span>
+<span class="hljs-class"><span class="hljs-keyword">service</span> <span class="hljs-title">RatingsService</span> </span>{
+  <span class="hljs-comment">// Rate a video</span>
+  <span class="hljs-function"><span class="hljs-keyword">rpc</span> RateVideo(RateVideoRequest) <span class="hljs-keyword">returns</span> (RateVideoResponse)</span>;
+}
+
+<span class="hljs-comment">// Request for a user rating a video</span>
+<span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">RateVideoRequest</span> </span>{
+  killrvideo.common.Uuid video_id = <span class="hljs-number">1</span>;
+  killrvideo.common.Uuid user_id = <span class="hljs-number">2</span>;
+  <span class="hljs-built_in">int32</span> rating = <span class="hljs-number">3</span>;
+}
+
+<span class="hljs-comment">// Response when a user rates a video</span>
+<span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">RateVideoResponse</span> </span>{
+}</pre></code><p>You can see that we&#39;ve defined both service contract (with a single method to start), as
+well as the request and response objects for that method call. Following this pattern, we
+created the <a href="https://github.com/KillrVideo/killrvideo-service-protos" target="_blank">killrvideo-service-protos</a> project to house all the service
+definitions for KillrVideo. We also created all of our event definitions (which will be
+published by the services) there as well. With all the <code>.proto</code> files created, it was now
+possible for the microservice projects to pull in these files and use the <a href="https://developers.google.com/protocol-buffers/" target="_blank">Protocol Buffers</a>
+command line compiler along with the <a href="http://www.grpc.io/" target="_blank">Grpc</a> plugin for that compiler to 
+<a href="http://www.grpc.io/docs/#generating-grpc-code" target="_blank">generate code</a> in any of the supported 
+languages.</p>
+<h2 id="grpc-client-on-the-web-server">Grpc Client on the Web Server</h2>
+<p>You&#39;ll remember from the last section that our Web Server is written in NodeJS and uses
+<a href="http://www.grpc.io/" target="_blank">Grpc</a> to communicate with the various microservices. In order to make this happen, we
+use the <a href="https://www.npmjs.com/package/grpc" target="_blank">grpc package on NPM</a> to generate clients that
+the Web Server can use to call the backend microservices. The NodeJS implementation for Grpc
+currently doesn&#39;t generate code files (unlike for example, in C# and Java), but instead is
+able to load and parse <code>.proto</code> files and then create client objects (with the appropriate
+method names from the <code>.proto</code> files) dynamically at runtime. For example:</p>
+<pre><code class="hljs"><span class="hljs-keyword">let</span> rateVideoRequest = {
+    video_id: { value: <span class="hljs-string">'c0d0f264-11b9-4315-b325-b9f576d00572'</span> },
+    user_id: { value: <span class="hljs-string">'28aae113-b4f9-4180-b5ea-b25b80a58051'</span> },
+    rating: <span class="hljs-number">4</span>
+};
+ratingsServiceClient.rateVideo(rateVideoRequest, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err, rateVideoResponse</span>) </span>{
+    <span class="hljs-comment">// ... Handle the response here ...</span>
+});</pre></code><p>There are a couple things to understand about the communication that happens with Grpc:</p>
+<ol>
+<li>Most developers who are familiar with <a href="https://developers.google.com/protocol-buffers/" target="_blank">Protocol Buffers</a> from the past will
+know it as a serialization format. Grpc uses Protocol Buffers not only as the IDL, but also 
+as the &quot;on the wire&quot; format for communication between client and server. All the 
+serialization work is done automatically for you (in the generated code).</li>
+<li>Grpc also comes with a default transport (<a href="https://http2.github.io/" target="_blank">HTTP/2</a>) for 
+communication between the client and the server. For most of the supported languages, this
+transport is just bindings to a common C++ implementation (i.e. so NodeJS and C# are
+actually both using the same HTTP/2 transport code under the covers).</li>
+</ol>
+<p>The HTTP/2 transport included in Grpc includes support not only for &quot;Request-Response&quot; style
+communication, but also for unidirectional and bidirectional streaming communication. In 
+KillrVideo, all of the communication between the Web Server and the microservices is done 
+with Request-Response style calls, but this could change in the future.</p>
+<h2 id="grpc-server-in-microservices">Grpc Server in Microservices</h2>
+<p><a href="http://www.grpc.io/" target="_blank">Grpc</a> will generate server stubs. Depending on the language being used for the
+microservice implementation, this could be code files (e.g. in C# and Java) or dynamic
+objects created at runtime (e.g. NodeJS). The service&#39;s logic can then be &quot;plugged in&quot;
+to these stubs. This is where all the code that talks to DataStax Enterprise and Cassandra
+lives (and if you&#39;re an end user, this is the code you&#39;re interested in looking at).</p>
+<p>In a real world application, each of the microservices defined in the <a href="https://github.com/KillrVideo/killrvideo-service-protos" target="_blank">killrvideo-service-protos</a>
+project would probably have its own Git repo and be deployed in its own process running its
+own HTTP/2 endpoint. This is one area where KillrVideo, because it&#39;s meant to be a reference
+application for developers, is different. In KillrVideo, the microservice implementations 
+are grouped together in Git repos by programming language to make it easy for a developer to
+get all the interesting code for their programming language of choice.</p>
+<p>Since Grpc supports binding multiple service implementations to a single HTTP/2 server 
+endpoint, it also means that we can run all our microservice implementations in a single
+process together on a single endpoint. Again, this is different than how we&#39;d deploy the
+application in the real world. But we&#39;ve chosen to do it this way because it makes the
+debugging experience much easier for developers looking to learn from the code.</p>
+<h2 id="pub-sub-messaging-and-other-supporting-infrastructure">Pub-Sub Messaging and Other Supporting Infrastructure</h2>
+<p>We talked in the <a href="./architecture.md">High Level Architecture</a> overview about how KillrVideo is
+designed to use event collaboration as the main avenue for services reacting to interesting
+events happening in other services. This means we&#39;ll need some sort of Pub-Sub messaging
+infrastructure to support the events. There are a lot of choices when it comes to
+messaging infrastructure and so we&#39;ve left it up to the individual microservice
+implementations to choose what makes sense to use given the programming language they are
+using.</p>
+<p>Since developers exploring the code locally will be running all the service implementations
+in process together, it&#39;s possible to just do all the messaging using an in-process message 
+bus (for example, in Java using <a href="https://github.com/google/guava/wiki/EventBusExplained" target="_blank">Guava&#39;s EventBus</a>).
+It&#39;s also possible, since we&#39;re using a Docker container to package and run the Web Tier 
+that an implementation might choose to use some other external piece of infrastructure 
+running in a Docker container. Again, this is left up to the individual implementation.</p>
+<p>Next, let&#39;s take a look at how we&#39;re using Docker to run our infrastructure dependencies in
+KillrVideo.</p>
+<p><a href="/docs/guides/docker/">Next: Docker and Infrastructure Dependencies</a></p>
+
+      </article>
+      <nav class="column is-3">
+        <ul>
+          
+          <li class="link-list-item">
+            <a href="/docs/guides/architecture/">High Level Architecture Overview</a>
+            <ul>
+            
+              <li class="link-list-item">
+                <a href="/docs/guides/architecture/#microservices-tier">Microservices Tier</a>
+              </li>
+            
+              <li class="link-list-item">
+                <a href="/docs/guides/architecture/#using-events-for-service-collaboration">Using Events for Service Collaboration</a>
+              </li>
+            
+            </ul>
+          </li>
+          
+          <li class="link-list-item">
+            <a href="/docs/guides/docker/">Docker and Infrastructure Dependencies</a>
+            <ul>
+            
+              <li class="link-list-item">
+                <a href="/docs/guides/docker/#docker-compose-for-starting-dependencies">Docker Compose for Starting Dependencies</a>
+              </li>
+            
+              <li class="link-list-item">
+                <a href="/docs/guides/docker/#docker-environment-scripts">Docker Environment Scripts</a>
+              </li>
+            
+            </ul>
+          </li>
+          
+          <li class="link-list-item selected">
+            <a href="/docs/guides/microservices-tier/">Microservice Tier Implementation</a>
+            <ul>
+            
+              <li class="link-list-item">
+                <a href="/docs/guides/microservices-tier/#service-and-event-definitions-with-protocol-buffers">Service and Event Definitions with Protocol Buffers</a>
+              </li>
+            
+              <li class="link-list-item">
+                <a href="/docs/guides/microservices-tier/#grpc-client-on-the-web-server">Grpc Client on the Web Server</a>
+              </li>
+            
+              <li class="link-list-item">
+                <a href="/docs/guides/microservices-tier/#grpc-server-in-microservices">Grpc Server in Microservices</a>
+              </li>
+            
+              <li class="link-list-item">
+                <a href="/docs/guides/microservices-tier/#pub-sub-messaging-and-other-supporting-infrastructure">Pub-Sub Messaging and Other Supporting Infrastructure</a>
+              </li>
+            
+            </ul>
+          </li>
+          
+          <li class="link-list-item">
+            <a href="/docs/guides/service-discovery/">Service Discovery with etcd</a>
+            <ul>
+            
+              <li class="link-list-item">
+                <a href="/docs/guides/service-discovery/#querying-etcd">Querying etcd</a>
+              </li>
+            
+              <li class="link-list-item">
+                <a href="/docs/guides/service-discovery/#registering-services-in-etcd">Registering services in etcd</a>
+              </li>
+            
+            </ul>
+          </li>
+          
+          <li class="link-list-item">
+            <a href="/docs/guides/web-tier/">Web Tier Implementation</a>
+            <ul>
+            
+              <li class="link-list-item">
+                <a href="/docs/guides/web-tier/#web-client">Web Client</a>
+              </li>
+            
+              <li class="link-list-item">
+                <a href="/docs/guides/web-tier/#web-server">Web Server</a>
+              </li>
+            
+              <li class="link-list-item">
+                <a href="/docs/guides/web-tier/#web-client-and-server-communication-via-falcor">Web Client and Server Communication via Falcor</a>
+              </li>
+            
+              <li class="link-list-item">
+                <a href="/docs/guides/web-tier/#session-storage-in-cassandra-datastax-enterprise">Session Storage in Cassandra / DataStax Enterprise</a>
+              </li>
+            
+            </ul>
+          </li>
+          
+        </ul>
+      </nav>
+    </div>
+  </div>
+</section>
+
+
+  
+  <footer class="footer">
+    <div class="container level">
+      <div class="level-left">
+        <div class="level-item">
+          <p>
+            <strong>KillrVideo</strong> is open source and available under an 
+            <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> license.
+          <p>
+          <p>
+            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/34b1988a0470154a1a68fb581b6d7b79657b56c8" target="_blank">34b1988</a></small>
+          </p>
+        </div>
+      </div>
+      <div class="level-right">
+        <div class="level-right">
+          <a class="button level-item" href="https://github.com/KillrVideo/killrvideo.github.io/tree/source/src/site/docs/guides/microservices-tier.md" target="_blank">
+            <i class="fa fa-github fa-fw"></i>Improve this page
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script type="text/javascript" src="/assets/bundle.js"></script>
+</body>
+</html>
