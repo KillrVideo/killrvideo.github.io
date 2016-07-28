@@ -4,6 +4,7 @@ const pluginUtils = require('./plugins/utils');
 
 const Funnel = require('broccoli-funnel');
 const Sass = require('broccoli-sass');
+const Webpack = require('broccoli-webpack');
 const MergeTrees = require('broccoli-merge-trees');
 const BrowserSync = require('broccoli-browser-sync');
 
@@ -17,6 +18,7 @@ const Paths = {
   FONT_AWESOME: path.dirname(resolve.sync('font-awesome/package.json')),
   HIGHLIGHT_JS: path.dirname(resolve.sync('highlight.js')),
   SASS: 'src/sass',
+  JS: 'src/js',
   SITE: 'src/site',
   LAYOUTS: 'src/layouts',
 };
@@ -39,6 +41,23 @@ const fontFiles = new Funnel(path.join(Paths.FONT_AWESOME, 'fonts'), {
   destDir: 'assets/fonts'
 });
 
+// Bundle JavaScript
+const jsFiles = new Funnel(new Webpack(Paths.JS, {
+  devtool: 'source-map',
+  entry: './index',
+  output: {
+    publicPath: '/assets/js/',
+    filename: 'bundle.js',
+    library: 'KillrVideo'
+  },
+  module: {
+    loaders: [
+      // Babel transpiler (see .babelrc file for presets)
+      { test: /\.js$/, loader: 'babel' }
+    ]
+  }
+}), { destDir: 'assets/js' });
+
 // All files under the src/site folder
 const siteFiles = new Funnel(Paths.SITE);
 
@@ -59,7 +78,7 @@ const pages = new NunjucksRender(pageFiles, Paths.LAYOUTS, contextWithCollection
   ]
 });
 
-let output = [ imageFiles, cssFiles, fontFiles, pages ];
+let output = [ imageFiles, cssFiles, fontFiles, jsFiles, pages ];
 
 // Watch for changes if running serve
 if (process.argv.indexOf('serve') > 0) {
