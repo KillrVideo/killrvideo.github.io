@@ -1,5 +1,5 @@
 # killrvideo.github.io
-[![Build Status](https://travis-ci.org/KillrVideo/killrvideo.github.io.svg?branch=master)](https://travis-ci.org/KillrVideo/killrvideo.github.io)
+[![Build Status](https://travis-ci.org/KillrVideo/killrvideo.github.io.svg?branch=source)](https://travis-ci.org/KillrVideo/killrvideo.github.io)
 
 The source for generating the static site content at killrvideo.github.io. Like any 
 GitHub Pages org site, the published content can be found in the `master` branch.
