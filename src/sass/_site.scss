@@ -68,6 +68,15 @@ $light-green: #D1E0BA;
   margin-bottom: 0.5em;
 }
 
+.content blockquote > h1,
+.content blockquote > h2,
+.content blockquote > h3,
+.content blockquote > h4,
+.content blockquote > h5,
+.content blockquote > h6 {
+  margin-bottom: 5px;
+}
+
 // Tablet and larger
 @include tablet {
   html, .button {
