@@ -7,8 +7,15 @@
       <article class="column is-9 content">
         {{ contents | safe }}
       </article>
-      <nav class="column is-3">
-        <ul>
+      <div class="column is-3">
+        <nav class="panel">
+          <div class="panel-heading">
+            <span class="icon">
+              <i class="fa fa-{{ collections[0].icon }}"></i>
+            </span>
+            {{ collections[0].title }}
+          </div>
+
           {% for doc in collections[0].items %}
 
           {# Is the current page we're rendering this doc in the collection? #}
@@ -17,24 +24,25 @@
             {% set selected = true %}
           {% endif %}
 
-          <li class="link-list-item{{" selected" if selected else "" }}">
+          <div class="panel-block{{" is-active" if selected else "" }}">
             <a href="{{ doc.href }}">{{ doc.title }}</a>
 
             {# Only render headings on the current doc #}
             {% if selected %}
-            <ul>
+            <ul class="headings-list">
             {% for heading in doc.headings.h2 %}
-              <li class="link-list-item">
+              <li>
                 <a href="{{ doc.href }}#{{ heading.id }}">{{ heading.text }}</a>
               </li>
             {% endfor %}
             </ul>
             {% endif %}
-          </li>
+          </div>
 
           {% endfor %}
-        </ul>
-      </nav>
+        
+        </nav>
+      </div>
     </div>
   </div>
 </section>

@@ -32,20 +32,18 @@ $light-green: #D1E0BA;
   flex: 1;
 }
 
-.link-list-item {
-  margin-bottom: 0.5em;
-}
-
-.link-list-item.selected > a {
+.panel-block.is-active > a {
   font-weight: bold;
 }
 
-.link-list-item .link-list-item {
-  margin-bottom: 0;
-  font-size: 0.9em;
-  list-style-type: disc;
-  list-style-position: outside;
-  margin-left: 2em;
+.headings-list {
+  list-style: disc outside;
+  margin: 0.5em 2em 0;
+}
+
+.headings-list > li {
+  font-size: 85%;
+  margin-top: 0.25em;
 }
 
 .content > pre {
