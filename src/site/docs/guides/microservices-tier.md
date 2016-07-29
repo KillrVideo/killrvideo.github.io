@@ -1,4 +1,4 @@
-# Microservice Tier Implementation
+# Microservices Tier Implementation
 
 The Microservices Tier is where all the interesting code that interacts with DataStax 
 Enterprise and Cassandra lives. As a reference application, one of the goals of this project

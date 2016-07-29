@@ -1,2 +1,8 @@
 title: General Guides
 icon: info
+sort_by:
+- architecture.md
+- web-tier.md
+- microservices-tier.md
+- docker.md
+- service-discovery.md
