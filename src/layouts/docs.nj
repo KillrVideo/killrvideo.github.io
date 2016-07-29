@@ -5,13 +5,23 @@
   <div class="container">
     <div class="columns">
       <article class="column is-9 content">
-        {{ contents|safe }}
+        {{ contents | safe }}
       </article>
       <nav class="column is-3">
         <ul>
           {% for doc in collections[0].items %}
-          <li class="link-list-item{{" selected" if href == doc.href else "" }}">
+
+          {# Is the current page we're rendering this doc in the collection? #}
+          {% set selected = false %}
+          {% if href == doc.href %}
+            {% set selected = true %}
+          {% endif %}
+
+          <li class="link-list-item{{" selected" if selected else "" }}">
             <a href="{{ doc.href }}">{{ doc.title if doc.title else doc.headings.h1[0].text }}</a>
+
+            {# Only render headings on the current doc #}
+            {% if selected %}
             <ul>
             {% for heading in doc.headings.h2 %}
               <li class="link-list-item">
@@ -19,7 +29,9 @@
               </li>
             {% endfor %}
             </ul>
+            {% endif %}
           </li>
+
           {% endfor %}
         </ul>
       </nav>
