@@ -1,5 +1,6 @@
 const resolve = require('resolve');
 const path = require('path');
+const webpack = require('webpack');
 const pluginUtils = require('./plugins/utils');
 
 const Funnel = require('broccoli-funnel');
@@ -42,6 +43,10 @@ const fontFiles = new Funnel(path.join(Paths.FONT_AWESOME, 'fonts'), {
 });
 
 // Bundle JavaScript
+const plugins = [
+  // Make NODE_ENV available to client JS code
+  new webpack.DefinePlugin({ 'process.env': { 'NODE_ENV': JSON.stringify(process.env.NODE_ENV) } })
+];
 const jsFiles = new Funnel(new Webpack(Paths.JS, {
   devtool: 'source-map',
   entry: './index',
@@ -55,7 +60,8 @@ const jsFiles = new Funnel(new Webpack(Paths.JS, {
       // Babel transpiler (see .babelrc file for presets)
       { test: /\.js$/, loader: 'babel' }
     ]
-  }
+  },
+  plugins
 }), { destDir: 'assets/js' });
 
 // All files under the src/site folder

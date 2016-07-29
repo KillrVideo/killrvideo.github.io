@@ -9,6 +9,9 @@ SOURCE_BRANCH="source"
 TARGET_BRANCH="master"
 OUTPUT_DIR="publish"
 
+# Set production flag before building
+export NODE_ENV="production"
+
 function doCompile {
     # The actual build into out/
     npm run build
