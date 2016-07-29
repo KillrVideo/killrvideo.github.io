@@ -18,7 +18,7 @@
           {% endif %}
 
           <li class="link-list-item{{" selected" if selected else "" }}">
-            <a href="{{ doc.href }}">{{ doc.title if doc.title else doc.headings.h1[0].text }}</a>
+            <a href="{{ doc.href }}">{{ doc.title }}</a>
 
             {# Only render headings on the current doc #}
             {% if selected %}

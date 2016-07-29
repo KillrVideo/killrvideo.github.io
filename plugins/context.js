@@ -118,6 +118,13 @@ class ContextPlugin extends Plugin {
         });
       }
 
+      // Select a title for the page if not set
+      if (context.hasOwnProperty('title') === false) {
+        if (context.headings.h1.length > 0) {
+          context.title = context.headings.h1[0].text;
+        }
+      }
+
       // Write to output as JSON file
       let destPath = path.join(this.outputPath, pluginUtils.changeFileExtension(pageFile, '.json'));
       fs.mkdirsSync(path.dirname(destPath));
