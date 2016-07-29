@@ -57,6 +57,17 @@ $light-green: #D1E0BA;
   background-color: $grey-lighter;
 }
 
+.content strong > code {
+  font-weight: bold;
+}
+
+.content li > ul, 
+.content li > ol,
+.content li > pre {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
 // Tablet and larger
 @include tablet {
   html, .button {
@@ -85,11 +96,11 @@ header {
 }
 
 header, header > nav.nav {
-  background-color: #222;
+  background-color: $black;
 }
 
 header > nav.nav .nav-item {
-  color: #ddd;
+  color: $grey-lighter;
 }
 
 header > nav.nav .nav-item:hover {

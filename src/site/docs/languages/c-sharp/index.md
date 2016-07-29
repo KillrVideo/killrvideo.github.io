@@ -17,11 +17,9 @@ follow the instructions in [Getting Started][getting-started] to install Docker.
 have Docker up and running, follow these steps:
 
 1. Clone the C\# project's [GitHub repository][repo]:
-
    ```
    > git clone https://github.com/LukeTillman/killrvideo-csharp.git
    ```
-
 1. Open the main solution (**`/src/KillrVideo.sln`**) in Visual Studio.
 1. Set the **KillrVideo** project as the Startup Project.
    * Right-click on the KillrVideo project node in Visual Studio's Solution Explorer window 
