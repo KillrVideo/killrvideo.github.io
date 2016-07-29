@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-  <title>KillrVideo - Documentation</title>
+  <title>KillrVideo - Microservice Implementer&#39;s Cheatsheet</title>
   <link href="/assets/css/bundle.css" rel="stylesheet">
   <link rel="icon" type="image/png" href="/assets/images/killrvideo-icon.png"/>
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -46,80 +46,76 @@
 
   
   
-<section class="hero is-light-green">
-  <div class="hero-body">
-    <div class="container">
-      <h1 class="title is-1">Documentation</h1>
-    </div>
-  </div>
-</section>
 <section class="section">
   <div class="container">
-    <div class="columns is-multiline">
-      
-      <div class="column is-4">
-        <h3 class="title is-3">
-          <i class="fa fa-info"></i> General Guides
-        </h3>
+    <div class="columns">
+      <article class="column is-9 content">
+        <h1 id="microservice-implementer-s-cheatsheet">Microservice Implementer&#39;s Cheatsheet</h1>
+<p>So you want to contribute an implementation of the KillrVideo microservices tier? Great! This
+cheatsheet can serve as a guide to help you get started down that path. If you haven&#39;t
+already, we highly suggest that before you start, you make sure and read through the general
+guides available in the <a href="/docs/">Documentation</a>. Those guides will walk you through some of the
+high-level architecture of KillrVideo, as well as explain some of the things you&#39;ll be 
+implementing in more detail.</p>
+<p>Once you&#39;ve done that, here are some steps to get you started with the implementation.</p>
+<ol>
+<li><a href="/docs/development/setup-git-repo/">Setup the Git Repo</a>: Create a new Git repo, add the initial commit, and then pull in
+the common KillrVideo project dependencies as Git subtrees.</li>
+<li><a href="/docs/development/generating-service-code/">Generating Service Code</a>: Use the <code>.proto</code> files to generate client and server code
+stubs with the Grpc plugin for the Protobuf compiler.</li>
+</ol>
+
+      </article>
+      <nav class="column is-3">
         <ul>
-        
-          <li class="link-list-item">
-            <a href="/docs/guides/architecture/">High Level Architecture Overview</a>
-          </li>
-        
-          <li class="link-list-item">
-            <a href="/docs/guides/web-tier/">Web Tier Implementation</a>
-          </li>
-        
-          <li class="link-list-item">
-            <a href="/docs/guides/microservices-tier/">Microservices Tier Implementation</a>
-          </li>
-        
-          <li class="link-list-item">
-            <a href="/docs/guides/docker/">Docker and Infrastructure Dependencies</a>
-          </li>
-        
-          <li class="link-list-item">
-            <a href="/docs/guides/service-discovery/">Service Discovery with etcd</a>
-          </li>
-        
-        </ul>
-      </div>
-      
-      <div class="column is-4">
-        <h3 class="title is-3">
-          <i class="fa fa-code"></i> Language Guides
-        </h3>
-        <ul>
-        
-          <li class="link-list-item">
-            <a href="/docs/languages/c-sharp/">Getting Started with C# (.NET)</a>
-          </li>
-        
-        </ul>
-      </div>
-      
-      <div class="column is-4">
-        <h3 class="title is-3">
-          <i class="fa fa-wrench"></i> Advanced
-        </h3>
-        <ul>
-        
-          <li class="link-list-item">
+          
+
+          
+          
+          
+            
+          
+
+          <li class="link-list-item selected">
             <a href="/docs/development/implementers-cheatsheet/">Microservice Implementer&#39;s Cheatsheet</a>
+
+            
+            
+            <ul>
+            
+            </ul>
+            
           </li>
-        
+
+          
+
+          
+          
+          
+
           <li class="link-list-item">
             <a href="/docs/development/setup-git-repo/">Setup the Git Repo</a>
+
+            
+            
           </li>
-        
+
+          
+
+          
+          
+          
+
           <li class="link-list-item">
             <a href="/docs/development/generate-service-code/">Generate Service Code</a>
+
+            
+            
           </li>
-        
+
+          
         </ul>
-      </div>
-      
+      </nav>
     </div>
   </div>
 </section>
@@ -141,7 +137,7 @@
       </div>
       <div class="level-right">
         <div class="level-right">
-          <a class="button level-item" href="https://github.com/KillrVideo/killrvideo.github.io/tree/source/src/site/docs/index.nj" target="_blank">
+          <a class="button level-item" href="https://github.com/KillrVideo/killrvideo.github.io/tree/source/src/site/docs/development/implementers-cheatsheet.md" target="_blank">
             <i class="fa fa-github fa-fw"></i>Improve this page
           </a>
         </div>

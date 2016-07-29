@@ -1,0 +1,172 @@
+<!doctype html>
+<html>
+<head>
+  <title>KillrVideo - Generate Service Code</title>
+  <link href="/assets/css/bundle.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="/assets/images/killrvideo-icon.png"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  
+  <header>
+    <nav class="nav">
+      <div class="container">
+        <div class="nav-left">
+          <a href="/" class="nav-item">
+            <img src="/assets/images/killrvideo.png" alt="KillrVideo logo" />
+          </a>
+        </div>
+
+        <!-- Nav Toggle on mobile -->
+        <span class="nav-toggle">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+
+        <div class="nav-right nav-menu">
+          <span class="nav-item">
+            <a href="/getting-started/" class="button is-primary">
+              <i class="fa fa-code fa-fw"></i> Get Started
+            </a>
+          </span>
+          <a href="/docs/" class="nav-item">
+            Docs
+          </a>
+          <a href="/blog/" class="nav-item">
+            Blog
+          </a>
+          <a href="https://github.com/KillrVideo" target="_blank" class="nav-item">
+            <i class="fa fa-github fa-2x"></i>
+          </a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  
+  
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <article class="column is-9 content">
+        <h1 id="generate-service-code">Generate Service Code</h1>
+<p>The <code>.proto</code> files that you pulled in from the <a href="https://github.com/KillrVideo/killrvideo-service-protos" target="_blank">killrvideo-service-protos</a>
+project contain all the service definitions for KillrVideo. You can use these service
+definitions along with the <a href="http://www.grpc.io/" target="_blank">Grpc</a> compiler plugin to generate code for use in your
+implementation. The Grpc library and compiler are available in many programming languges.
+The <a href="http://www.grpc.io/docs/" target="_blank">Grpc docs</a> have detailed instructions that you should follow based on the
+programming language your implementation is in, but the general steps for generating service
+code are:</p>
+<ol>
+<li>Install Grpc (using the <a href="http://www.grpc.io/docs/#install-grpc" target="_blank">install instructions</a> in the docs). This usually 
+involves installing a package using the package manager for your programming language (i.e.
+Maven or Gradle in Java, NuGet in .NET, pip in Python, etc.).</li>
+<li>Generate the code using the Grpc plugin for the Protobuf compiler. Again, follow the
+<a href="http://www.grpc.io/docs/#generating-grpc-code" target="_blank">instructions for generating code</a> in the docs. You&#39;ll want to generate code
+for all of the <a href="https://github.com/KillrVideo/killrvideo-service-protos" target="_blank">killrvideo-service-protos</a> files that you pulled in as a Git
+subtree.</li>
+</ol>
+<p>Once you&#39;ve done that, you should have client and server stubs, as well as request/response
+objects and event objects. If possible, you&#39;ll want to check the generated code into your
+implementation&#39;s source tree such that the implementation code you write won&#39;t conflict with
+those generated files. For example, in the <a href="https://github.com/luketillman/killrvideo-csharp" target="_blank">.NET implementation</a>, we had the Protobuf
+compiler generate files with a <code>.generated.cs</code> in the source tree. When creating our service
+implementations, we then wrote that code is seperate <code>.cs</code> files so that we could potentially
+regenerate the stub code without overwriting our implementation code.</p>
+<h2 id="when-to-generate-code">When to Generate Code</h2>
+<p>You&#39;ll have to decide, based on your programming language&#39;s idioms, when to generate code. 
+This could be, for example, every time the project is compiled (which is the default 
+behavior of Grpc in Java for example), or as a seperate step executed on-demand (for 
+example, using a seperate shell script you&#39;ve created). Regardless of how you choose to do 
+it, you want to make sure that you have a repeatable way to generate code checked in to the 
+Git repo so that you can regenerate those files any time the service definitions are 
+updated.</p>
+
+      </article>
+      <nav class="column is-3">
+        <ul>
+          
+
+          
+          
+          
+
+          <li class="link-list-item">
+            <a href="/docs/development/implementers-cheatsheet/">Microservice Implementer&#39;s Cheatsheet</a>
+
+            
+            
+          </li>
+
+          
+
+          
+          
+          
+
+          <li class="link-list-item">
+            <a href="/docs/development/setup-git-repo/">Setup the Git Repo</a>
+
+            
+            
+          </li>
+
+          
+
+          
+          
+          
+            
+          
+
+          <li class="link-list-item selected">
+            <a href="/docs/development/generate-service-code/">Generate Service Code</a>
+
+            
+            
+            <ul>
+            
+              <li class="link-list-item">
+                <a href="/docs/development/generate-service-code/#when-to-generate-code">When to Generate Code</a>
+              </li>
+            
+            </ul>
+            
+          </li>
+
+          
+        </ul>
+      </nav>
+    </div>
+  </div>
+</section>
+
+
+  
+  <footer class="footer">
+    <div class="container level">
+      <div class="level-left">
+        <div class="level-item">
+          <p>
+            <strong>KillrVideo</strong> is open source and available under an 
+            <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> license.
+          <p>
+          <p>
+            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/b43a27506b47d205edf1cb292aa247359fdd68f8" target="_blank">b43a275</a></small>
+          </p>
+        </div>
+      </div>
+      <div class="level-right">
+        <div class="level-right">
+          <a class="button level-item" href="https://github.com/KillrVideo/killrvideo.github.io/tree/source/src/site/docs/development/generate-service-code.md" target="_blank">
+            <i class="fa fa-github fa-fw"></i>Improve this page
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  
+  <script type="text/javascript" src="/assets/js/bundle.js"></script>
+</body>
+</html>

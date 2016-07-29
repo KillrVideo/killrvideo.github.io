@@ -6137,6 +6137,23 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   padding: 16px 20px;
   background-color: #f5f7fa; }
 
+.content strong > code {
+  font-weight: bold; }
+
+.content li > ul,
+.content li > ol,
+.content li > pre {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em; }
+
+.content blockquote > h1,
+.content blockquote > h2,
+.content blockquote > h3,
+.content blockquote > h4,
+.content blockquote > h5,
+.content blockquote > h6 {
+  margin-bottom: 5px; }
+
 @media screen and (min-width: 769px) {
   html, .button {
     font-size: 16px; }
@@ -6155,10 +6172,10 @@ header {
   padding: 5px 10px; }
 
 header, header > nav.nav {
-  background-color: #222; }
+  background-color: #111; }
 
 header > nav.nav .nav-item {
-  color: #ddd; }
+  color: #f5f7fa; }
 
 header > nav.nav .nav-item:hover {
   color: #7AB820; }

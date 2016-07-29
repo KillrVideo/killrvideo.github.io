@@ -1,0 +1,169 @@
+<!doctype html>
+<html>
+<head>
+  <title>KillrVideo - Setup the Git Repo</title>
+  <link href="/assets/css/bundle.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="/assets/images/killrvideo-icon.png"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  
+  <header>
+    <nav class="nav">
+      <div class="container">
+        <div class="nav-left">
+          <a href="/" class="nav-item">
+            <img src="/assets/images/killrvideo.png" alt="KillrVideo logo" />
+          </a>
+        </div>
+
+        <!-- Nav Toggle on mobile -->
+        <span class="nav-toggle">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+
+        <div class="nav-right nav-menu">
+          <span class="nav-item">
+            <a href="/getting-started/" class="button is-primary">
+              <i class="fa fa-code fa-fw"></i> Get Started
+            </a>
+          </span>
+          <a href="/docs/" class="nav-item">
+            Docs
+          </a>
+          <a href="/blog/" class="nav-item">
+            Blog
+          </a>
+          <a href="https://github.com/KillrVideo" target="_blank" class="nav-item">
+            <i class="fa fa-github fa-2x"></i>
+          </a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  
+  
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <article class="column is-9 content">
+        <h1 id="setup-the-git-repo">Setup the Git Repo</h1>
+<p>We&#39;re sure you can handle creating a new empty Git repository. But once you have your initial
+commit with a <code>README.md</code>, <code>.gitignore</code>, etc., you&#39;ll want to pull in the common KillrVideo 
+dependencies that live in other Git repositories. The repositories you&#39;ll want to pull in 
+are:</p>
+<ul>
+<li><a href="https://github.com/KillrVideo/killrvideo-service-protos" target="_blank">killrvideo-service-protos</a>: This is where the <a href="http://www.grpc.io/" target="_blank">Grpc</a> service 
+definitions that you&#39;ll be implementing are kept, defined in <code>.proto</code> files. You&#39;ll be using
+the Protobufs from here to generate code.</li>
+<li><a href="https://github.com/KillrVideo/killrvideo-docker-common" target="_blank">killrvideo-docker-common</a>: This is where common Docker setup scripts live,
+including a Docker Compose <code>.yaml</code> file for the base infrastructure dependencies needed to
+run KillrVideo.</li>
+</ul>
+<p>In other microservice implementations, we&#39;ve decided to use <code>git subtree</code> to pull in these
+dependencies rather than submodules. Here&#39;s a <a href="http://blogs.atlassian.com/2013/05/alternatives-to-git-submodule-git-subtree/" target="_blank">pretty good overview</a> of subtrees if
+you&#39;re not familiar. Here&#39;s an example of the commands to add those subtrees to your 
+repository under the <code>/lib</code> folder:</p>
+<pre><code class="hljs"><span class="hljs-comment"># Add killrvideo-service-protos under lib/killrvideo-service-protos</span>
+git subtree add --prefix lib/killrvideo-service-protos git@github.com:KillrVideo/killrvideo-service-protos.git master --squash
+
+<span class="hljs-comment"># Add killrvideo-docker-common under lib/killrvideo-docker-common</span>
+git subtree add --prefix lib/killrvideo-docker-common git@github.com:KillrVideo/killrvideo-docker-common.git master --squash</pre></code><p>Later if you need to update those dependencies you can just use the same commands as above,
+only doing a <code>git subtree pull</code> instead of <code>git subtree add</code>.</p>
+<div class="message is-info">
+  <div class="message-header">
+    <span class="icon"><i class="fa fa-info-circle"></i></span> Subtree Tip
+  </div>
+  <div class="message-body">
+    Add a shell script to your repo for doing a <code>git subtree pull</code> on those 
+    dependencies to make it easy to pull down the latest changes.
+  </div>
+</div>
+
+
+      </article>
+      <nav class="column is-3">
+        <ul>
+          
+
+          
+          
+          
+
+          <li class="link-list-item">
+            <a href="/docs/development/implementers-cheatsheet/">Microservice Implementer&#39;s Cheatsheet</a>
+
+            
+            
+          </li>
+
+          
+
+          
+          
+          
+            
+          
+
+          <li class="link-list-item selected">
+            <a href="/docs/development/setup-git-repo/">Setup the Git Repo</a>
+
+            
+            
+            <ul>
+            
+            </ul>
+            
+          </li>
+
+          
+
+          
+          
+          
+
+          <li class="link-list-item">
+            <a href="/docs/development/generate-service-code/">Generate Service Code</a>
+
+            
+            
+          </li>
+
+          
+        </ul>
+      </nav>
+    </div>
+  </div>
+</section>
+
+
+  
+  <footer class="footer">
+    <div class="container level">
+      <div class="level-left">
+        <div class="level-item">
+          <p>
+            <strong>KillrVideo</strong> is open source and available under an 
+            <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> license.
+          <p>
+          <p>
+            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/b43a27506b47d205edf1cb292aa247359fdd68f8" target="_blank">b43a275</a></small>
+          </p>
+        </div>
+      </div>
+      <div class="level-right">
+        <div class="level-right">
+          <a class="button level-item" href="https://github.com/KillrVideo/killrvideo.github.io/tree/source/src/site/docs/development/setup-git-repo.md" target="_blank">
+            <i class="fa fa-github fa-fw"></i>Improve this page
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  
+  <script type="text/javascript" src="/assets/js/bundle.js"></script>
+</body>
+</html>
