@@ -20,20 +20,26 @@ have Docker up and running, follow these steps:
    ```
    > git clone https://github.com/LukeTillman/killrvideo-csharp.git
    ```
+1. From inside the repository you just cloned, setup the Docker environment for the first
+time by running:
+    ```
+    > setup-docker.bat
+    ```
+    This should create a `.env` file with some environment variables, as well as pull all the
+    Docker images that the application needs to run.
+
+1. Start the docker dependencies that you just pulled down via `docker-compose`:
+    ```
+    > docker-compose up -d
+    ```
+    This starts up things like a DataStax Enterprise node, the Web UI, etc. You can learn
+    more about how we use Docker in our [Docker Guide][docker-guide] documentation.
+
 1. Open the main solution (**`/src/KillrVideo.sln`**) in Visual Studio.
 1. Set the **KillrVideo** project as the Startup Project.
    * Right-click on the KillrVideo project node in Visual Studio's Solution Explorer window 
      and choose **Set as Startup Project** from the context menu.
 1. Press **`F5`** to build the solution and run with debugging.
-
-The first time you run KillrVideo, the application will have to download all the Docker 
-images it needs in order to run (for example, it needs to run one node of DataStax Enterprise
-for the microservices to store data in). This means that for your first run, the application 
-will be delayed on startup until those container images have been downloaded and started.
-Subsequent runs of the application should be fast since Docker won't need to download the
-images again and can just start the containers.
-
-You can learn more about how we use Docker in our [Docker Guide][docker-guide] documentation.
 
 ## Opening the Web UI
 
