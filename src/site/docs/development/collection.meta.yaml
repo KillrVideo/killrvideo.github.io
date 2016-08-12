@@ -3,4 +3,5 @@ icon: wrench
 sort_by:
 - implementers-cheatsheet.md
 - setup-git-repo.md
+- setup-docker-environment.md
 - generate-service-code.md
