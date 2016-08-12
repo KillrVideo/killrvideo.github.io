@@ -66,7 +66,17 @@ follow the instructions in <a href="/getting-started/">Getting Started</a> to in
 have Docker up and running, follow these steps:</p>
 <ol>
 <li>Clone the C# project&#39;s <a href="https://github.com/LukeTillman/killrvideo-csharp" target="_blank">GitHub repository</a>:<pre><code>> git clone https://github.com/LukeTillman/killrvideo-csharp.git</code></pre></li>
-<li>Open the main solution (<strong><code>/src/KillrVideo.sln</code></strong>) in Visual Studio.</li>
+<li><p>From inside the repository you just cloned, setup the Docker environment for the first
+time by running:</p>
+<pre><code> > setup-docker.bat</code></pre><p> This should create a <code>.env</code> file with some environment variables, as well as pull all the
+ Docker images that the application needs to run.</p>
+</li>
+<li><p>Start the docker dependencies that you just pulled down via <code>docker-compose</code>:</p>
+<pre><code> > docker-compose up -d</code></pre><p> This starts up things like a DataStax Enterprise node, the Web UI, etc. You can learn
+ more about how we use Docker in our <a href="/docs/guides/docker/">Docker Guide</a> documentation.</p>
+</li>
+<li><p>Open the main solution (<strong><code>/src/KillrVideo.sln</code></strong>) in Visual Studio.</p>
+</li>
 <li>Set the <strong>KillrVideo</strong> project as the Startup Project.<ul>
 <li>Right-click on the KillrVideo project node in Visual Studio&#39;s Solution Explorer window 
 and choose <strong>Set as Startup Project</strong> from the context menu.</li>
@@ -74,13 +84,6 @@ and choose <strong>Set as Startup Project</strong> from the context menu.</li>
 </li>
 <li>Press <strong><code>F5</code></strong> to build the solution and run with debugging.</li>
 </ol>
-<p>The first time you run KillrVideo, the application will have to download all the Docker 
-images it needs in order to run (for example, it needs to run one node of DataStax Enterprise
-for the microservices to store data in). This means that for your first run, the application 
-will be delayed on startup until those container images have been downloaded and started.
-Subsequent runs of the application should be fast since Docker won&#39;t need to download the
-images again and can just start the containers.</p>
-<p>You can learn more about how we use Docker in our <a href="/docs/guides/docker/">Docker Guide</a> documentation.</p>
 <h2 id="opening-the-web-ui">Opening the Web UI</h2>
 <p>When KillrVideo starts, you&#39;ll see a bunch of log output to the console telling you about the
 various things it&#39;s doing. You should see output that looks something like this:</p>
@@ -154,7 +157,7 @@ KillrVideo and how the Web Tier interacts with the microservices running on your
             <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> license.
           <p>
           <p>
-            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/683d24b745e33fe0c3e079942dcfdbe3edcdd7a5" target="_blank">683d24b</a></small>
+            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/dad9fd5647fcbd01fc8831dd599b4973dad3ef77" target="_blank">dad9fd5</a></small>
           </p>
         </div>
       </div>
