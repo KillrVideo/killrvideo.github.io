@@ -71,17 +71,18 @@ subtree.</li>
 objects and event objects. If possible, you&#39;ll want to check the generated code into your
 implementation&#39;s source tree such that the implementation code you write won&#39;t conflict with
 those generated files. For example, in the <a href="https://github.com/luketillman/killrvideo-csharp" target="_blank">.NET implementation</a>, we had the Protobuf
-compiler generate files with a <code>.generated.cs</code> in the source tree. When creating our service
-implementations, we then wrote that code is seperate <code>.cs</code> files so that we could potentially
-regenerate the stub code without overwriting our implementation code.</p>
+compiler generate files with a <code>.generated.cs</code> extension and checked those into the source 
+tree. When creating our service implementations, we then wrote that implementation code in 
+seperate <code>.cs</code> files so that we could potentially regenerate the stub code without 
+overwriting our implementation code.</p>
 <h2 id="when-to-generate-code">When to Generate Code</h2>
 <p>You&#39;ll have to decide, based on your programming language&#39;s idioms, when to generate code. 
 This could be, for example, every time the project is compiled (which is the default 
 behavior of Grpc in Java for example), or as a seperate step executed on-demand (for 
-example, using a seperate shell script you&#39;ve created). Regardless of how you choose to do 
-it, you want to make sure that you have a repeatable way to generate code checked in to the 
-Git repo so that you can regenerate those files any time the service definitions are 
-updated.</p>
+example, using a seperate shell script or build step that you&#39;ve created). Regardless of how
+you choose to do it, you want to make sure that you have a repeatable way to generate code 
+checked in to the Git repo so that you can regenerate those files any time the service 
+definitions are updated in the <a href="https://github.com/KillrVideo/killrvideo-service-protos" target="_blank">killrvideo-service-protos</a> project.</p>
 
       </article>
       <div class="column is-3">
@@ -174,7 +175,7 @@ updated.</p>
             <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> license.
           <p>
           <p>
-            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/dad9fd5647fcbd01fc8831dd599b4973dad3ef77" target="_blank">dad9fd5</a></small>
+            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/45e99fcc23a2cba75e39ec87dea88c3c0c8336d3" target="_blank">45e99fc</a></small>
           </p>
         </div>
       </div>
