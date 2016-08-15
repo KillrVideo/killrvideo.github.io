@@ -11,10 +11,13 @@ Once you've done that, here are some steps to get you started with the implement
 
 1. [Setup the Git Repo][1]: Create a new Git repo, add the initial commit, and then pull in
 the common KillrVideo project dependencies as Git subtrees.
-1. [Generating Service Code][2]: Use the `.proto` files to generate client and server code
+1. [Setup Docker Environment][2]: Setup your development environment with all the other
+infrastructure and projects it needs (for example, one node of DSE) using Docker Compose.
+1. [Generating Service Code][3]: Use the `.proto` files to generate client and server code
 stubs with the Grpc plugin for the Protobuf compiler.
 
 
 [docs]: /docs/
 [1]: /docs/development/setup-git-repo/
-[2]: /docs/development/generating-service-code/
+[2]: /docs/development/setup-docker-environment/
+[3]: /docs/development/generating-service-code/
