@@ -20,19 +20,20 @@ Once you've done that, you should have client and server stubs, as well as reque
 objects and event objects. If possible, you'll want to check the generated code into your
 implementation's source tree such that the implementation code you write won't conflict with
 those generated files. For example, in the [.NET implementation][csharp], we had the Protobuf
-compiler generate files with a `.generated.cs` in the source tree. When creating our service
-implementations, we then wrote that code is seperate `.cs` files so that we could potentially
-regenerate the stub code without overwriting our implementation code.
+compiler generate files with a `.generated.cs` extension and checked those into the source 
+tree. When creating our service implementations, we then wrote that implementation code in 
+seperate `.cs` files so that we could potentially regenerate the stub code without 
+overwriting our implementation code.
 
 ## When to Generate Code
 
 You'll have to decide, based on your programming language's idioms, when to generate code. 
 This could be, for example, every time the project is compiled (which is the default 
 behavior of Grpc in Java for example), or as a seperate step executed on-demand (for 
-example, using a seperate shell script you've created). Regardless of how you choose to do 
-it, you want to make sure that you have a repeatable way to generate code checked in to the 
-Git repo so that you can regenerate those files any time the service definitions are 
-updated.
+example, using a seperate shell script or build step that you've created). Regardless of how
+you choose to do it, you want to make sure that you have a repeatable way to generate code 
+checked in to the Git repo so that you can regenerate those files any time the service 
+definitions are updated in the [killrvideo-service-protos][service-protos] project.
 
 [service-protos]: https://github.com/KillrVideo/killrvideo-service-protos
 [grpc]: http://www.grpc.io/

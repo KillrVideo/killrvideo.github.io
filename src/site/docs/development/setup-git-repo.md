@@ -12,6 +12,8 @@ the Protobufs from here to generate code.
 including a Docker Compose `.yaml` file for the base infrastructure dependencies needed to
 run KillrVideo.
 
+## Using Git Subtrees for Dependencies
+
 In other microservice implementations, we've decided to use `git subtree` to pull in these
 dependencies rather than submodules. Here's a [pretty good overview][subtree] of subtrees if
 you're not familiar. Here's an example of the commands to add those subtrees to your 
