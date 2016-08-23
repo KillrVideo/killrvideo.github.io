@@ -28,8 +28,8 @@
             <a href="{{ doc.href }}">{{ doc.title }}</a>
 
             {# Only render headings on the current doc #}
-            {% if selected %}
-            <ul class="headings-list">
+            {% if selected and doc.headings.h2.length > 0 %}
+            <ul class="headings-list links-list">
             {% for heading in doc.headings.h2 %}
               <li>
                 <a href="{{ doc.href }}#{{ heading.id }}">{{ heading.text }}</a>

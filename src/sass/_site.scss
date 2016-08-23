@@ -36,6 +36,10 @@ $light-green: #D1E0BA;
   font-weight: bold;
 }
 
+.links-list > li {
+  margin-top: 0.25em;
+}
+
 .headings-list {
   list-style: disc outside;
   margin: 0.5em 2em 0;
@@ -43,7 +47,6 @@ $light-green: #D1E0BA;
 
 .headings-list > li {
   font-size: 85%;
-  margin-top: 0.25em;
 }
 
 .content > pre {

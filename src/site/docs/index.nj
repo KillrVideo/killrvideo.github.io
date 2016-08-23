@@ -16,9 +16,9 @@
         <h3 class="title is-3">
           <i class="fa fa-{{ collection.icon }}"></i> {{ collection.title }}
         </h3>
-        <ul>
+        <ul class="links-list">
         {% for doc in collection.items %}
-          <li class="link-list-item">
+          <li>
             <a href="{{ doc.href }}">{{ doc.title if doc.title else doc.headings.h1[0].text }}</a>
           </li>
         {% else %}
