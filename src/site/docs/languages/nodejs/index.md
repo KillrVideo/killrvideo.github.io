@@ -7,9 +7,9 @@ applications and services. It contains sample code that uses:
 - The [DataStax Node.js Driver][driver] for Cassandra
 - Google's [Grpc][grpc]
 
-These instructions assume you already have Node.js and npm installed, as well as an IDE like 
-[WebStorm][webstorm], [Visual Studio Code][vscode], [Atom][atom], or [Sublime Text 3][sublime3] 
-on your local machine.
+These instructions assume you already have [Node.js][node] and npm installed, as well as an 
+IDE like [WebStorm][webstorm], [Visual Studio Code][vscode], [Atom][atom], or 
+[Sublime Text 3][sublime3] on your local machine.
 
 ## Cloning and Setup
 
@@ -98,6 +98,7 @@ KillrVideo and how the Web Tier interacts with the microservices running on your
 [dse]: http://www.datastax.com/products/datastax-enterprise
 [driver]: https://github.com/datastax/nodejs-driver
 [grpc]: http://www.grpc.io/
+[node]: https://nodejs.org/
 [webstorm]: https://www.jetbrains.com/webstorm/
 [vscode]: https://code.visualstudio.com/
 [atom]: https://atom.io/
