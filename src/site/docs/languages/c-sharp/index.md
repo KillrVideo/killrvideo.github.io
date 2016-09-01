@@ -12,14 +12,14 @@ These instructions assume you already have Visual Studio installed on your local
 ## Cloning and Running Locally
 
 Like all KillrVideo implementations, the .NET version uses [Docker][docker] to run all its
-dependencies for your local development environment. If you haven't already, please read and
+dependencies in your local development environment. If you haven't already, please read and
 follow the instructions in [Getting Started][getting-started] to install Docker. Once you
 have Docker up and running, follow these steps:
 
 1. Clone the C\# project's [GitHub repository][repo]:
-   ```
-   > git clone https://github.com/LukeTillman/killrvideo-csharp.git
-   ```
+    ```
+    > git clone https://github.com/LukeTillman/killrvideo-csharp.git
+    ```
 1. From inside the repository you just cloned, setup the Docker environment for the first
 time by running:
     ```
