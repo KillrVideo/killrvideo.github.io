@@ -25,9 +25,9 @@ The KillrVideo reference application is available in multiple programming langua
 links below to get started with the language you're most comfortable with.
 
 - **[C\# (.NET)][c-sharp]**: A C\# implementation you can explore from Visual Studio. 
+- **[Node.js][nodejs]**: A JavaScript implementation running on Node.js.
 - **Java (w/ Achilles)**: A Java implementation using the [Achilles object mapper][achilles] 
 for accessing data in DataStax Enterprise. Coming soon.
-- **NodeJS**: A JavaScript implementation running on NodeJS. Coming soon.
 
 Check back as we'll be adding more programming languages soon.
 
@@ -45,3 +45,4 @@ self-paced online courses on Cassandra's architecture, data modeling, and more.
 [c-sharp]: /docs/languages/c-sharp/
 [achilles]: http://doanduyhai.github.io/Achilles/
 [academy]: https://academy.datastax.com/courses
+[nodejs]: /docs/languages/nodejs/
