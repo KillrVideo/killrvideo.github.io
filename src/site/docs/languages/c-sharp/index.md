@@ -23,7 +23,7 @@ have Docker up and running, follow these steps:
 1. From inside the repository you just cloned, setup the Docker environment for the first
 time by running:
     ```
-    > setup-docker.bat
+    > .\setup-docker.bat
     ```
     This should create a `.env` file with some environment variables, as well as pull all the
     Docker images that the application needs to run.
