@@ -62,6 +62,10 @@ $light-green: #D1E0BA;
   font-weight: bold;
 }
 
+.content > ol > li + li {
+  margin-top: 1em;
+}
+
 .content li > ul, 
 .content li > ol,
 .content li > pre {
