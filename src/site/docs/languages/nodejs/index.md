@@ -8,8 +8,8 @@ applications and services. It contains sample code that uses:
 - Google's [Grpc][grpc]
 
 These instructions assume you already have [Node.js][node] and npm installed, as well as an 
-IDE like [WebStorm][webstorm], [Visual Studio Code][vscode], [Atom][atom], or 
-[Sublime Text 3][sublime3] on your local machine.
+IDE that supports debugging with source maps like [WebStorm][webstorm] or 
+[Visual Studio Code][vscode] on your local machine.
 
 ## Cloning and Setup
 
@@ -55,9 +55,24 @@ doing:
 ## Running the Code
 
 Now that you've got the environment setup and the project built, you can run the project and
-explore the code in your IDE of choice with a debugger attached.
+explore the code in your IDE of choice with a debugger attached. The tranpiled JavaScript
+code (i.e. build output) is in the `dist` folder and the main entry point of the application
+is `dist/index.js`. Because the code in `src` is written using newer features of JavaScript
+and then transpiled, you'll want to use an IDE that supports source maps when debugging. 
+We have instructions for running KillrVideo in a couple popular IDEs:
+
+- [WebStorm](#running-in-webstorm)
+- [Visual Studio Code](#running-in-visual-studio-code)
 
 ### Running in WebStorm
+
+To debug in WebStorm, you'll first need to create a Run/Debug configuration.
+
+1. Open the root project folder with WebStorm.
+1. Follow the [instructions from JetBrains][webstorm-config] to create a new Node.js debug
+configuration.  For the **JavaScript File** property, use the transpiled main entry point for
+the application which is `/dist/index.js`.
+1. Launch the debugging configuration you just created.
 
 ### Running in Visual Studio Code
 
@@ -66,14 +81,7 @@ a task named **Launch** that can be used by Visual Studio Code to launch the tra
 in the `dist` folder with a debugger attached. 
 
 1. Open the root project folder with Visual Studio Code.
-1. Press **`F5`** to launch the application and debugger via the task in `launch.json`.
-
-Since source maps are generated as part of the build and supported by Visual Studio Code, you 
-can place breakpoints in the original source files (under `src`) to step through the code.
-
-### Running in Atom
-
-### Running in Sublime Text 3
+1. Press **`F5`** to start the **Launch** task which will start the application and debugger.
 
 ## Opening the Web UI
 
@@ -85,8 +93,16 @@ various things it's doing. You should see output that looks something like this:
 One of the last lines in the log output will tell you where to open a web browser in order to
 see the web application. The web UI makes calls to the Node.js microservices running on your
 local machine. Look in the `/src/services` folder to explore the service code and add
-breakpoints. As you interact with the web UI, you'll trigger those breakpoints in the service 
-code.
+breakpoints.
+
+> #### Note: Breakpoints, Source Maps, and Transpiled Code
+> Remember, because we're using new language features from the latest version of JavaScript 
+> (i.e. ES 2016), the code in the `src` folder was transpiled and output to the `dist` folder 
+> when you did the `npm run build` step above. That build step also outputs source maps into 
+> the `dist` folder. So long as the IDE or debugger that you're using supports source maps, 
+> you should place your breakpoints in the original source files under `src`. 
+
+As you interact with the web UI, you'll trigger those breakpoints in the service code. 
 
 ## Learn More
 
@@ -101,8 +117,7 @@ KillrVideo and how the Web Tier interacts with the microservices running on your
 [node]: https://nodejs.org/
 [webstorm]: https://www.jetbrains.com/webstorm/
 [vscode]: https://code.visualstudio.com/
-[atom]: https://atom.io/
-[sublime3]: https://www.sublimetext.com/3
+[webstorm-config]: https://www.jetbrains.com/help/webstorm/2016.2/running-and-debugging-node-js.html#Node.js_run
 [docker]: https://www.docker.com/
 [getting-started]: /getting-started/
 [repo]: https://github.com/KillrVideo/killrvideo-nodejs
