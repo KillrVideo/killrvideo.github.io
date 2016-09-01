@@ -1,0 +1,229 @@
+<!doctype html>
+<html>
+<head>
+  <title>KillrVideo - Getting Started with Node.js</title>
+  <link href="/assets/css/bundle.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="/assets/images/killrvideo-icon.png"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  
+  <header>
+    <nav class="nav">
+      <div class="container">
+        <div class="nav-left">
+          <a href="/" class="nav-item">
+            <img src="/assets/images/killrvideo.png" alt="KillrVideo logo" />
+          </a>
+        </div>
+
+        <!-- Nav Toggle on mobile -->
+        <span class="nav-toggle">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+
+        <div class="nav-right nav-menu">
+          <span class="nav-item">
+            <a href="/getting-started/" class="button is-primary">
+              <i class="fa fa-code fa-fw"></i> Get Started
+            </a>
+          </span>
+          <a href="/docs/" class="nav-item">
+            Docs
+          </a>
+          <a href="/blog/" class="nav-item">
+            Blog
+          </a>
+          <a href="https://github.com/KillrVideo" target="_blank" class="nav-item">
+            <i class="fa fa-github fa-2x"></i>
+          </a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  
+  
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <article class="column is-9 content">
+        <h1 id="getting-started-with-node-js">Getting Started with Node.js</h1>
+<p>The Node.js version of KillrVideo is a reference application for Node developers looking to
+learn more about using <a href="http://cassandra.apache.org/" target="_blank">Apache Cassandra</a> and <a href="http://www.datastax.com/products/datastax-enterprise" target="_blank">DataStax Enterprise</a> in their
+applications and services. It contains sample code that uses:</p>
+<ul>
+<li>The <a href="https://github.com/datastax/nodejs-driver" target="_blank">DataStax Node.js Driver</a> for Cassandra</li>
+<li>Google&#39;s <a href="http://www.grpc.io/" target="_blank">Grpc</a></li>
+</ul>
+<p>These instructions assume you already have <a href="https://nodejs.org/" target="_blank">Node.js</a> and npm installed, as well as an 
+IDE that supports debugging with source maps like <a href="https://www.jetbrains.com/webstorm/" target="_blank">WebStorm</a> or 
+<a href="https://code.visualstudio.com/" target="_blank">Visual Studio Code</a> on your local machine.</p>
+<h2 id="cloning-and-setup">Cloning and Setup</h2>
+<p>Like all KillrVideo implementations, the Node.js version uses <a href="https://www.docker.com/" target="_blank">Docker</a> to run all its
+dependencies in your local development environment. If you haven&#39;t already, please read and
+follow the instructions in <a href="/getting-started/">Getting Started</a> to install Docker. Once you
+have Docker up and running, follow these steps:</p>
+<ol>
+<li>Clone the Node.js project&#39;s <a href="https://github.com/KillrVideo/killrvideo-nodejs" target="_blank">GitHub repository</a>:<pre><code> > git clone https://github.com/KillrVideo/killrvideo-nodejs.git</code></pre></li>
+<li>From the root of the repository, use <code>npm</code> to install all dependencies:<pre><code> > npm install</code></pre></li>
+<li><p>We use <code>npm</code> scripts defined in the project&#39;s <code>package.json</code> to do our build (i.e.
+transpile JavaScript, copy <code>.proto</code> files to the correct location, etc). Run a build now by
+doing:</p>
+<pre><code> > npm run build</code></pre><p> You should end up with the build output in the <code>dist</code> folder.</p>
+</li>
+<li><p>Setup the Docker environment for the first time by running:</p>
+<pre><code> > ./setup-docker.sh</code></pre><p> Or on Windows:</p>
+<pre><code> > .\setup-docker.bat</code></pre><p> This should create a <code>.env</code> file with some environment variables, as well as pull all the
+ Docker images that the application needs to run.</p>
+</li>
+<li><p>Start the docker dependencies that you just pulled down via <code>docker-compose</code>:</p>
+<pre><code> > docker-compose up -d</code></pre><p> This starts up things like a DataStax Enterprise node, the Web UI, etc. You can learn
+ more about how we use Docker in our <a href="/docs/guides/docker/">Docker Guide</a> documentation.</p>
+</li>
+</ol>
+<h2 id="running-the-code">Running the Code</h2>
+<p>Now that you&#39;ve got the environment setup and the project built, you can run the project and
+explore the code in your IDE of choice with a debugger attached. The tranpiled JavaScript
+code (i.e. build output) is in the <code>dist</code> folder and the main entry point of the application
+is <code>dist/index.js</code>. Because the code in <code>src</code> is written using newer features of JavaScript
+and then transpiled, you&#39;ll want to use an IDE that supports source maps when debugging. 
+We have instructions for running KillrVideo in a couple popular IDEs:</p>
+<ul>
+<li><a href="#running-in-webstorm">WebStorm</a></li>
+<li><a href="#running-in-visual-studio-code">Visual Studio Code</a></li>
+</ul>
+<h3 id="running-in-webstorm">Running in WebStorm</h3>
+<p>To debug in WebStorm, you&#39;ll first need to create a Run/Debug configuration.</p>
+<ol>
+<li>Open the root project folder with WebStorm.</li>
+<li>Follow the <a href="https://www.jetbrains.com/help/webstorm/2016.2/running-and-debugging-node-js.html#Node.js_run" target="_blank">instructions from JetBrains</a> to create a new Node.js debug
+configuration.  For the <strong>JavaScript File</strong> property, use the transpiled main entry point for
+the application which is <code>/dist/index.js</code>.</li>
+<li>Launch the debugging configuration you just created.</li>
+</ol>
+<h3 id="running-in-visual-studio-code">Running in Visual Studio Code</h3>
+<p>The repository you cloned has a <code>.vscode</code> folder checked-in. The <code>launch.json</code> file contains
+a task named <strong>Launch</strong> that can be used by Visual Studio Code to launch the transpiled code
+in the <code>dist</code> folder with a debugger attached. </p>
+<ol>
+<li>Open the root project folder with Visual Studio Code.</li>
+<li>Press <strong><code>F5</code></strong> to start the <strong>Launch</strong> task which will start the application and debugger.</li>
+</ol>
+<h2 id="opening-the-web-ui">Opening the Web UI</h2>
+<p>When KillrVideo starts, you&#39;ll see a bunch of log output to the console telling you about the
+various things it&#39;s doing. You should see output that looks something like this:</p>
+<p><img src="/assets/images/nodejs-startup.png" alt="Console Startup Output"></p>
+<p>One of the last lines in the log output will tell you where to open a web browser in order to
+see the web application. The web UI makes calls to the Node.js microservices running on your
+local machine. Look in the <code>/src/services</code> folder to explore the service code and add
+breakpoints.</p>
+<blockquote>
+<h4 id="note-breakpoints-source-maps-and-transpiled-code">Note: Breakpoints, Source Maps, and Transpiled Code</h4>
+<p>Remember, because we&#39;re using new language features from the latest version of JavaScript 
+(i.e. ES 2016), the code in the <code>src</code> folder was transpiled and output to the <code>dist</code> folder 
+when you did the <code>npm run build</code> step above. That build step also outputs source maps into 
+the <code>dist</code> folder. So long as the IDE or debugger that you&#39;re using supports source maps, 
+you should place your breakpoints in the original source files under <code>src</code>. </p>
+</blockquote>
+<p>As you interact with the web UI, you&#39;ll trigger those breakpoints in the service code. </p>
+<h2 id="learn-more">Learn More</h2>
+<p>Check out the <a href="/docs/">Documentation</a> section for a lot more information on the architecture of
+KillrVideo and how the Web Tier interacts with the microservices running on your machine.</p>
+
+      </article>
+      <div class="column is-3">
+        <nav class="panel">
+          <div class="panel-heading">
+            <span class="icon">
+              <i class="fa fa-code"></i>
+            </span>
+            Language Guides
+          </div>
+
+          
+
+          
+          
+          
+
+          <div class="panel-block">
+            <a href="/docs/languages/c-sharp/">Getting Started with C# (.NET)</a>
+
+            
+            
+          </div>
+
+          
+
+          
+          
+          
+            
+          
+
+          <div class="panel-block is-active">
+            <a href="/docs/languages/nodejs/">Getting Started with Node.js</a>
+
+            
+            
+            <ul class="headings-list links-list">
+            
+              <li>
+                <a href="/docs/languages/nodejs/#cloning-and-setup">Cloning and Setup</a>
+              </li>
+            
+              <li>
+                <a href="/docs/languages/nodejs/#running-the-code">Running the Code</a>
+              </li>
+            
+              <li>
+                <a href="/docs/languages/nodejs/#opening-the-web-ui">Opening the Web UI</a>
+              </li>
+            
+              <li>
+                <a href="/docs/languages/nodejs/#learn-more">Learn More</a>
+              </li>
+            
+            </ul>
+            
+          </div>
+
+          
+        
+        </nav>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+  
+  <footer class="footer">
+    <div class="container level">
+      <div class="level-left">
+        <div class="level-item">
+          <p>
+            <strong>KillrVideo</strong> is open source and available under an 
+            <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> license.
+          <p>
+          <p>
+            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/8e00db03a57dbf4193053eff756f79445ca350d1" target="_blank">8e00db0</a></small>
+          </p>
+        </div>
+      </div>
+      <div class="level-right">
+        <div class="level-right">
+          <a class="button level-item" href="https://github.com/KillrVideo/killrvideo.github.io/tree/source/src/site/docs/languages/nodejs/index.md" target="_blank">
+            <i class="fa fa-github fa-fw"></i>Improve this page
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  
+  <script type="text/javascript" src="/assets/js/bundle.js"></script>
+</body>
+</html>

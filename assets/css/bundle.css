@@ -208,7 +208,7 @@ code {
 
 hr {
   border-top-color: #d3d6db;
-  margin: 20px 0; }
+  margin: 40px 0; }
 
 img {
   max-width: 100%; }
@@ -1177,7 +1177,7 @@ a.box:active {
 
 @media screen and (min-width: 769px) {
   .control-label {
-    flex: 1;
+    flex-grow: 1;
     margin-right: 20px;
     padding-top: 7px;
     text-align: right; } }
@@ -1234,7 +1234,7 @@ a.box:active {
       .control.has-addons .input.is-expanded,
       .control.has-addons .is-expanded.textarea,
       .control.has-addons .select.is-expanded {
-        flex: 1; }
+        flex-grow: 1; }
     .control.has-addons.has-addons-centered {
       justify-content: center; }
     .control.has-addons.has-addons-right {
@@ -1243,7 +1243,7 @@ a.box:active {
     .control.has-addons.has-addons-fullwidth .input,
     .control.has-addons.has-addons-fullwidth .textarea,
     .control.has-addons.has-addons-fullwidth .select {
-      flex: 1; }
+      flex-grow: 1; }
   .control.has-icon > .fa {
     display: inline-block;
     font-size: 14px;
@@ -1307,7 +1307,7 @@ a.box:active {
       margin-bottom: 0;
       margin-right: 10px; }
     .control.is-grouped > .control.is-expanded {
-      flex: 1; }
+      flex-grow: 1; }
     .control.is-grouped.is-grouped-centered {
       justify-content: center; }
     .control.is-grouped.is-grouped-right {
@@ -1317,7 +1317,7 @@ a.box:active {
       display: flex; }
       .control.is-horizontal > .control {
         display: flex;
-        flex: 5; } }
+        flex-grow: 5; } }
   .control.is-loading:after {
     position: absolute !important;
     right: 8px;
@@ -1905,7 +1905,7 @@ a.box:active {
   align-items: flex-start;
   color: #222324;
   display: flex;
-  flex: 1;
+  flex-grow: 1;
   font-weight: bold;
   padding: 10px; }
 
@@ -1933,7 +1933,7 @@ a.box:active {
 .card-footer-item {
   align-items: center;
   display: flex;
-  flex: 1;
+  flex-grow: 1;
   justify-content: center;
   padding: 10px; }
   .card-footer-item:not(:last-child) {
@@ -1954,7 +1954,9 @@ a.box:active {
     border-radius: 5px; }
 
 .column {
-  flex: 1 1 auto;
+  flex-basis: 0;
+  flex-grow: 1;
+  flex-shrink: 1;
   padding: 10px; }
   .columns.is-mobile > .column.is-narrow {
     flex: none; }
@@ -2436,7 +2438,6 @@ a.box:active {
     .columns.is-grid {
       flex-wrap: wrap; }
       .columns.is-grid > .column {
-        flex-basis: 33.3333%;
         max-width: 33.3333%;
         padding: 10px;
         width: 33.3333%; }
@@ -2457,7 +2458,9 @@ a.box:active {
 
 .tile {
   align-items: stretch;
-  flex: 1 1 auto;
+  flex-basis: auto;
+  flex-grow: 1;
+  flex-shrink: 1;
   min-height: min-content; }
   .tile.is-ancestor {
     margin-left: -10px;
@@ -2653,7 +2656,7 @@ a.box:active {
 
 .level-left .level-item.is-flexible,
 .level-right .level-item.is-flexible {
-  flex: 1; }
+  flex-grow: 1; }
 
 @media screen and (max-width: 768px) {
   .level-left + .level-right {
@@ -2683,12 +2686,12 @@ a.box:active {
     .level.is-mobile > .level-item:not(:last-child) {
       margin-bottom: 0; }
     .level.is-mobile > .level-item:not(.is-narrow) {
-      flex: 1; }
+      flex-grow: 1; }
   @media screen and (min-width: 769px) {
     .level {
       display: flex; }
       .level > .level-item:not(.is-narrow) {
-        flex: 1; } }
+        flex-grow: 1; } }
 
 .media-number {
   background-color: #f5f7fa;
@@ -2715,7 +2718,7 @@ a.box:active {
   margin-left: 10px; }
 
 .media-content {
-  flex: 1;
+  flex-grow: 1;
   text-align: left; }
 
 .media {
@@ -2921,7 +2924,7 @@ a.box:active {
 
 .modal-card-title {
   color: #222324;
-  flex: 1;
+  flex-grow: 1;
   font-size: 24px;
   line-height: 1; }
 
@@ -2931,7 +2934,7 @@ a.box:active {
     margin-right: 10px; }
 
 .modal-card-body {
-  flex: 1;
+  flex-grow: 1;
   overflow: auto;
   padding: 20px; }
 
@@ -3013,10 +3016,15 @@ a.nav-item {
     .nav-menu.is-active {
       display: block; } }
 
+@media screen and (min-width: 769px) and (max-width: 979px) {
+  .nav-menu {
+    padding-right: 20px; } }
+
 .nav-left {
   align-items: stretch;
   display: flex;
-  flex: 1;
+  flex-basis: 0;
+  flex-grow: 1;
   justify-content: flex-start;
   overflow: hidden;
   overflow-x: auto;
@@ -3025,13 +3033,16 @@ a.nav-item {
 .nav-center {
   align-items: stretch;
   display: flex;
-  justify-content: center; }
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto; }
 
 @media screen and (min-width: 769px) {
   .nav-right {
     align-items: stretch;
     display: flex;
-    flex: 1;
+    flex-basis: 0;
+    flex-grow: 1;
     justify-content: flex-end; } }
 
 .nav {
@@ -3057,6 +3068,10 @@ a.nav-item {
     padding-right: 0; }
   .nav.has-shadow {
     box-shadow: 0 2px 3px rgba(17, 17, 17, 0.1); }
+  @media screen and (max-width: 979px) {
+    .nav > .container > .nav-left > .nav-item.is-brand:first-child,
+    .container > .nav > .nav-left > .nav-item.is-brand:first-child {
+      padding-left: 20px; } }
 
 .pagination {
   align-items: center;
@@ -3076,7 +3091,7 @@ a.nav-item {
   .pagination ul {
     align-items: center;
     display: flex;
-    flex: 1;
+    flex-grow: 1;
     justify-content: center; }
   @media screen and (max-width: 768px) {
     .pagination {
@@ -3086,7 +3101,7 @@ a.nav-item {
         .pagination > a:not(:first-child) {
           margin-left: 10px; }
       .pagination li {
-        flex: 1; }
+        flex-grow: 1; }
       .pagination ul {
         margin-top: 10px; } }
   @media screen and (min-width: 769px) {
@@ -3183,7 +3198,7 @@ a.panel-block:hover {
     align-items: center;
     border-bottom: 1px solid #d3d6db;
     display: flex;
-    flex: 1;
+    flex-grow: 1;
     justify-content: flex-start; }
     .tabs ul.is-left {
       padding-right: 10px; }
@@ -3216,7 +3231,7 @@ a.panel-block:hover {
     border-color: #d3d6db;
     border-bottom-color: transparent !important; }
   .tabs.is-fullwidth li {
-    flex: 1; }
+    flex-grow: 1; }
   .tabs.is-toggle a {
     border: 1px solid #d3d6db;
     margin-bottom: 0;
@@ -3301,7 +3316,7 @@ a.panel-block:hover {
   flex-shrink: 0; }
 
 .hero-body {
-  flex: 1;
+  flex-grow: 1;
   padding: 40px 20px; }
   @media screen and (min-width: 980px) {
     .hero-body {
@@ -3792,7 +3807,7 @@ a.panel-block:hover {
       align-items: center;
       display: flex; }
       .hero.is-fullheight .hero-body > .container {
-        flex: 1; }
+        flex-grow: 1; }
 
 .section {
   background-color: #fff;
@@ -6139,6 +6154,9 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 
 .content strong > code {
   font-weight: bold; }
+
+.content > ol > li + li {
+  margin-top: 1em; }
 
 .content li > ul,
 .content li > ol,
