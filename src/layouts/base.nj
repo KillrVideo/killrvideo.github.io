@@ -78,5 +78,9 @@
   </footer>
   {# Main JavaScript bundle for site #}
   <script type="text/javascript" src="/assets/js/bundle.js"></script>
+
+  {# Block for potentially running JavaScript #}
+  {% block scripts %}
+  {% endblock %}
 </body>
 </html>

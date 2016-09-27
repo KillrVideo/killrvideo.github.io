@@ -32,23 +32,6 @@ $light-green: #D1E0BA;
   flex: 1;
 }
 
-.panel-block.is-active > a {
-  font-weight: bold;
-}
-
-.links-list > li {
-  margin-top: 0.25em;
-}
-
-.headings-list {
-  list-style: disc outside;
-  margin: 0.5em 2em 0;
-}
-
-.headings-list > li {
-  font-size: 85%;
-}
-
 // Code highlighting in content blocks
 .content > pre {
   margin-bottom: 1em;
@@ -161,5 +144,37 @@ header > nav.nav .nav-item:hover {
   .hero-image-home img {
     height: 300px;
     top: 40px;
+  }
+}
+
+/**
+ * Docs Navigation
+ */
+nav.docs {
+  position: relative;
+} 
+
+nav.docs .panel-block.is-active > a {
+  font-weight: bold;
+}
+
+.links-list > li {
+  margin-top: 0.25em;
+}
+
+.headings-list {
+  list-style: disc outside;
+  margin: 0.5em 2em 0;
+}
+
+.headings-list > li {
+  font-size: 85%;
+}
+
+// Tablet and larger
+@include tablet {
+  nav.docs.sticky {
+    position: fixed;
+    top: 20px;
   }
 }
