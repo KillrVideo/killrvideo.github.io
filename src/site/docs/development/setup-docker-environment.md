@@ -76,7 +76,7 @@ version: '2'
 services:
   # Start the KillrVideo web UI on port 3000
   web:
-    image: killrvideo/killrvideo-web:1.1.2
+    image: killrvideo/killrvideo-web:1.2.0
     ports:
     - "3000:3000"
     depends_on:
@@ -88,7 +88,7 @@ services:
 
   # The sample data generator
   generator:
-    image: killrvideo/killrvideo-generator:1.1.1
+    image: killrvideo/killrvideo-generator:1.2.1
     depends_on:
     - dse
     - etcd
