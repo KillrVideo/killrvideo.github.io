@@ -1,0 +1,262 @@
+<!doctype html>
+<html>
+<head>
+  <title>KillrVideo - Pub-Sub Messaging</title>
+  <link href="/assets/css/bundle.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="/assets/images/killrvideo-icon.png"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  
+  <header>
+    <nav class="nav">
+      <div class="container">
+        <div class="nav-left">
+          <a href="/" class="nav-item">
+            <img src="/assets/images/killrvideo.png" alt="KillrVideo logo" />
+          </a>
+        </div>
+
+        <!-- Nav Toggle on mobile -->
+        <span class="nav-toggle">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+
+        <div class="nav-right nav-menu">
+          <span class="nav-item">
+            <a href="/getting-started/" class="button is-primary">
+              <i class="fa fa-code fa-fw"></i> Get Started
+            </a>
+          </span>
+          <a href="/docs/" class="nav-item">
+            Docs
+          </a>
+          <a href="/blog/" class="nav-item">
+            Blog
+          </a>
+          <a href="https://github.com/KillrVideo" target="_blank" class="nav-item">
+            <i class="fa fa-github fa-2x"></i>
+          </a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  
+  
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <article class="column is-9 content">
+        <h1 id="pub-sub-messaging">Pub-Sub Messaging</h1>
+<p>KillrVideo is architected to use <a href="http://martinfowler.com/eaaDev/EventCollaboration.html" target="_blank">events for service collaboration</a>. This
+means that the services publish events about interesting things that happen (i.e. when state
+changes occur) and other services are free to subscribe to those events and react. As a
+result, you&#39;ll need to setup some kind of messaging infrastructure that supports pub-sub.
+We&#39;ve defined the events published by each service in Protocol Buffers files that are located
+next to each service&#39;s definition in the <a href="https://github.com/KillrVideo/killrvideo-service-protos" target="_blank">killrvideo-service-protos</a> project
+that you used when <a href="/docs/development/generate-service-code/">Geneterating Service Code</a>.</p>
+<h2 id="implementation-recommendations">Implementation Recommendations</h2>
+<p>Since this is a reference application and all the gRPC service implementations will be running
+in-process together so users can debug them, the simplest way to do pub-sub messaging is via
+some in-memory mechanism. Some programming languages may already have an in-memory message bus
+implementation available (for example, in Java we have the <a href="https://github.com/google/guava/wiki/EventBusExplained" target="_blank">Guava EventBus</a> 
+available). If you don&#39;t have an in-memory implementation available, it&#39;s usually pretty 
+straightforward to create a simple one of your own.</p>
+<p>Another option is to use a real piece of messaging infrastructure like Kafka or RabbitMQ.
+Since KillrVideo uses Docker Compose for spinning up all the dependencies needed by a user in
+their development environment, it&#39;s possible to piggyback on that and spin up a container
+using messaging infrastructure of your choice. You would go about doing this by adding it to
+the <code>docker-compose.yaml</code> file as another service.</p>
+<p>While we don&#39;t want to give a hard rule on how to accomplish pub-sub messaging, it&#39;s 
+<strong>strongly recommended</strong> that you go down the easy route of doing things in-memory. Try and
+hide the implementation details from your consumer code and provide a generic API for 
+publishing and subscribing to events. That way you could switch the implementation out (or
+provide multiple available implementations as further examples) for real messaging 
+infrastructure.</p>
+<h2 id="what-services-should-subscribe-to-what-events-">What services should subscribe to what events?</h2>
+<p>As mentioned in the section on <a href="/docs/development/implement-services/">Implementing Services</a>, you should be 
+using the other programming language implementations as a reference. They will always contain
+the latest examples of services subscribing to and reacting to events from other services. At
+the time of writing, these are the events you&#39;ll want to subscribe to.</p>
+<table>
+<thead>
+<tr>
+<th>Event Name</th>
+<th>Published By</th>
+<th>Subscribed To By</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>UploadedVideoAdded</code></td>
+<td>VideoCatalogService</td>
+<td>SearchService</td>
+<td>Allows the SearchService to update its collection of tags and videos by tag as new videos are added.</td>
+</tr>
+<tr>
+<td><code>YouTubeVideoAdded</code></td>
+<td>VideoCatalogService</td>
+<td>SearchService</td>
+<td>Allows the SearchService to update its collection of tags and videos by tag as new videos are added.</td>
+</tr>
+</tbody>
+</table>
+<p>Just because an event doesn&#39;t currently have any subscribers doesn&#39;t mean it shouldn&#39;t be
+published. Make sure you refer to the event definition&#39;s <code>.proto</code> files for each service and
+the other language implementations for what events to publish and when to publish them.</p>
+
+      </article>
+      <div class="column is-3">
+        <nav class="panel">
+          <div class="panel-heading">
+            <span class="icon">
+              <i class="fa fa-wrench"></i>
+            </span>
+            Advanced
+          </div>
+
+          
+
+          
+          
+          
+
+          <div class="panel-block">
+            <a href="/docs/development/implementers-cheatsheet/">Microservice Implementer&#39;s Cheatsheet</a>
+
+            
+            
+          </div>
+
+          
+
+          
+          
+          
+
+          <div class="panel-block">
+            <a href="/docs/development/setup-git-repo/">Setup the Git Repo</a>
+
+            
+            
+          </div>
+
+          
+
+          
+          
+          
+
+          <div class="panel-block">
+            <a href="/docs/development/setup-docker-environment/">Setup Docker Environment</a>
+
+            
+            
+          </div>
+
+          
+
+          
+          
+          
+
+          <div class="panel-block">
+            <a href="/docs/development/generate-service-code/">Generate Service Code</a>
+
+            
+            
+          </div>
+
+          
+
+          
+          
+          
+
+          <div class="panel-block">
+            <a href="/docs/development/connecting-to-datastax-enterprise/">Connecting to DataStax Enterprise</a>
+
+            
+            
+          </div>
+
+          
+
+          
+          
+          
+
+          <div class="panel-block">
+            <a href="/docs/development/implement-services/">Implement the Services</a>
+
+            
+            
+          </div>
+
+          
+
+          
+          
+          
+            
+          
+
+          <div class="panel-block is-active">
+            <a href="/docs/development/pub-sub-messaging/">Pub-Sub Messaging</a>
+
+            
+            
+            <ul class="headings-list links-list">
+            
+              <li>
+                <a href="/docs/development/pub-sub-messaging/#implementation-recommendations">Implementation Recommendations</a>
+              </li>
+            
+              <li>
+                <a href="/docs/development/pub-sub-messaging/#what-services-should-subscribe-to-what-events-">What services should subscribe to what events?</a>
+              </li>
+            
+            </ul>
+            
+          </div>
+
+          
+        
+        </nav>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+  
+  <footer class="footer">
+    <div class="container level">
+      <div class="level-left">
+        <div class="level-item">
+          <p>
+            <strong>KillrVideo</strong> is open source and available under an 
+            <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> license.
+          <p>
+          <p>
+            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/ad4aaa56b2b1b7917a4d39079a4ced1dc54ab35e" target="_blank">ad4aaa5</a></small>
+          </p>
+        </div>
+      </div>
+      <div class="level-right">
+        <div class="level-right">
+          <a class="button level-item" href="https://github.com/KillrVideo/killrvideo.github.io/tree/source/src/site/docs/development/pub-sub-messaging.md" target="_blank">
+            <i class="fa fa-github fa-fw"></i>Improve this page
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  
+  <script type="text/javascript" src="/assets/js/bundle.js"></script>
+</body>
+</html>
