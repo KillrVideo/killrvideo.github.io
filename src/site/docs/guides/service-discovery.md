@@ -12,7 +12,7 @@ location of services.
 In KillrVideo, we decided to use [etcd][etcd] as our service registry. At its most basic, 
 etcd is just a distributed, consistent, key-value store. The [v2 API][v2] which we currently
 use to interact with etcd is just simple curlable HTTP API (funny enough, the [v3 API](https://github.com/coreos/etcd/blob/master/Documentation/dev-guide/api_reference_v3.md)
-for etcd is all based on Protocol Buffers and Grpc just like KillrVideo).
+for etcd is all based on Protocol Buffers and gRPC just like KillrVideo).
 
 As mentioned in the [previous section on Docker][prev], we use a program called 
 [Registrator][registrator] to take care of automatically registering our services running in
@@ -53,8 +53,8 @@ service would use:
 http://${SOME_IP_ADDRESS}:2379/v2/keys/killrvideo/services/VideoCatalogService
 ```
 
-> #### Note on Grpc Service Naming Conventions
-> All of the services defined in Protocol Buffers for use with Grpc use the service's "short
+> #### Note on gRPC Service Naming Conventions
+> All of the services defined in Protocol Buffers for use with gRPC use the service's "short
 > name" when registering with etcd. The short name for a service is the same name used in
 > `.proto` file and **excludes the namespace**.
 

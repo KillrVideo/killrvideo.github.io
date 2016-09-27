@@ -5,7 +5,7 @@ commit with a `README.md`, `.gitignore`, etc., you'll want to pull in the common
 dependencies that live in other Git repositories. The repositories you'll want to pull in 
 are:
 
-- [killrvideo-service-protos][service-protos]: This is where the [Grpc][grpc] service 
+- [killrvideo-service-protos][service-protos]: This is where the [gRPC][grpc] service 
 definitions that you'll be implementing are kept, defined in `.proto` files. You'll be using
 the Protobufs from here to generate code.
 - [killrvideo-docker-common][docker-common]: This is where common Docker setup scripts live,

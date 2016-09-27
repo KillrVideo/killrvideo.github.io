@@ -14,7 +14,7 @@ the common KillrVideo project dependencies as Git subtrees.
 1. [Setup Docker Environment][2]: Setup your development environment with all the other
 infrastructure and projects it needs (for example, one node of DSE) using Docker Compose.
 1. [Generate Service Code][3]: Use the `.proto` files to generate client and server code
-stubs with the Grpc plugin for the Protobuf compiler.
+stubs with the gRPC plugin for the Protobuf compiler.
 1. [Connect to DataStax Enterprise][4]: Use etcd service discovery to find the DSE node's
 address and connect to it.
 1. [Implement the Services][5]: Write the interesting code that implements the services.

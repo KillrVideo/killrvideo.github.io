@@ -45,10 +45,10 @@ appropriate handlers.
 - [**Falcor Router**](http://netflix.github.io/falcor/documentation/router.html): takes 
 requests routed through Express from the Falcor client and then calls the appropriate 
 backend microservices.
-- [**Grpc**][grpc]: provides communication with the backend microservices over HTTP/2
+- [**gRPC**][grpc]: provides communication with the backend microservices over HTTP/2
 where the service contracts are defined via Protocol Buffers.
 
-The interaction between the Web Server and the Microservices Tier via [Grpc][grpc] will be
+The interaction between the Web Server and the Microservices Tier via [gRPC][grpc] will be
 covered in great detail in the [next section][next]. But it's probably worth discussing the
 typical interaction between the Web Client and the Web Server via [Falcor][falcor].
 
@@ -80,7 +80,7 @@ of our example paths and would be called by the Falcor Router to handle the requ
 {
     route: 'videosById[{keys:videoIds}]["videoId", "addedDate", "description", "name", "author"]',
     get(pathSet) {
-        // ... Handle request by making a call to the Video Catalog service via Grpc ...
+        // ... Handle request by making a call to the Video Catalog service via gRPC ...
     }
 }
 ```
@@ -119,7 +119,7 @@ another route definition that looks like this:
 {
     route: 'usersById[{keys:userIds}]["userId", "firstName", "lastName", "email"]',
     get(pathSet) {
-        // ... Handle request by making a call to the User Management service via Grpc ...
+        // ... Handle request by making a call to the User Management service via gRPC ...
     }
 }
 ```

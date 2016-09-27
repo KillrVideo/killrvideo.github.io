@@ -55,7 +55,7 @@
         <div class="content flex-card-content">
           <p>
             This is a modern application with a microservices architecture and uses libraries like 
-            <a href="http://www.grpc.io/" target="_blank">Grpc</a> from Google and 
+            <a href="http://www.grpc.io/" target="_blank">gRPC</a> from Google and 
             <a href="http://netflix.github.io/falcor/" target="_blank">Falcor</a> from Netflix. If you want to
             learn more about KillrVideo's architecture and how we're using those libraries, check out the Docs.
           </p>

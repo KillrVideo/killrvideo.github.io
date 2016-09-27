@@ -16,12 +16,12 @@ response objects, as well as generated client and server code (even if they were
 method names that reflected our service definitions.
 
 After looking at various projects like [Apache Thrift](http://thrift.apache.org/) and 
-[Apache Avro](http://avro.apache.org/) we settled on using Google's relatively new [Grpc][grpc]
+[Apache Avro](http://avro.apache.org/) we settled on using Google's relatively new [gRPC][grpc]
 framework.
 
 ## Service and Event Definitions with Protocol Buffers
 
-With [Grpc][grpc] you define your services using [Protocol Buffers][protobuf] as the 
+With [gRPC][grpc] you define your services using [Protocol Buffers][protobuf] as the 
 Interface Definition Language (IDL). So, for example, if we were defining the Ratings
 Service in KillrVideo, we might start with a definition like this:
 
@@ -54,16 +54,16 @@ created the [killrvideo-service-protos][service-protos] project to house all the
 definitions for KillrVideo. We also created all of our event definitions (which will be
 published by the services) there as well. With all the `.proto` files created, it was now
 possible for the microservice projects to pull in these files and use the [Protocol Buffers][protobuf]
-command line compiler along with the [Grpc][grpc] plugin for that compiler to 
+command line compiler along with the [gRPC][grpc] plugin for that compiler to 
 [generate code](http://www.grpc.io/docs/#generating-grpc-code) in any of the supported 
 languages.
 
-## Grpc Client on the Web Server
+## gRPC Client on the Web Server
 
 You'll remember from the last section that our Web Server is written in NodeJS and uses
-[Grpc][grpc] to communicate with the various microservices. In order to make this happen, we
+[gRPC][grpc] to communicate with the various microservices. In order to make this happen, we
 use the [grpc package on NPM](https://www.npmjs.com/package/grpc) to generate clients that
-the Web Server can use to call the backend microservices. The NodeJS implementation for Grpc
+the Web Server can use to call the backend microservices. The NodeJS implementation for gRPC
 currently doesn't generate code files (unlike for example, in C\# and Java), but instead is
 able to load and parse `.proto` files and then create client objects (with the appropriate
 method names from the `.proto` files) dynamically at runtime. For example:
@@ -79,25 +79,25 @@ ratingsServiceClient.rateVideo(rateVideoRequest, function(err, rateVideoResponse
 });
 ```
 
-There are a couple things to understand about the communication that happens with Grpc:
+There are a couple things to understand about the communication that happens with gRPC:
 
 1. Most developers who are familiar with [Protocol Buffers][protobuf] from the past will
-know it as a serialization format. Grpc uses Protocol Buffers not only as the IDL, but also 
+know it as a serialization format. gRPC uses Protocol Buffers not only as the IDL, but also 
 as the "on the wire" format for communication between client and server. All the 
 serialization work is done automatically for you (in the generated code).
-1. Grpc also comes with a default transport ([HTTP/2](https://http2.github.io/)) for 
+1. gRPC also comes with a default transport ([HTTP/2](https://http2.github.io/)) for 
 communication between the client and the server. For most of the supported languages, this
 transport is just bindings to a common C++ implementation (i.e. so NodeJS and C\# are
 actually both using the same HTTP/2 transport code under the covers).
 
-The HTTP/2 transport included in Grpc includes support not only for "Request-Response" style
+The HTTP/2 transport included in gRPC includes support not only for "Request-Response" style
 communication, but also for unidirectional and bidirectional streaming communication. In 
 KillrVideo, all of the communication between the Web Server and the microservices is done 
 with Request-Response style calls, but this could change in the future.
 
-## Grpc Server in Microservices
+## gRPC Server in Microservices
 
-[Grpc][grpc] will generate server stubs. Depending on the language being used for the
+[gRPC][grpc] will generate server stubs. Depending on the language being used for the
 microservice implementation, this could be code files (e.g. in C\# and Java) or dynamic
 objects created at runtime (e.g. NodeJS). The service's logic can then be "plugged in"
 to these stubs. This is where all the code that talks to DataStax Enterprise and Cassandra
@@ -110,7 +110,7 @@ application for developers, is different. In KillrVideo, the microservice implem
 are grouped together in Git repos by programming language to make it easy for a developer to
 get all the interesting code for their programming language of choice.
 
-Since Grpc supports binding multiple service implementations to a single HTTP/2 server 
+Since gRPC supports binding multiple service implementations to a single HTTP/2 server 
 endpoint, it also means that we can run all our microservice implementations in a single
 process together on a single endpoint. Again, this is different than how we'd deploy the
 application in the real world. But we've chosen to do it this way because it makes the

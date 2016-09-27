@@ -5,7 +5,7 @@ learn more about using [Apache Cassandra][cassandra] and [DataStax Enterprise][d
 applications and services. It contains sample code that uses:
 
 - The [DataStax Node.js Driver][driver] for Cassandra
-- Google's [Grpc][grpc]
+- Google's [gRPC][grpc]
 
 These instructions assume you already have [Node.js][node] and npm installed, as well as an 
 IDE that supports debugging with source maps like [WebStorm][webstorm] or 
