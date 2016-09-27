@@ -90,10 +90,10 @@ appropriate handlers.</li>
 <li><a href="http://netflix.github.io/falcor/documentation/router.html" target="_blank"><strong>Falcor Router</strong></a>: takes 
 requests routed through Express from the Falcor client and then calls the appropriate 
 backend microservices.</li>
-<li><a href="http://www.grpc.io/" target="_blank"><strong>Grpc</strong></a>: provides communication with the backend microservices over HTTP/2
+<li><a href="http://www.grpc.io/" target="_blank"><strong>gRPC</strong></a>: provides communication with the backend microservices over HTTP/2
 where the service contracts are defined via Protocol Buffers.</li>
 </ul>
-<p>The interaction between the Web Server and the Microservices Tier via <a href="http://www.grpc.io/" target="_blank">Grpc</a> will be
+<p>The interaction between the Web Server and the Microservices Tier via <a href="http://www.grpc.io/" target="_blank">gRPC</a> will be
 covered in great detail in the <a href="/docs/guides/microservices-tier/">next section</a>. But it&#39;s probably worth discussing the
 typical interaction between the Web Client and the Web Server via <a href="http://netflix.github.io/falcor/" target="_blank">Falcor</a>.</p>
 <h2 id="web-client-and-server-communication-via-falcor">Web Client and Server Communication via Falcor</h2>
@@ -115,7 +115,7 @@ of our example paths and would be called by the Falcor Router to handle the requ
 {
     route: <span class="hljs-string">'videosById[{keys:videoIds}]["videoId", "addedDate", "description", "name", "author"]'</span>,
     get(pathSet) {
-        <span class="hljs-comment">// ... Handle request by making a call to the Video Catalog service via Grpc ...</span>
+        <span class="hljs-comment">// ... Handle request by making a call to the Video Catalog service via gRPC ...</span>
     }
 }</pre></code><p>You might notice that this route matches <code>author</code>, but doesn&#39;t provide the <code>firstName</code>,
 <code>lastName</code>, and <code>email</code> attributes of the author. How are those retrieved? Well, one cool
@@ -144,7 +144,7 @@ another route definition that looks like this:</p>
 {
     route: <span class="hljs-string">'usersById[{keys:userIds}]["userId", "firstName", "lastName", "email"]'</span>,
     get(pathSet) {
-        <span class="hljs-comment">// ... Handle request by making a call to the User Management service via Grpc ...</span>
+        <span class="hljs-comment">// ... Handle request by making a call to the User Management service via gRPC ...</span>
     }
 }</pre></code><p>That route will be called and asked for the <code>firstName</code>, <code>lastName</code>, and <code>email</code> of user
 <code>99999</code> in order to fill in the author information from the original request. In this way,
@@ -283,7 +283,7 @@ being called by the Web Server.</p>
             <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> license.
           <p>
           <p>
-            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/0865cf5391a6aa7f401c21cd5de13b78bd1dcc64" target="_blank">0865cf5</a></small>
+            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/b28878972576654c70923f39de7c927eabf3541e" target="_blank">b288789</a></small>
           </p>
         </div>
       </div>

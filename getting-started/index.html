@@ -60,13 +60,19 @@ installed, you&#39;ll need to do so. You can download and install the appropriat
 <li><a href="https://www.docker.com/products/docker" target="_blank">Docker for Windows or Mac</a></li>
 </ul>
 <blockquote>
-<h4 id="note-on-docker-beta-status">Note on Docker Beta Status</h4>
-<p>The native Docker tools for Windows and Mac are currently in beta and are constantly
+<h4 id="note-on-docker">Note on Docker</h4>
+<p>The native Docker tools for Windows and Mac are currently pretty new and are constantly
 evolving. We&#39;ve seen issues (particularly around networking in the Mac version) crop up 
-when trying to run KillrVideo with those tools. If you encounter issues, we suggest
-installing and using <a href="https://www.docker.com/products/docker-toolbox" target="_blank">Docker Toolbox</a> instead. Once the native tools are
-out of beta, this shouldn&#39;t be an issue any longer.</p>
+when trying to run KillrVideo with those tools. If you encounter issues, please open an
+issue on GitHub so we can try and solve the problem for everyone.</p>
 </blockquote>
+<p>Once you&#39;ve got Docker for Windows or Mac installed, it&#39;s also really helpful to increase
+the amount of RAM allocated to the Docker VM that&#39;s running. We recommend allocating <strong>at
+least 3 GB</strong> of RAM since DataStax Enterprise and Cassandra are memory-intensive apps:</p>
+<ul>
+<li>Changing <a href="https://docs.docker.com/docker-for-mac/#/preferences" target="_blank">Docker for Mac Preferences</a></li>
+<li>Changing <a href="https://docs.docker.com/docker-for-windows/#/advanced" target="_blank">Docker for Windows Preferences</a></li>
+</ul>
 <h2 id="2-choose-your-programming-language">2. Choose your Programming Language</h2>
 <p>The KillrVideo reference application is available in multiple programming languages. Use the 
 links below to get started with the language you&#39;re most comfortable with.</p>
@@ -97,7 +103,7 @@ self-paced online courses on Cassandra&#39;s architecture, data modeling, and mo
             <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> license.
           <p>
           <p>
-            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/0865cf5391a6aa7f401c21cd5de13b78bd1dcc64" target="_blank">0865cf5</a></small>
+            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/b28878972576654c70923f39de7c927eabf3541e" target="_blank">b288789</a></small>
           </p>
         </div>
       </div>

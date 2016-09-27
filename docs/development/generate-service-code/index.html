@@ -53,16 +53,16 @@
         <h1 id="generating-service-code">Generating Service Code</h1>
 <p>The <code>.proto</code> files that you pulled in from the <a href="https://github.com/KillrVideo/killrvideo-service-protos" target="_blank">killrvideo-service-protos</a>
 project contain all the service definitions for KillrVideo. You can use these service
-definitions along with the <a href="http://www.grpc.io/" target="_blank">Grpc</a> compiler plugin to generate code for use in your
-implementation. The Grpc library and compiler are available in many programming languges.
-The <a href="http://www.grpc.io/docs/" target="_blank">Grpc docs</a> have detailed instructions that you should follow based on the
+definitions along with the <a href="http://www.grpc.io/" target="_blank">gRPC</a> compiler plugin to generate code for use in your
+implementation. The gRPC library and compiler are available in many programming languges.
+The <a href="http://www.grpc.io/docs/" target="_blank">gRPC docs</a> have detailed instructions that you should follow based on the
 programming language your implementation is in, but the general steps for generating service
 code are:</p>
 <ol>
-<li>Install Grpc (using the <a href="http://www.grpc.io/docs/#install-grpc" target="_blank">install instructions</a> in the docs). This usually 
+<li>Install gRPC (using the <a href="http://www.grpc.io/docs/#install-grpc" target="_blank">install instructions</a> in the docs). This usually 
 involves installing a package using the package manager for your programming language (i.e.
 Maven or Gradle in Java, NuGet in .NET, pip in Python, etc.).</li>
-<li>Generate the code using the Grpc plugin for the Protobuf compiler. Again, follow the
+<li>Generate the code using the gRPC plugin for the Protobuf compiler. Again, follow the
 <a href="http://www.grpc.io/docs/#generating-grpc-code" target="_blank">instructions for generating code</a> in the docs. You&#39;ll want to generate code
 for all of the <a href="https://github.com/KillrVideo/killrvideo-service-protos" target="_blank">killrvideo-service-protos</a> files that you pulled in as a Git
 subtree.</li>
@@ -78,7 +78,7 @@ overwriting our implementation code.</p>
 <h2 id="when-to-generate-code">When to Generate Code</h2>
 <p>You&#39;ll have to decide, based on your programming language&#39;s idioms, when to generate code. 
 This could be, for example, every time the project is compiled (which is the default 
-behavior of Grpc in Java for example), or as a seperate step executed on-demand (for 
+behavior of gRPC in Java for example), or as a seperate step executed on-demand (for 
 example, using a seperate shell script or build step that you&#39;ve created). Regardless of how
 you choose to do it, you want to make sure that you have a repeatable way to generate code 
 checked in to the Git repo so that you can regenerate those files any time the service 
@@ -253,7 +253,7 @@ definitions are updated in the <a href="https://github.com/KillrVideo/killrvideo
             <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> license.
           <p>
           <p>
-            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/0865cf5391a6aa7f401c21cd5de13b78bd1dcc64" target="_blank">0865cf5</a></small>
+            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/b28878972576654c70923f39de7c927eabf3541e" target="_blank">b288789</a></small>
           </p>
         </div>
       </div>

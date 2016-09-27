@@ -65,10 +65,10 @@ that support it. For example, in C# and Java we wanted classes representing our 
 response objects, as well as generated client and server code (even if they were stubs) with
 method names that reflected our service definitions.</p>
 <p>After looking at various projects like <a href="http://thrift.apache.org/" target="_blank">Apache Thrift</a> and 
-<a href="http://avro.apache.org/" target="_blank">Apache Avro</a> we settled on using Google&#39;s relatively new <a href="http://www.grpc.io/" target="_blank">Grpc</a>
+<a href="http://avro.apache.org/" target="_blank">Apache Avro</a> we settled on using Google&#39;s relatively new <a href="http://www.grpc.io/" target="_blank">gRPC</a>
 framework.</p>
 <h2 id="service-and-event-definitions-with-protocol-buffers">Service and Event Definitions with Protocol Buffers</h2>
-<p>With <a href="http://www.grpc.io/" target="_blank">Grpc</a> you define your services using <a href="https://developers.google.com/protocol-buffers/" target="_blank">Protocol Buffers</a> as the 
+<p>With <a href="http://www.grpc.io/" target="_blank">gRPC</a> you define your services using <a href="https://developers.google.com/protocol-buffers/" target="_blank">Protocol Buffers</a> as the 
 Interface Definition Language (IDL). So, for example, if we were defining the Ratings
 Service in KillrVideo, we might start with a definition like this:</p>
 <pre><code class="hljs">syntax = <span class="hljs-string">"proto3"</span>;
@@ -96,14 +96,14 @@ created the <a href="https://github.com/KillrVideo/killrvideo-service-protos" ta
 definitions for KillrVideo. We also created all of our event definitions (which will be
 published by the services) there as well. With all the <code>.proto</code> files created, it was now
 possible for the microservice projects to pull in these files and use the <a href="https://developers.google.com/protocol-buffers/" target="_blank">Protocol Buffers</a>
-command line compiler along with the <a href="http://www.grpc.io/" target="_blank">Grpc</a> plugin for that compiler to 
+command line compiler along with the <a href="http://www.grpc.io/" target="_blank">gRPC</a> plugin for that compiler to 
 <a href="http://www.grpc.io/docs/#generating-grpc-code" target="_blank">generate code</a> in any of the supported 
 languages.</p>
-<h2 id="grpc-client-on-the-web-server">Grpc Client on the Web Server</h2>
+<h2 id="grpc-client-on-the-web-server">gRPC Client on the Web Server</h2>
 <p>You&#39;ll remember from the last section that our Web Server is written in NodeJS and uses
-<a href="http://www.grpc.io/" target="_blank">Grpc</a> to communicate with the various microservices. In order to make this happen, we
+<a href="http://www.grpc.io/" target="_blank">gRPC</a> to communicate with the various microservices. In order to make this happen, we
 use the <a href="https://www.npmjs.com/package/grpc" target="_blank">grpc package on NPM</a> to generate clients that
-the Web Server can use to call the backend microservices. The NodeJS implementation for Grpc
+the Web Server can use to call the backend microservices. The NodeJS implementation for gRPC
 currently doesn&#39;t generate code files (unlike for example, in C# and Java), but instead is
 able to load and parse <code>.proto</code> files and then create client objects (with the appropriate
 method names from the <code>.proto</code> files) dynamically at runtime. For example:</p>
@@ -114,23 +114,23 @@ method names from the <code>.proto</code> files) dynamically at runtime. For exa
 };
 ratingsServiceClient.rateVideo(rateVideoRequest, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err, rateVideoResponse</span>) </span>{
     <span class="hljs-comment">// ... Handle the response here ...</span>
-});</pre></code><p>There are a couple things to understand about the communication that happens with Grpc:</p>
+});</pre></code><p>There are a couple things to understand about the communication that happens with gRPC:</p>
 <ol>
 <li>Most developers who are familiar with <a href="https://developers.google.com/protocol-buffers/" target="_blank">Protocol Buffers</a> from the past will
-know it as a serialization format. Grpc uses Protocol Buffers not only as the IDL, but also 
+know it as a serialization format. gRPC uses Protocol Buffers not only as the IDL, but also 
 as the &quot;on the wire&quot; format for communication between client and server. All the 
 serialization work is done automatically for you (in the generated code).</li>
-<li>Grpc also comes with a default transport (<a href="https://http2.github.io/" target="_blank">HTTP/2</a>) for 
+<li>gRPC also comes with a default transport (<a href="https://http2.github.io/" target="_blank">HTTP/2</a>) for 
 communication between the client and the server. For most of the supported languages, this
 transport is just bindings to a common C++ implementation (i.e. so NodeJS and C# are
 actually both using the same HTTP/2 transport code under the covers).</li>
 </ol>
-<p>The HTTP/2 transport included in Grpc includes support not only for &quot;Request-Response&quot; style
+<p>The HTTP/2 transport included in gRPC includes support not only for &quot;Request-Response&quot; style
 communication, but also for unidirectional and bidirectional streaming communication. In 
 KillrVideo, all of the communication between the Web Server and the microservices is done 
 with Request-Response style calls, but this could change in the future.</p>
-<h2 id="grpc-server-in-microservices">Grpc Server in Microservices</h2>
-<p><a href="http://www.grpc.io/" target="_blank">Grpc</a> will generate server stubs. Depending on the language being used for the
+<h2 id="grpc-server-in-microservices">gRPC Server in Microservices</h2>
+<p><a href="http://www.grpc.io/" target="_blank">gRPC</a> will generate server stubs. Depending on the language being used for the
 microservice implementation, this could be code files (e.g. in C# and Java) or dynamic
 objects created at runtime (e.g. NodeJS). The service&#39;s logic can then be &quot;plugged in&quot;
 to these stubs. This is where all the code that talks to DataStax Enterprise and Cassandra
@@ -141,7 +141,7 @@ own HTTP/2 endpoint. This is one area where KillrVideo, because it&#39;s meant t
 application for developers, is different. In KillrVideo, the microservice implementations 
 are grouped together in Git repos by programming language to make it easy for a developer to
 get all the interesting code for their programming language of choice.</p>
-<p>Since Grpc supports binding multiple service implementations to a single HTTP/2 server 
+<p>Since gRPC supports binding multiple service implementations to a single HTTP/2 server 
 endpoint, it also means that we can run all our microservice implementations in a single
 process together on a single endpoint. Again, this is different than how we&#39;d deploy the
 application in the real world. But we&#39;ve chosen to do it this way because it makes the
@@ -220,11 +220,11 @@ KillrVideo.</p>
               </li>
             
               <li>
-                <a href="/docs/guides/microservices-tier/#grpc-client-on-the-web-server">Grpc Client on the Web Server</a>
+                <a href="/docs/guides/microservices-tier/#grpc-client-on-the-web-server">gRPC Client on the Web Server</a>
               </li>
             
               <li>
-                <a href="/docs/guides/microservices-tier/#grpc-server-in-microservices">Grpc Server in Microservices</a>
+                <a href="/docs/guides/microservices-tier/#grpc-server-in-microservices">gRPC Server in Microservices</a>
               </li>
             
               <li>
@@ -280,7 +280,7 @@ KillrVideo.</p>
             <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> license.
           <p>
           <p>
-            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/0865cf5391a6aa7f401c21cd5de13b78bd1dcc64" target="_blank">0865cf5</a></small>
+            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/b28878972576654c70923f39de7c927eabf3541e" target="_blank">b288789</a></small>
           </p>
         </div>
       </div>
