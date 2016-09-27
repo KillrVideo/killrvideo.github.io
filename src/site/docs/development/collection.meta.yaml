@@ -6,3 +6,4 @@ sort_by:
 - setup-docker-environment.md
 - generate-service-code.md
 - connecting-to-datastax-enterprise.md
+- implement-services.md
