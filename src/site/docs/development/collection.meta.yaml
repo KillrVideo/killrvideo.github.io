@@ -7,3 +7,4 @@ sort_by:
 - generate-service-code.md
 - connecting-to-datastax-enterprise.md
 - implement-services.md
+- pub-sub-messaging.md

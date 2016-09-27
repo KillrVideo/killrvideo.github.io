@@ -49,6 +49,7 @@ $light-green: #D1E0BA;
   font-size: 85%;
 }
 
+// Code highlighting in content blocks
 .content > pre {
   margin-bottom: 1em;
 }
@@ -62,6 +63,7 @@ $light-green: #D1E0BA;
   font-weight: bold;
 }
 
+// List styling in content blocks
 .content > ol > li + li {
   margin-top: 1em;
 }
@@ -73,6 +75,7 @@ $light-green: #D1E0BA;
   margin-bottom: 0.5em;
 }
 
+// Blockquote styling in content blocks
 .content blockquote > h1,
 .content blockquote > h2,
 .content blockquote > h3,
@@ -80,6 +83,15 @@ $light-green: #D1E0BA;
 .content blockquote > h5,
 .content blockquote > h6 {
   margin-bottom: 5px;
+}
+
+// Table styling in content blocks
+table {
+  @extend .table
+}
+
+table th {
+  white-space: nowrap;
 }
 
 // Tablet and larger
