@@ -21,7 +21,7 @@ address and connect to it.
 1. [Add Pub-Sub-Messaging][6]: We use events for service collaboration in KillrVideo so you're
 going to need to implement some pub-sub messaging.
 1. [Register Services with etcd][7]: When you (or a developer learning from your code) starts 
-up the services locally, you need to tell register them with service discovery.
+up the services locally, your services should register with etcd for service discovery.
 1. [Use the Web Tier][8]: The web tier has the UI for KillrVideo and makes calls to your
 services. You'll need to use it (and its logs) to try out your service implementations.
 1. [Generate Sample Data][9]: It's a lot easier to use the UI when you have some sample data
