@@ -1,4 +1,4 @@
-# Setup the Git Repo
+# Setting up the Git Repo
 
 We're sure you can handle creating a new empty Git repository. But once you have your initial
 commit with a `README.md`, `.gitignore`, etc., you'll want to pull in the common KillrVideo 

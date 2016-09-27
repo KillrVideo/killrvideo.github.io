@@ -1,4 +1,4 @@
-# Pub-Sub Messaging
+# Adding Pub-Sub Messaging
 
 KillrVideo is architected to use [events for service collaboration][fowler-events]. This
 means that the services publish events about interesting things that happen (i.e. when state

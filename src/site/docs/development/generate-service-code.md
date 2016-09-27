@@ -1,4 +1,4 @@
-# Generate Service Code
+# Generating Service Code
 
 The `.proto` files that you pulled in from the [killrvideo-service-protos][service-protos]
 project contain all the service definitions for KillrVideo. You can use these service

@@ -1,4 +1,4 @@
-# Setup Docker Environment
+# Setting up the Docker Environment
 
 KillrVideo uses Docker for running all our dependencies on other projects and infrastructure.
 The [killrvideo-docker-common][docker-common] project that you added as a Git Subtree in the

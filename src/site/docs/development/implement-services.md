@@ -1,4 +1,4 @@
-# Implement the Services
+# Implementing the Services
 
 With all the setup out of the way, now you're ready to write some actual service code. You 
 should have stub code generated for each service and its methods after following the
