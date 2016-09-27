@@ -12,12 +12,18 @@ installed, you'll need to do so. You can download and install the appropriate to
 
 - [Docker for Windows or Mac][docker-install]
 
-> #### Note on Docker Beta Status
-> The native Docker tools for Windows and Mac are currently in beta and are constantly
+> #### Note on Docker
+> The native Docker tools for Windows and Mac are currently pretty new and are constantly
 > evolving. We've seen issues (particularly around networking in the Mac version) crop up 
-> when trying to run KillrVideo with those tools. If you encounter issues, we suggest
-> installing and using [Docker Toolbox][docker-toolbox] instead. Once the native tools are
-> out of beta, this shouldn't be an issue any longer.
+> when trying to run KillrVideo with those tools. If you encounter issues, please open an
+> issue on GitHub so we can try and solve the problem for everyone.
+
+Once you've got Docker for Windows or Mac installed, it's also really helpful to increase
+the amount of RAM allocated to the Docker VM that's running. We recommend allocating **at
+least 3 GB** of RAM since DataStax Enterprise and Cassandra are memory-intensive apps:
+
+- Changing [Docker for Mac Preferences][mac-preferences]
+- Changing [Docker for Windows Preferences][win-preferences]
 
 ## 2. Choose your Programming Language
 
@@ -41,7 +47,8 @@ self-paced online courses on Cassandra's architecture, data modeling, and more.
 [docker]: https://www.docker.com/
 [docker-guide]: /docs/guides/docker/
 [docker-install]: https://www.docker.com/products/docker
-[docker-toolbox]: https://www.docker.com/products/docker-toolbox
+[mac-preferences]: https://docs.docker.com/docker-for-mac/#/preferences
+[win-preferences]: https://docs.docker.com/docker-for-windows/#/advanced
 [c-sharp]: /docs/languages/c-sharp/
 [achilles]: http://doanduyhai.github.io/Achilles/
 [academy]: https://academy.datastax.com/courses
