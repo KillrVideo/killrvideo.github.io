@@ -5,3 +5,4 @@ sort_by:
 - setup-git-repo.md
 - setup-docker-environment.md
 - generate-service-code.md
+- connecting-to-datastax-enterprise.md
