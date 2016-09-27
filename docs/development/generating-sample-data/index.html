@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-  <title>KillrVideo - Adding Pub-Sub Messaging</title>
+  <title>KillrVideo - Generating Sample Data</title>
   <link href="/assets/css/bundle.css" rel="stylesheet">
   <link rel="icon" type="image/png" href="/assets/images/killrvideo-icon.png"/>
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -50,64 +50,38 @@
   <div class="container">
     <div class="columns">
       <article class="column is-9 content">
-        <h1 id="adding-pub-sub-messaging">Adding Pub-Sub Messaging</h1>
-<p>KillrVideo is architected to use <a href="http://martinfowler.com/eaaDev/EventCollaboration.html" target="_blank">events for service collaboration</a>. This
-means that the services publish events about interesting things that happen (i.e. when state
-changes occur) and other services are free to subscribe to those events and react. As a
-result, you&#39;ll need to setup some kind of messaging infrastructure that supports pub-sub.
-We&#39;ve defined the events published by each service in Protocol Buffers files that are located
-next to each service&#39;s definition in the <a href="https://github.com/KillrVideo/killrvideo-service-protos" target="_blank">killrvideo-service-protos</a> project
-that you used when <a href="/docs/development/generate-service-code/">Geneterating Service Code</a>.</p>
-<h2 id="implementation-recommendations">Implementation Recommendations</h2>
-<p>Since this is a reference application and all the gRPC service implementations will be running
-in-process together so users can debug them, the simplest way to do pub-sub messaging is via
-some in-memory mechanism. Some programming languages may already have an in-memory message bus
-implementation available (for example, in Java we have the <a href="https://github.com/google/guava/wiki/EventBusExplained" target="_blank">Guava EventBus</a> 
-available). If you don&#39;t have an in-memory implementation available, it&#39;s usually pretty 
-straightforward to create a simple one of your own.</p>
-<p>Another option is to use a real piece of messaging infrastructure like Kafka or RabbitMQ.
-Since KillrVideo uses Docker Compose for spinning up all the dependencies needed by a user in
-their development environment, it&#39;s possible to piggyback on that and spin up a container
-using messaging infrastructure of your choice. You would go about doing this by adding it to
-the <code>docker-compose.yaml</code> file as another service.</p>
-<p>While we don&#39;t want to give a hard rule on how to accomplish pub-sub messaging, it&#39;s 
-<strong>strongly recommended</strong> that you go down the easy route of doing things in-memory. Try and
-hide the implementation details from your consumer code and provide a generic API for 
-publishing and subscribing to events. That way you could switch the implementation out (or
-provide multiple available implementations as further examples) for real messaging 
-infrastructure.</p>
-<h2 id="what-services-should-subscribe-to-what-events-">What services should subscribe to what events?</h2>
-<p>As mentioned in the section on <a href="/docs/development/implement-services/">Implementing Services</a>, you should be 
-using the other programming language implementations as a reference. They will always contain
-the latest examples of services subscribing to and reacting to events from other services. At
-the time of writing, these are the events you&#39;ll want to subscribe to.</p>
-<table>
-<thead>
-<tr>
-<th>Event Name</th>
-<th>Published By</th>
-<th>Subscribed To By</th>
-<th>Purpose</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>UploadedVideoAdded</code></td>
-<td>VideoCatalogService</td>
-<td>SearchService</td>
-<td>Allows the SearchService to update its collection of tags and videos by tag as new videos are added.</td>
-</tr>
-<tr>
-<td><code>YouTubeVideoAdded</code></td>
-<td>VideoCatalogService</td>
-<td>SearchService</td>
-<td>Allows the SearchService to update its collection of tags and videos by tag as new videos are added.</td>
-</tr>
-</tbody>
-</table>
-<p>Just because an event doesn&#39;t currently have any subscribers doesn&#39;t mean it shouldn&#39;t be
-published. Make sure you refer to the event definition&#39;s <code>.proto</code> files for each service and
-the other language implementations for what events to publish and when to publish them.</p>
+        <h1 id="generating-sample-data">Generating Sample Data</h1>
+<p><a href="/docs/development/using-the-web-tier/">Using the web tier</a> is a lot more useful when there&#39;s some actual data in
+your services. Fortunately, there&#39;s an app that will run in the background and call your gRPC 
+services to add sample data to the application already built. Back when you 
+<a href="/docs/development/setup-docker-environment/">setup your Docker environment</a> you may recall that you added a service called
+<code>generator</code>. Here&#39;s the relevant part of the <code>docker-compose.yaml</code> file:</p>
+<pre><code class="hljs">  <span class="hljs-comment"># ... other services snipped ...</span>
+
+  <span class="hljs-comment"># The sample data generator</span>
+<span class="hljs-attr">  generator:</span>
+<span class="hljs-attr">    image:</span> killrvideo/killrvideo-generator:<span class="hljs-number">1.2</span><span class="hljs-number">.1</span>
+<span class="hljs-attr">    depends_on:</span>
+<span class="hljs-bullet">    -</span> dse
+<span class="hljs-bullet">    -</span> etcd
+<span class="hljs-attr">    environment:</span>
+<span class="hljs-attr">      KILLRVIDEO_ETCD:</span> <span class="hljs-string">"etcd:2379"</span></pre></code><p>This creates and starts an instance of the <a href="https://github.com/KillrVideo/killrvideo-generator" target="_blank">KillrVideo Sample Data Generator</a>
+applicaiton in Docker. This application listens for your services to become available and when
+they do, it calls your services to add sample users, videos, comments, and more to the site.</p>
+<h2 id="starting-and-stopping-the-generator">Starting and Stopping the Generator</h2>
+<p>The generator will try to listen for the gRPC services to become available and when they do,
+to start running jobs that insert sample data on a regular schedule. Sometimes when you&#39;re 
+developing and trying to track down a bug, it can be useful to stop the generator app so it
+doesn&#39;t interfere in your debugging by making service calls in the background. Since you 
+started the app along with all the other dependencies via Docker Compose, it&#39;s also possible to 
+start and stop the app whenever you want.</p>
+<p>To stop it:</p>
+<pre><code>> docker-compose stop generator</code></pre><p>Or to start it again once stopped:</p>
+<pre><code>> docker-compose start generator</code></pre><h2 id="viewing-the-generator-logs">Viewing the Generator Logs</h2>
+<p>It can also be helpful sometimes to take a look at the logs from the Sample Data Generator
+since it&#39;s making calls to your gRPC services. You can do this at any time using:</p>
+<pre><code>> docker-compose logs generator</code></pre><p>There you should be able to see any errors encountered by the application while calling your
+services.</p>
 
       </article>
       <div class="column is-3">
@@ -202,25 +176,11 @@ the other language implementations for what events to publish and when to publis
           
           
           
-            
-          
 
-          <div class="panel-block is-active">
+          <div class="panel-block">
             <a href="/docs/development/pub-sub-messaging/">Adding Pub-Sub Messaging</a>
 
             
-            
-            <ul class="headings-list links-list">
-            
-              <li>
-                <a href="/docs/development/pub-sub-messaging/#implementation-recommendations">Implementation Recommendations</a>
-              </li>
-            
-              <li>
-                <a href="/docs/development/pub-sub-messaging/#what-services-should-subscribe-to-what-events-">What services should subscribe to what events?</a>
-              </li>
-            
-            </ul>
             
           </div>
 
@@ -255,11 +215,25 @@ the other language implementations for what events to publish and when to publis
           
           
           
+            
+          
 
-          <div class="panel-block">
+          <div class="panel-block is-active">
             <a href="/docs/development/generating-sample-data/">Generating Sample Data</a>
 
             
+            
+            <ul class="headings-list links-list">
+            
+              <li>
+                <a href="/docs/development/generating-sample-data/#starting-and-stopping-the-generator">Starting and Stopping the Generator</a>
+              </li>
+            
+              <li>
+                <a href="/docs/development/generating-sample-data/#viewing-the-generator-logs">Viewing the Generator Logs</a>
+              </li>
+            
+            </ul>
             
           </div>
 
@@ -288,7 +262,7 @@ the other language implementations for what events to publish and when to publis
       </div>
       <div class="level-right">
         <div class="level-right">
-          <a class="button level-item" href="https://github.com/KillrVideo/killrvideo.github.io/tree/source/src/site/docs/development/pub-sub-messaging.md" target="_blank">
+          <a class="button level-item" href="https://github.com/KillrVideo/killrvideo.github.io/tree/source/src/site/docs/development/generating-sample-data.md" target="_blank">
             <i class="fa fa-github fa-fw"></i>Improve this page
           </a>
         </div>

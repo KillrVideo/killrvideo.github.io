@@ -65,11 +65,17 @@ the common KillrVideo project dependencies as Git subtrees.</li>
 infrastructure and projects it needs (for example, one node of DSE) using Docker Compose.</li>
 <li><a href="/docs/development/generate-service-code/">Generate Service Code</a>: Use the <code>.proto</code> files to generate client and server code
 stubs with the Grpc plugin for the Protobuf compiler.</li>
-<li><a href="/docs/development/connecting-to-datastax-enterprise/">Connecting to DataStax Enterprise</a>: Use etcd service discovery to find the DSE node&#39;s
+<li><a href="/docs/development/connecting-to-datastax-enterprise/">Connect to DataStax Enterprise</a>: Use etcd service discovery to find the DSE node&#39;s
 address and connect to it.</li>
 <li><a href="/docs/development/implement-services/">Implement the Services</a>: Write the interesting code that implements the services.</li>
-<li><a href="/docs/development/pub-sub-messaging/">Pub-Sub-Messaging</a>: We use events for service collaboration in KillrVideo so you&#39;re
+<li><a href="/docs/development/pub-sub-messaging/">Add Pub-Sub-Messaging</a>: We use events for service collaboration in KillrVideo so you&#39;re
 going to need to implement some pub-sub messaging.</li>
+<li><a href="/docs/development/register-with-etcd/">Register Services with etcd</a>: When you (or a developer learning from your code) starts 
+up the services locally, your services should register with etcd for service discovery.</li>
+<li><a href="/docs/development/using-the-web-tier/">Use the Web Tier</a>: The web tier has the UI for KillrVideo and makes calls to your
+services. You&#39;ll need to use it (and its logs) to try out your service implementations.</li>
+<li><a href="/docs/development/generating-sample-data/">Generate Sample Data</a>: It&#39;s a lot easier to use the UI when you have some sample data
+in the system. Luckily, there&#39;s an app for that and it&#39;s probably already running.</li>
 </ol>
 
       </article>
@@ -104,7 +110,7 @@ going to need to implement some pub-sub messaging.</li>
           
 
           <div class="panel-block">
-            <a href="/docs/development/setup-git-repo/">Setup the Git Repo</a>
+            <a href="/docs/development/setup-git-repo/">Setting up the Git Repo</a>
 
             
             
@@ -117,7 +123,7 @@ going to need to implement some pub-sub messaging.</li>
           
 
           <div class="panel-block">
-            <a href="/docs/development/setup-docker-environment/">Setup Docker Environment</a>
+            <a href="/docs/development/setup-docker-environment/">Setting up the Docker Environment</a>
 
             
             
@@ -130,7 +136,7 @@ going to need to implement some pub-sub messaging.</li>
           
 
           <div class="panel-block">
-            <a href="/docs/development/generate-service-code/">Generate Service Code</a>
+            <a href="/docs/development/generate-service-code/">Generating Service Code</a>
 
             
             
@@ -156,7 +162,7 @@ going to need to implement some pub-sub messaging.</li>
           
 
           <div class="panel-block">
-            <a href="/docs/development/implement-services/">Implement the Services</a>
+            <a href="/docs/development/implement-services/">Implementing the Services</a>
 
             
             
@@ -169,7 +175,46 @@ going to need to implement some pub-sub messaging.</li>
           
 
           <div class="panel-block">
-            <a href="/docs/development/pub-sub-messaging/">Pub-Sub Messaging</a>
+            <a href="/docs/development/pub-sub-messaging/">Adding Pub-Sub Messaging</a>
+
+            
+            
+          </div>
+
+          
+
+          
+          
+          
+
+          <div class="panel-block">
+            <a href="/docs/development/register-with-etcd/">Registering Services with etcd</a>
+
+            
+            
+          </div>
+
+          
+
+          
+          
+          
+
+          <div class="panel-block">
+            <a href="/docs/development/using-the-web-tier/">Using the Web Tier</a>
+
+            
+            
+          </div>
+
+          
+
+          
+          
+          
+
+          <div class="panel-block">
+            <a href="/docs/development/generating-sample-data/">Generating Sample Data</a>
 
             
             
@@ -194,7 +239,7 @@ going to need to implement some pub-sub messaging.</li>
             <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> license.
           <p>
           <p>
-            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/30329370fac800bfe0db6462cfa471b137215d95" target="_blank">3032937</a></small>
+            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/0865cf5391a6aa7f401c21cd5de13b78bd1dcc64" target="_blank">0865cf5</a></small>
           </p>
         </div>
       </div>

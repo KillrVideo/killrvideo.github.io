@@ -1,0 +1,309 @@
+<!doctype html>
+<html>
+<head>
+  <title>KillrVideo - Registering Services with etcd</title>
+  <link href="/assets/css/bundle.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="/assets/images/killrvideo-icon.png"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  
+  <header>
+    <nav class="nav">
+      <div class="container">
+        <div class="nav-left">
+          <a href="/" class="nav-item">
+            <img src="/assets/images/killrvideo.png" alt="KillrVideo logo" />
+          </a>
+        </div>
+
+        <!-- Nav Toggle on mobile -->
+        <span class="nav-toggle">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+
+        <div class="nav-right nav-menu">
+          <span class="nav-item">
+            <a href="/getting-started/" class="button is-primary">
+              <i class="fa fa-code fa-fw"></i> Get Started
+            </a>
+          </span>
+          <a href="/docs/" class="nav-item">
+            Docs
+          </a>
+          <a href="/blog/" class="nav-item">
+            Blog
+          </a>
+          <a href="https://github.com/KillrVideo" target="_blank" class="nav-item">
+            <i class="fa fa-github fa-2x"></i>
+          </a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  
+  
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <article class="column is-9 content">
+        <h1 id="registering-services-with-etcd">Registering Services with etcd</h1>
+<p>You already know from the <a href="/docs/development/connecting-to-datastax-enterprise/">Connecting to DataStax Enterprise</a> section that
+KillrVideo uses <a href="https://github.com/coreos/etcd" target="_blank">etcd</a> for service discovery. While <a href="https://github.com/gliderlabs/registrator" target="_blank">Registrator</a> takes
+care of registering our infrastructure services (running in Docker) with etcd so they can be 
+discovered, it&#39;s up to us to register <em>our services</em> (running outside Docker on a local
+development machine) with etcd. If we didn&#39;t do this, the Web Tier that runs in Docker would
+have no way of knowing how to contact and call methods on our gRPC services.</p>
+<h2 id="a-quick-recap-of-the-etcd-setup">A Quick Recap of the etcd Setup</h2>
+<p>Just a quick recap of our etcd setup from the <a href="/docs/development/connecting-to-datastax-enterprise/">Connecting to DataStax Enterprise</a>
+section:</p>
+<ul>
+<li>Etcd is available in Docker at the <code>KILLRVIDEO_DOCKER_IP</code> from our Docker <code>.env</code> file and is
+listening on port <code>2379</code> by default.</li>
+<li>Our infrastructure services are registered by Registrator at keys under 
+<code>/killrvideo/services</code> by default.</li>
+<li>We can use any client that supports making HTTP requests to interact with etcd, but its
+more likely we&#39;re using a client library with a nicer API written in our programming language
+instead. Remember to configure the client to use the <a href="https://github.com/coreos/etcd/blob/master/Documentation/v2/api.md" target="_blank">v2 API</a>.</li>
+</ul>
+<p>We need to register our gRPC microservice implementations running locally in a way that&#39;s
+consistent with how Registrator is registering our infrastructure services.</p>
+<h2 id="listen-vs-broadcast-addresses">Listen vs Broadcast Addresses</h2>
+<p>The first thing we need to figure out is what IP address and port should we use when we 
+register our gRPC services with etcd. When we create our gRPC server and then bind multiple
+services to it (so they run together in process), we have to tell the gRPC server what IP and
+port to listen on for connections. The strategy we&#39;ve taken in other programming language
+implementations is to have two configurations available for IP addresses:</p>
+<ul>
+<li><strong>Listen Address</strong>: The IP and port to tell the gRPC server to bind to and listen on. This 
+is set to IP <code>0.0.0.0</code> and port <code>50101</code> by default, which tells gRPC to listen on <em>all 
+available IP addresses</em> on port <code>50101</code>.</li>
+<li><strong>Broadcast Address</strong>: The IP and port to tell other services to use when contacting us.
+This is the IP address we&#39;ll actually register with etcd and can be set to the value of the
+<code>KILLRVIDEO_HOST_IP</code> variable from our Docker <code>.env</code> file and port <code>50101</code> by default.  </li>
+</ul>
+<p>This is the same kind of configuration that Cassandra allows you to set in the <code>cassandra.yaml</code>
+file (e.g. separate <code>rpc_address</code> and <code>broadcast_rpc_address</code> settings).</p>
+<h2 id="using-the-grpc-service-name-to-register-in-etcd">Using the gRPC Service Name to Register in etcd</h2>
+<p>Now that we have the broadcast address to register with etcd, we need to figure out the key to
+register each service under. To calculate this, we can use the following components:</p>
+<ul>
+<li>The gRPC service&#39;s <strong>short name</strong>. That is, the name of the service from its Protocol Buffer
+definition without the namespace. For example, <code>killrvideo.video_catalog.VideoCatalogService</code>
+has a short name of just <code>VideoCatalogService</code>. Your programming language&#39;s library for gRPC
+and Protocol Buffers probably has a way to access this name on the generated class code.</li>
+<li>A <strong>unique identifier</strong> for the application instance that&#39;s running the service. For example
+in the C# project, we use the unique identifier <code>killrvideo-csharp-1</code> for the first instance 
+of the C# app running. The instance number (i.e. <code>1</code> in that example) is configurable.</li>
+</ul>
+<p>We need that unique identifier to account for multiple instances of a service running in an
+environment, even though for our developers, there will only be one. Putting it all together
+we get a <strong>key</strong> that looks like this:</p>
+<pre><code>/killrvideo/services/${SERVICE_SHORT_NAME}/${APP_UNIQUE_ID}</code></pre><p>And the <strong>value</strong> for that key is the broadcast address where our services can be contacted.</p>
+<h2 id="register-on-startup-remove-on-shutdown">Register on Startup, Remove on Shutdown</h2>
+<p>On startup, you&#39;ll want to use the strategy above for registering each gRPC service with etcd.
+You should also try and provide a way to gracefully shutdown your services (for example, by 
+telling the user in the console to &quot;Press Crtl + C to exit&quot;). Then when gracefully shutting
+down, your application should remove each service from etcd before stopping.</p>
+
+      </article>
+      <div class="column is-3">
+        <nav class="panel">
+          <div class="panel-heading">
+            <span class="icon">
+              <i class="fa fa-wrench"></i>
+            </span>
+            Advanced
+          </div>
+
+          
+
+          
+          
+          
+
+          <div class="panel-block">
+            <a href="/docs/development/implementers-cheatsheet/">Microservice Implementer&#39;s Cheatsheet</a>
+
+            
+            
+          </div>
+
+          
+
+          
+          
+          
+
+          <div class="panel-block">
+            <a href="/docs/development/setup-git-repo/">Setting up the Git Repo</a>
+
+            
+            
+          </div>
+
+          
+
+          
+          
+          
+
+          <div class="panel-block">
+            <a href="/docs/development/setup-docker-environment/">Setting up the Docker Environment</a>
+
+            
+            
+          </div>
+
+          
+
+          
+          
+          
+
+          <div class="panel-block">
+            <a href="/docs/development/generate-service-code/">Generating Service Code</a>
+
+            
+            
+          </div>
+
+          
+
+          
+          
+          
+
+          <div class="panel-block">
+            <a href="/docs/development/connecting-to-datastax-enterprise/">Connecting to DataStax Enterprise</a>
+
+            
+            
+          </div>
+
+          
+
+          
+          
+          
+
+          <div class="panel-block">
+            <a href="/docs/development/implement-services/">Implementing the Services</a>
+
+            
+            
+          </div>
+
+          
+
+          
+          
+          
+
+          <div class="panel-block">
+            <a href="/docs/development/pub-sub-messaging/">Adding Pub-Sub Messaging</a>
+
+            
+            
+          </div>
+
+          
+
+          
+          
+          
+            
+          
+
+          <div class="panel-block is-active">
+            <a href="/docs/development/register-with-etcd/">Registering Services with etcd</a>
+
+            
+            
+            <ul class="headings-list links-list">
+            
+              <li>
+                <a href="/docs/development/register-with-etcd/#a-quick-recap-of-the-etcd-setup">A Quick Recap of the etcd Setup</a>
+              </li>
+            
+              <li>
+                <a href="/docs/development/register-with-etcd/#listen-vs-broadcast-addresses">Listen vs Broadcast Addresses</a>
+              </li>
+            
+              <li>
+                <a href="/docs/development/register-with-etcd/#using-the-grpc-service-name-to-register-in-etcd">Using the gRPC Service Name to Register in etcd</a>
+              </li>
+            
+              <li>
+                <a href="/docs/development/register-with-etcd/#register-on-startup-remove-on-shutdown">Register on Startup, Remove on Shutdown</a>
+              </li>
+            
+            </ul>
+            
+          </div>
+
+          
+
+          
+          
+          
+
+          <div class="panel-block">
+            <a href="/docs/development/using-the-web-tier/">Using the Web Tier</a>
+
+            
+            
+          </div>
+
+          
+
+          
+          
+          
+
+          <div class="panel-block">
+            <a href="/docs/development/generating-sample-data/">Generating Sample Data</a>
+
+            
+            
+          </div>
+
+          
+        
+        </nav>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+  
+  <footer class="footer">
+    <div class="container level">
+      <div class="level-left">
+        <div class="level-item">
+          <p>
+            <strong>KillrVideo</strong> is open source and available under an 
+            <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> license.
+          <p>
+          <p>
+            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/0865cf5391a6aa7f401c21cd5de13b78bd1dcc64" target="_blank">0865cf5</a></small>
+          </p>
+        </div>
+      </div>
+      <div class="level-right">
+        <div class="level-right">
+          <a class="button level-item" href="https://github.com/KillrVideo/killrvideo.github.io/tree/source/src/site/docs/development/register-with-etcd.md" target="_blank">
+            <i class="fa fa-github fa-fw"></i>Improve this page
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  
+  <script type="text/javascript" src="/assets/js/bundle.js"></script>
+</body>
+</html>
