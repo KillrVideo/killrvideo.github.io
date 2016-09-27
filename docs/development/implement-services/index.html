@@ -1,0 +1,274 @@
+<!doctype html>
+<html>
+<head>
+  <title>KillrVideo - Implement the Services</title>
+  <link href="/assets/css/bundle.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="/assets/images/killrvideo-icon.png"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  
+  <header>
+    <nav class="nav">
+      <div class="container">
+        <div class="nav-left">
+          <a href="/" class="nav-item">
+            <img src="/assets/images/killrvideo.png" alt="KillrVideo logo" />
+          </a>
+        </div>
+
+        <!-- Nav Toggle on mobile -->
+        <span class="nav-toggle">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+
+        <div class="nav-right nav-menu">
+          <span class="nav-item">
+            <a href="/getting-started/" class="button is-primary">
+              <i class="fa fa-code fa-fw"></i> Get Started
+            </a>
+          </span>
+          <a href="/docs/" class="nav-item">
+            Docs
+          </a>
+          <a href="/blog/" class="nav-item">
+            Blog
+          </a>
+          <a href="https://github.com/KillrVideo" target="_blank" class="nav-item">
+            <i class="fa fa-github fa-2x"></i>
+          </a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  
+  
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <article class="column is-9 content">
+        <h1 id="implement-the-services">Implement the Services</h1>
+<p>With all the setup out of the way, now you&#39;re ready to write some actual service code. You 
+should have stub code generated for each service and its methods after following the
+<a href="/docs/development/generate-service-code/">Generate Service Code</a> step. You also have the schema available in
+DSE for storing all the data the services need to fulfill their contracts. So how do you get 
+started filling in the stubs with real implementation code? Here are some tips.</p>
+<h2 id="reference-other-language-implementations">Reference other Language Implementations</h2>
+<p>Luckily, you&#39;re standing on the shoulders of giants (or at least, other programmers who have
+gone through this same exercise before). Translate the work they&#39;ve done into idiomatic code
+for the language you&#39;re working in. Here are some other implementations to use as a reference:</p>
+<ul>
+<li><a href="https://github.com/KillrVideo/killrvideo-nodejs" target="_blank">Node.js</a></li>
+<li><a href="https://github.com/LukeTillman/killrvideo-csharp" target="_blank">C# / .NET</a></li>
+</ul>
+<h2 id="create-idiomatic-examples">Create Idiomatic Examples</h2>
+<p>Even though you&#39;ll probably be using other implementations as a reference, remember that at
+the end of the day this is going to be used by programmers familiar with your language.
+There&#39;s also a good chance some of your code may get copy-pasted directly and then modified
+for use in their own programs. As a result, you want to make sure you&#39;re creating code that
+shows off best practices and follows the idioms of your programming language.</p>
+<p>The way you see things being done in the JavaScript and C# examples above may not translate
+well to your lanauge or may not be the best way to go about things in your language and that&#39;s
+OK. In fact, it&#39;s probably to be expected. Here are some questions you should ask yourself
+when writing the service code:</p>
+<ol>
+<li><strong>Sync or async?</strong> Most of the Cassandra drivers offer both sync and async APIs. When
+writing your service code, do you need to show examples of both? What do most people use in
+your language when building applications these days? (Hint: It&#39;s probably all async.)</li>
+<li><strong>What features should I show examples of?</strong> Is there a specific feature offered
+in your language that would be good to show off? For example, in Java, we might want to
+include an example of using the built-in object mapper, or in C# we might want to include
+an example of using the LINQ driver.</li>
+<li><strong>What other libraries should be included?</strong> There&#39;s more to building applications and 
+services than just interacting with the Cassandra drivers. What other popular libraries are
+people likely to use in their applications? For example, in C# we might use an IoC container
+for injecting dependencies or in Java we might show an example using Spring.</li>
+</ol>
+<p>Provide a wide variety of service method implementations that cover the most common usages in
+your programming language. A great example of this is <a href="https://github.com/KillrVideo/killrvideo-nodejs" target="_blank">Node.js</a> where 
+there are currently three common ways people do asynchronous programming and try to avoid a
+lot of nested callbacks. One is via the popular <code>async</code> library on NPM, another is using the
+<code>Promise</code> type and its API, and the last is via the new <code>async</code> and <code>await</code> keywords coming in
+the next version of JavaScript. We provided examples of all those in our service code.</p>
+<h2 id="translating-to-and-from-grpc-types">Translating to and from gRPC Types</h2>
+<p>One problem you&#39;ll have to solve is the mismatch between types that you get on the gRPC
+requests and responses versus the types used in your programming language and expected by the
+Cassandra driver. There are two main cases you&#39;ll be dealing with.</p>
+<h4 id="timestamp">Timestamp</h4>
+<p>Many of the request and responses need date and time information. For those fields, we&#39;ve used
+the <code>google.protobuf.Timestamp</code> type which is part of Google&#39;s <a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf" target="_blank">Well-Known Types</a>
+package. Your programming language&#39;s gRPC or Protocol Buffers library may already contain
+code to convert between that type and the appropriate date and time type for your language. If
+not, it&#39;s fairly straightforward to convert manually by taking a look at how the 
+<a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.Timestamp" target="_blank"><code>Timestamp</code> type is defined</a> by that package.</p>
+<h4 id="uuid-and-timeuuid">UUID and TimeUUID</h4>
+<p>Cassandra makes heavy use of <code>UUID</code> and <code>TimeUUID</code> types, so it&#39;s not a surprise that the
+KillrVideo API would use them as well for unique identifiers. Unfortunately, Protocol Buffers
+does not support them via a <a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf" target="_blank">Well-Known type</a> like we had with <code>Timestamp</code>.
+As a result, we decided to <a href="https://github.com/KillrVideo/killrvideo-service-protos/blob/master/src/common/common_types.proto" target="_blank">define</a> and use two common types of our own
+in the service definitions: <code>killrvideo.common.Uuid</code> and <code>killrvideo.common.TimeUuid</code>. If you
+take a look at the <a href="https://github.com/KillrVideo/killrvideo-service-protos/blob/master/src/common/common_types.proto" target="_blank">definitions</a> for those types, you&#39;ll see it should be
+pretty straightforward to convert to/from them.</p>
+<p>They contain a single field, <code>value</code> which is just a <code>string</code> representation of the <code>UUID</code> or
+<code>TimeUuid</code>. We chose this since it seemed like the lowest common denominator across multiple
+lanaguges. All the programming languages we looked at had built-in methods for converting
+their native types to/from a <code>string</code> version.</p>
+<h2 id="running-multiple-grpc-services-together-in-process">Running multiple gRPC Services together in-process</h2>
+<p>As you start implementing the services, one thing to keep in mind is that all of the service
+implementations should be setup to run in-process together. It&#39;s true that in a real
+microservices applicaiton, we would run each gRPC service in its own process at its own
+endpoint. But for users trying our your microservices implementation for themselves, they&#39;ll
+want to be able to start and debug a single process.</p>
+<p>The server implementation that comes with gRPC supports binding multiple services to a single
+server endpoint. See the documentation for your programming language&#39;s package for the 
+relevant API.</p>
+
+      </article>
+      <div class="column is-3">
+        <nav class="panel">
+          <div class="panel-heading">
+            <span class="icon">
+              <i class="fa fa-wrench"></i>
+            </span>
+            Advanced
+          </div>
+
+          
+
+          
+          
+          
+
+          <div class="panel-block">
+            <a href="/docs/development/implementers-cheatsheet/">Microservice Implementer&#39;s Cheatsheet</a>
+
+            
+            
+          </div>
+
+          
+
+          
+          
+          
+
+          <div class="panel-block">
+            <a href="/docs/development/setup-git-repo/">Setup the Git Repo</a>
+
+            
+            
+          </div>
+
+          
+
+          
+          
+          
+
+          <div class="panel-block">
+            <a href="/docs/development/setup-docker-environment/">Setup Docker Environment</a>
+
+            
+            
+          </div>
+
+          
+
+          
+          
+          
+
+          <div class="panel-block">
+            <a href="/docs/development/generate-service-code/">Generate Service Code</a>
+
+            
+            
+          </div>
+
+          
+
+          
+          
+          
+
+          <div class="panel-block">
+            <a href="/docs/development/connecting-to-datastax-enterprise/">Connecting to DataStax Enterprise</a>
+
+            
+            
+          </div>
+
+          
+
+          
+          
+          
+            
+          
+
+          <div class="panel-block is-active">
+            <a href="/docs/development/implement-services/">Implement the Services</a>
+
+            
+            
+            <ul class="headings-list links-list">
+            
+              <li>
+                <a href="/docs/development/implement-services/#reference-other-language-implementations">Reference other Language Implementations</a>
+              </li>
+            
+              <li>
+                <a href="/docs/development/implement-services/#create-idiomatic-examples">Create Idiomatic Examples</a>
+              </li>
+            
+              <li>
+                <a href="/docs/development/implement-services/#translating-to-and-from-grpc-types">Translating to and from gRPC Types</a>
+              </li>
+            
+              <li>
+                <a href="/docs/development/implement-services/#running-multiple-grpc-services-together-in-process">Running multiple gRPC Services together in-process</a>
+              </li>
+            
+            </ul>
+            
+          </div>
+
+          
+        
+        </nav>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+  
+  <footer class="footer">
+    <div class="container level">
+      <div class="level-left">
+        <div class="level-item">
+          <p>
+            <strong>KillrVideo</strong> is open source and available under an 
+            <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> license.
+          <p>
+          <p>
+            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/144a120af5047086ecadce5ca7c1474d2cba85ee" target="_blank">144a120</a></small>
+          </p>
+        </div>
+      </div>
+      <div class="level-right">
+        <div class="level-right">
+          <a class="button level-item" href="https://github.com/KillrVideo/killrvideo.github.io/tree/source/src/site/docs/development/implement-services.md" target="_blank">
+            <i class="fa fa-github fa-fw"></i>Improve this page
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  
+  <script type="text/javascript" src="/assets/js/bundle.js"></script>
+</body>
+</html>
