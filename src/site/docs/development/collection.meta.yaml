@@ -8,3 +8,4 @@ sort_by:
 - connecting-to-datastax-enterprise.md
 - implement-services.md
 - pub-sub-messaging.md
+- using-the-web-tier.md
