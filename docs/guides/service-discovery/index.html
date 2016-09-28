@@ -49,7 +49,7 @@
 <section class="section">
   <div class="container">
     <div class="columns">
-      <article class="column is-9 content">
+      <article class="column is-8-tablet is-9-widescreen content">
         <h1 id="service-discovery-with-etcd">Service Discovery with etcd</h1>
 <p>One problem all microservices architectures face is how to do service discovery. How does
 the Video Catalog service know where to go to talk to Cassandra? How does the Web Tier know
@@ -93,8 +93,8 @@ name&quot; when registering with etcd. The short name for a service is the same 
 <p>Again, for more details on the exact API request and response, see the <a href="https://github.com/coreos/etcd/blob/master/Documentation/v2/README.md" target="_blank">v2 API documentation</a>.</p>
 
       </article>
-      <div class="column is-3">
-        <nav class="panel">
+      <div class="column is-4-tablet is-3-widescreen">
+        <nav class="docs panel">
           <div class="panel-heading">
             <span class="icon">
               <i class="fa fa-info"></i>
@@ -200,7 +200,7 @@ name&quot; when registering with etcd. The short name for a service is the same 
             <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> license.
           <p>
           <p>
-            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/b28878972576654c70923f39de7c927eabf3541e" target="_blank">b288789</a></small>
+            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/17e99aab0157f9189922acf0a2f7ebdd7448a43e" target="_blank">17e99aa</a></small>
           </p>
         </div>
       </div>
@@ -215,5 +215,13 @@ name&quot; when registering with etcd. The short name for a service is the same 
   </footer>
   
   <script type="text/javascript" src="/assets/js/bundle.js"></script>
+
+  
+  
+<script type="text/javascript">
+  // Make doc navigation sticky once window is scrolled past 100px
+  KillrVideo.sticky('nav.docs', 100, 20);
+</script>
+
 </body>
 </html>
