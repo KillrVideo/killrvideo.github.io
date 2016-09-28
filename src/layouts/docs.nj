@@ -4,10 +4,10 @@
 <section class="section">
   <div class="container">
     <div class="columns">
-      <article class="column is-9 content">
+      <article class="column is-8-tablet is-9-widescreen content">
         {{ contents | safe }}
       </article>
-      <div class="column is-3">
+      <div class="column is-4-tablet is-3-widescreen">
         <nav class="docs panel">
           <div class="panel-heading">
             <span class="icon">
