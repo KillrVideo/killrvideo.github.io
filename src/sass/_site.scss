@@ -104,7 +104,10 @@ header {
   padding: 5px 10px;
 }
 
-header, header > nav.nav {
+header, 
+header > nav.nav,
+.nav-menu.is-active,
+.nav-toggle:hover {
   background-color: $black;
 }
 
@@ -114,6 +117,10 @@ header > nav.nav .nav-item {
 
 header > nav.nav .nav-item:hover {
   color: $green;
+}
+
+.nav-toggle:hover > span {
+  background-color: $green;
 }
 
 .hero.is-light-green {
