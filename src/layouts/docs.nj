@@ -50,7 +50,7 @@
 
 {% block scripts %}
 <script type="text/javascript">
-  // Make doc navigation sticky
-  KillrVideo.sticky('nav.docs', 100);
+  // Make doc navigation sticky once window is scrolled past 100px
+  KillrVideo.sticky('nav.docs', 100, 20);
 </script>
 {% endblock %}

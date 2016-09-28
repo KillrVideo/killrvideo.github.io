@@ -170,11 +170,3 @@ nav.docs .panel-block.is-active > a {
 .headings-list > li {
   font-size: 85%;
 }
-
-// Tablet and larger
-@include tablet {
-  nav.docs.sticky {
-    position: fixed;
-    top: 20px;
-  }
-}
