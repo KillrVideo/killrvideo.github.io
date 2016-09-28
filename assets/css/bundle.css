@@ -6179,7 +6179,10 @@ table th {
 header {
   padding: 5px 10px; }
 
-header, header > nav.nav {
+header,
+header > nav.nav,
+.nav-menu.is-active,
+.nav-toggle:hover {
   background-color: #111; }
 
 header > nav.nav .nav-item {
@@ -6187,6 +6190,9 @@ header > nav.nav .nav-item {
 
 header > nav.nav .nav-item:hover {
   color: #7AB820; }
+
+.nav-toggle:hover > span {
+  background-color: #7AB820; }
 
 .hero.is-light-green {
   background-color: #D1E0BA; }
