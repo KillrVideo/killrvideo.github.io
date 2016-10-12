@@ -52,7 +52,7 @@
       <article class="column is-8-tablet is-9-widescreen content">
         <h1 id="connecting-to-datastax-enterprise">Connecting to DataStax Enterprise</h1>
 <p>These microservices are part of a reference application for Cassandra and DSE, so you&#39;ll 
-obviously be connecting to Cassandra. You should already have your Docker environment setup
+obviously be connecting to a DSE node. You should already have your Docker environment setup
 and running after completeing the <a href="/docs/development/setup-docker-environment/">Setup Docker Environment</a> step. Part of that
 environment includes a running DSE node. So how do you get the IP address and port that you
 need to connect?</p>
@@ -67,19 +67,22 @@ look at a part of the <code>docker-compose.yaml</code> where our DSE service is 
 
   <span class="hljs-comment"># DataStax Enterprise</span>
 <span class="hljs-attr">  dse:</span>
-<span class="hljs-attr">    image:</span> luketillman/datastax-enterprise:<span class="hljs-number">4.8</span><span class="hljs-number">.7</span>
+<span class="hljs-attr">    image:</span> killrvideo/killrvideo-dse:<span class="hljs-number">1.0</span><span class="hljs-number">.0</span>
 <span class="hljs-attr">    ports:</span>
 <span class="hljs-bullet">    -</span> <span class="hljs-string">"9042:9042"</span>
+<span class="hljs-bullet">    -</span> <span class="hljs-string">"8983:8983"</span>
 <span class="hljs-attr">    cap_add:</span>
 <span class="hljs-bullet">    -</span> IPC_LOCK
 <span class="hljs-attr">    ulimits:</span>
 <span class="hljs-attr">      memlock:</span> <span class="hljs-bullet">-1</span>
 <span class="hljs-attr">    environment:</span>
-<span class="hljs-attr">      SERVICE_9042_NAME:</span> cassandra</pre></code><p>The environment variable <code>SERVICE_9042_NAME</code> is defined in that <code>.yaml</code> to tell Registrator
+<span class="hljs-attr">      SERVICE_9042_NAME:</span> cassandra
+<span class="hljs-attr">      SERVICE_8983_NAME:</span> dse-search</pre></code><p>The environment variable <code>SERVICE_9042_NAME</code> is defined in that <code>.yaml</code> to tell Registrator
 to register the service listening on port <code>9042</code> (the default port for executing CQL in
 Cassandra) as the <code>cassandra</code> service. If we had not explicitly set the service name via that
 environment variable, Registrator would have used its <a href="http://gliderlabs.com/registrator/latest/user/services/#service-name" target="_blank">default behavior</a>
-for service names when naming the service and registering it with etcd.</p>
+for service names when naming the service and registering it with etcd. The same is true for
+the <code>dse-search</code> service running on port <code>8983</code>.</p>
 <p>Registrator is configured to register all containers in etcd as keys under <code>/killrvideo/services</code>.
 You&#39;ll want to keep that in mind when querying for service locations as described below.</p>
 <h2 id="connecting-to-etcd">Connecting to etcd</h2>
@@ -89,11 +92,12 @@ written as part of the Docker setup comes in handy. That file contains the IP ad
 both your Host (i.e. dev laptop) and Docker where containers are running. Our microservices 
 code can read the environment values from the <code>.env</code> file and use the <code>KILLRVIDEO_DOCKER_IP</code> 
 variable as the IP address to talk to etcd. By default, etcd listens on port <code>2379</code>.</p>
-<h2 id="querying-etcd-to-find-cassandra">Querying etcd to Find Cassandra</h2>
+<h2 id="querying-etcd-to-find-services">Querying etcd to Find Services</h2>
 <p>The <a href="https://github.com/coreos/etcd/blob/master/Documentation/v2/api.md" target="_blank">v2 API of etcd</a> is exposed via simple HTTP endpoints, so we can use any
 client capable of making HTTP requests to query etcd. For example, we can get the location of
 the <code>cassandra</code> service by doing a <code>GET</code> request to:</p>
-<pre><code>http://${ETCD_IP_ADDRESS}:2379/v2/keys/killrvideo/services/cassandra</code></pre><p>Many programming languages also offer specific etcd client libraries that provide a nicer
+<pre><code>http://${ETCD_IP_ADDRESS}:2379/v2/keys/killrvideo/services/cassandra</code></pre><p>You could, of course, similarly lookup the <code>dse-search</code> service by doing a <code>GET</code> request to:</p>
+<pre><code>http://${ETCD_IP_ADDRESS}:2379/v2/keys/killrvideo/services/dse-search</code></pre><p>Many programming languages also offer specific etcd client libraries that provide a nicer
 interface for doing operations against etcd. You may want to investigate using something like
 that instead of doing manual HTTP requests. Just remember if using a client library that
 you&#39;re doing operations against a v2 node, so configure your client accordingly. </p>
@@ -107,6 +111,13 @@ brand new node that is starting for the first time.</p>
 that retries the intial connection. In other microservice implementations, we&#39;ve found that
 <strong>90-120 seconds</strong> is usually enough time for it to start, so we built in retries for up to
 that time period before exiting with an error.</p>
+<h2 id="the-cql-schema-and-solr-configuration">The CQL Schema and Solr Configuration</h2>
+<p>The <a href="https://github.com/KillrVideo/killrvideo-dse-docker" target="_blank">DSE Docker image</a> defined in the common <code>docker-compose.yaml</code> file that
+we looked at above contains code that will bootstrap the CQL schema and Solr configuration 
+for you the first time it&#39;s started. Since both ports <code>9042</code> and <code>8983</code> are exposed, it&#39;s 
+possible to connect to DSE from your laptop if you want. For example, you could use DevCenter
+or <code>cqlsh</code> to connect and explore the CQL schema. Or you could access the Solr Admin UI 
+(included in DSE search) to take a look at the Solr resources that were created.</p>
 
       </article>
       <div class="column is-4-tablet is-3-widescreen">
@@ -194,11 +205,15 @@ that time period before exiting with an error.</p>
               </li>
             
               <li>
-                <a href="/docs/development/connecting-to-datastax-enterprise/#querying-etcd-to-find-cassandra">Querying etcd to Find Cassandra</a>
+                <a href="/docs/development/connecting-to-datastax-enterprise/#querying-etcd-to-find-services">Querying etcd to Find Services</a>
               </li>
             
               <li>
                 <a href="/docs/development/connecting-to-datastax-enterprise/#making-sure-dse-is-ready">Making sure DSE is Ready</a>
+              </li>
+            
+              <li>
+                <a href="/docs/development/connecting-to-datastax-enterprise/#the-cql-schema-and-solr-configuration">The CQL Schema and Solr Configuration</a>
               </li>
             
             </ul>
@@ -289,7 +304,7 @@ that time period before exiting with an error.</p>
             <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> license.
           <p>
           <p>
-            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/82614ac6b01353404994f45a9df25a5d74904aba" target="_blank">82614ac</a></small>
+            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/29a45400ed6830c3a0e4fe595271fc73e595cffc" target="_blank">29a4540</a></small>
           </p>
         </div>
       </div>

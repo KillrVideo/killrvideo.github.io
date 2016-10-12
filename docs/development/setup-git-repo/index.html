@@ -62,7 +62,6 @@ the Protobufs from here to generate code.</li>
 <li><a href="https://github.com/KillrVideo/killrvideo-docker-common" target="_blank">killrvideo-docker-common</a>: This is where common Docker setup scripts live,
 including a Docker Compose <code>.yaml</code> file for the base infrastructure dependencies needed to
 run KillrVideo.</li>
-<li><a href="https://github.com/KillrVideo/killrvideo-data" target="_blank">killrvideo-data</a>: This is where the schema and other database-related scripts live.</li>
 </ul>
 <h2 id="using-git-subtrees-for-dependencies">Using Git Subtrees for Dependencies</h2>
 <p>In other microservice implementations, we&#39;ve decided to use <code>git subtree</code> to pull in these
@@ -73,10 +72,7 @@ repository under the <code>/lib</code> folder:</p>
 git subtree add --prefix lib/killrvideo-service-protos git@github.com:KillrVideo/killrvideo-service-protos.git master --squash
 
 <span class="hljs-comment"># Add killrvideo-docker-common under lib/killrvideo-docker-common</span>
-git subtree add --prefix lib/killrvideo-docker-common git@github.com:KillrVideo/killrvideo-docker-common.git master --squash
-
-<span class="hljs-comment"># Add killrvideo-data under lib/killrvideo-data</span>
-git subtree add --prefix lib/killrvideo-data git@github.com:KillrVideo/killrvideo-data.git master --squash</pre></code><p>Later if you need to update those dependencies you can just use the same commands as above,
+git subtree add --prefix lib/killrvideo-docker-common git@github.com:KillrVideo/killrvideo-docker-common.git master --squash</pre></code><p>Later if you need to update those dependencies you can just use the same commands as above,
 only doing a <code>git subtree pull</code> instead of <code>git subtree add</code>.</p>
 <div class="message is-info">
   <div class="message-header">
@@ -258,7 +254,7 @@ only doing a <code>git subtree pull</code> instead of <code>git subtree add</cod
             <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> license.
           <p>
           <p>
-            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/82614ac6b01353404994f45a9df25a5d74904aba" target="_blank">82614ac</a></small>
+            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/29a45400ed6830c3a0e4fe595271fc73e595cffc" target="_blank">29a4540</a></small>
           </p>
         </div>
       </div>

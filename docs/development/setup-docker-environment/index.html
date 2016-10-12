@@ -75,7 +75,7 @@ COMPOSE_FILE=.\lib\killrvideo-docker-common\docker-compose.yaml;.\docker-compose
 KILLRVIDEO_DOCKER_TOOLBOX=<span class="hljs-literal">false</span>
 KILLRVIDEO_HOST_IP=10.0.75.1
 KILLRVIDEO_DOCKER_IP=10.0.75.2</pre></code><p>You should make sure that the <code>.env</code> file is added to the <code>.gitignore</code> for the repo since 
-it&#39;s contents will vary from system to system depending on that user&#39;s Docker setup. The IP
+its contents will vary from system to system depending on that user&#39;s Docker setup. The IP
 addresses contained in the file are the ones we&#39;ll use to communicate between the components
 running in Docker (i.e. DataStax Enterprise, the Web UI, etc.) and the ones running on a
 local development machine (i.e. the microservices code you&#39;re writing).</p>
@@ -87,7 +87,8 @@ project and it contains all the basic services that KillrVideo projects need. If
 you&#39;ll see it contains definitions for spinning up:</p>
 <ul>
 <li><strong>DataStax Enterprise</strong>: The microservices you&#39;re writing will interact with this node to store
-data and provide the functionality of the site.</li>
+data and provide the functionality of the site. Our DSE image also bootstraps the schema and
+DSE search config needed by your microservices.</li>
 <li><strong><a href="https://github.com/coreos/etcd" target="_blank">etcd</a></strong>: This key-value store is used as our service registry (i.e. so that the
 various applications and services know what IP addresses to use to talk to other services)</li>
 <li><strong><a href="https://github.com/gliderlabs/registrator" target="_blank">Registrator</a></strong>: An application that listens to the internal Docker API for
@@ -332,7 +333,7 @@ the environment before running the C# code. </p>
             <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> license.
           <p>
           <p>
-            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/82614ac6b01353404994f45a9df25a5d74904aba" target="_blank">82614ac</a></small>
+            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/29a45400ed6830c3a0e4fe595271fc73e595cffc" target="_blank">29a4540</a></small>
           </p>
         </div>
       </div>
