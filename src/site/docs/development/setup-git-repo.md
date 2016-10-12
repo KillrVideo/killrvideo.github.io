@@ -11,7 +11,6 @@ the Protobufs from here to generate code.
 - [killrvideo-docker-common][docker-common]: This is where common Docker setup scripts live,
 including a Docker Compose `.yaml` file for the base infrastructure dependencies needed to
 run KillrVideo.
-- [killrvideo-data][data]: This is where the schema and other database-related scripts live.
 
 ## Using Git Subtrees for Dependencies
 
@@ -26,9 +25,6 @@ git subtree add --prefix lib/killrvideo-service-protos git@github.com:KillrVideo
 
 # Add killrvideo-docker-common under lib/killrvideo-docker-common
 git subtree add --prefix lib/killrvideo-docker-common git@github.com:KillrVideo/killrvideo-docker-common.git master --squash
-
-# Add killrvideo-data under lib/killrvideo-data
-git subtree add --prefix lib/killrvideo-data git@github.com:KillrVideo/killrvideo-data.git master --squash
 ```
 
 Later if you need to update those dependencies you can just use the same commands as above,
@@ -46,6 +42,5 @@ only doing a `git subtree pull` instead of `git subtree add`.
 
 [service-protos]: https://github.com/KillrVideo/killrvideo-service-protos
 [docker-common]: https://github.com/KillrVideo/killrvideo-docker-common
-[data]: https://github.com/KillrVideo/killrvideo-data
 [grpc]: http://www.grpc.io/
 [subtree]: http://blogs.atlassian.com/2013/05/alternatives-to-git-submodule-git-subtree/
