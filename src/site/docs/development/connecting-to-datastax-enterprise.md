@@ -1,7 +1,7 @@
 # Connecting to DataStax Enterprise
 
 These microservices are part of a reference application for Cassandra and DSE, so you'll 
-obviously be connecting to Cassandra. You should already have your Docker environment setup
+obviously be connecting to a DSE node. You should already have your Docker environment setup
 and running after completeing the [Setup Docker Environment][docker-setup] step. Part of that
 environment includes a running DSE node. So how do you get the IP address and port that you
 need to connect?
@@ -20,22 +20,25 @@ look at a part of the `docker-compose.yaml` where our DSE service is defined:
 
   # DataStax Enterprise
   dse:
-    image: luketillman/datastax-enterprise:4.8.7
+    image: killrvideo/killrvideo-dse:1.0.0
     ports:
     - "9042:9042"
+    - "8983:8983"
     cap_add:
     - IPC_LOCK
     ulimits:
       memlock: -1
     environment:
       SERVICE_9042_NAME: cassandra
+      SERVICE_8983_NAME: dse-search
 ```
 
 The environment variable `SERVICE_9042_NAME` is defined in that `.yaml` to tell Registrator
 to register the service listening on port `9042` (the default port for executing CQL in
 Cassandra) as the `cassandra` service. If we had not explicitly set the service name via that
 environment variable, Registrator would have used its [default behavior][registrator-service-names]
-for service names when naming the service and registering it with etcd.
+for service names when naming the service and registering it with etcd. The same is true for
+the `dse-search` service running on port `8983`.
 
 Registrator is configured to register all containers in etcd as keys under `/killrvideo/services`.
 You'll want to keep that in mind when querying for service locations as described below.
@@ -77,9 +80,19 @@ that retries the intial connection. In other microservice implementations, we've
 **90-120 seconds** is usually enough time for it to start, so we built in retries for up to
 that time period before exiting with an error.
 
+## The CQL Schema and Solr Configuration
+
+The [DSE Docker image][killrvideo-dse] defined in the common `docker-compose.yaml` file that
+we looked at above contains code that will bootstrap the CQL schema and Solr configuration 
+for you the first time it's started. Since both ports `9042` and `8983` are exposed, it's 
+possible to connect to DSE from your laptop if you want. For example, you could use DevCenter
+or `cqlsh` to connect and explore the CQL schema. Or you could access the Solr Admin UI 
+(included in DSE search) to take a look at the Solr resources that were created.
+
 
 [docker-setup]: /docs/development/setup-docker-environment/
 [etcd]: https://github.com/coreos/etcd
 [etcd-v2-api]: https://github.com/coreos/etcd/blob/master/Documentation/v2/api.md
 [registrator]: https://github.com/gliderlabs/registrator
 [registrator-service-names]: http://gliderlabs.com/registrator/latest/user/services/#service-name
+[killrvideo-dse]: https://github.com/KillrVideo/killrvideo-dse-docker
