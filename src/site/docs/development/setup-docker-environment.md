@@ -43,7 +43,7 @@ KILLRVIDEO_DOCKER_IP=10.0.75.2
 ```
 
 You should make sure that the `.env` file is added to the `.gitignore` for the repo since 
-it's contents will vary from system to system depending on that user's Docker setup. The IP
+its contents will vary from system to system depending on that user's Docker setup. The IP
 addresses contained in the file are the ones we'll use to communicate between the components
 running in Docker (i.e. DataStax Enterprise, the Web UI, etc.) and the ones running on a
 local development machine (i.e. the microservices code you're writing).
@@ -56,7 +56,8 @@ services we want Docker to run for us. One of those files is included in the [ki
 project and it contains all the basic services that KillrVideo projects need. If you open it,
 you'll see it contains definitions for spinning up:
 - **DataStax Enterprise**: The microservices you're writing will interact with this node to store
-data and provide the functionality of the site.
+data and provide the functionality of the site. Our DSE image also bootstraps the schema and
+DSE search config needed by your microservices.
 - **[etcd][etcd]**: This key-value store is used as our service registry (i.e. so that the
 various applications and services know what IP addresses to use to talk to other services)
 - **[Registrator][registrator]**: An application that listens to the internal Docker API for
