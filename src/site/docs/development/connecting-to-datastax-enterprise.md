@@ -52,7 +52,7 @@ both your Host (i.e. dev laptop) and Docker where containers are running. Our mi
 code can read the environment values from the `.env` file and use the `KILLRVIDEO_DOCKER_IP` 
 variable as the IP address to talk to etcd. By default, etcd listens on port `2379`.
 
-## Querying etcd to Find Cassandra
+## Querying etcd to Find Services
 
 The [v2 API of etcd][etcd-v2-api] is exposed via simple HTTP endpoints, so we can use any
 client capable of making HTTP requests to query etcd. For example, we can get the location of
@@ -60,6 +60,12 @@ the `cassandra` service by doing a `GET` request to:
 
 ```
 http://${ETCD_IP_ADDRESS}:2379/v2/keys/killrvideo/services/cassandra
+```
+
+You could, of course, similarly lookup the `dse-search` service by doing a `GET` request to:
+
+```
+http://${ETCD_IP_ADDRESS}:2379/v2/keys/killrvideo/services/dse-search
 ```
 
 Many programming languages also offer specific etcd client libraries that provide a nicer
