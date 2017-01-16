@@ -108,9 +108,9 @@ currently doesn&#39;t generate code files (unlike for example, in C# and Java), 
 able to load and parse <code>.proto</code> files and then create client objects (with the appropriate
 method names from the <code>.proto</code> files) dynamically at runtime. For example:</p>
 <pre><code class="hljs"><span class="hljs-keyword">let</span> rateVideoRequest = {
-    video_id: { value: <span class="hljs-string">'c0d0f264-11b9-4315-b325-b9f576d00572'</span> },
-    user_id: { value: <span class="hljs-string">'28aae113-b4f9-4180-b5ea-b25b80a58051'</span> },
-    rating: <span class="hljs-number">4</span>
+    <span class="hljs-attr">video_id</span>: { <span class="hljs-attr">value</span>: <span class="hljs-string">'c0d0f264-11b9-4315-b325-b9f576d00572'</span> },
+    <span class="hljs-attr">user_id</span>: { <span class="hljs-attr">value</span>: <span class="hljs-string">'28aae113-b4f9-4180-b5ea-b25b80a58051'</span> },
+    <span class="hljs-attr">rating</span>: <span class="hljs-number">4</span>
 };
 ratingsServiceClient.rateVideo(rateVideoRequest, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err, rateVideoResponse</span>) </span>{
     <span class="hljs-comment">// ... Handle the response here ...</span>
@@ -280,7 +280,7 @@ KillrVideo.</p>
             <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> license.
           <p>
           <p>
-            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/29a45400ed6830c3a0e4fe595271fc73e595cffc" target="_blank">29a4540</a></small>
+            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/a7f5898fb75d71f7792d7c5c6842ef03f89b52c4" target="_blank">a7f5898</a></small>
           </p>
         </div>
       </div>

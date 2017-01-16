@@ -79,11 +79,11 @@ var KillrVideo =
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;"use strict";
 	
-	/*! cash-dom 1.3.4, https://github.com/kenwheeler/cash @license MIT */
+	/*! cash-dom 1.3.5, https://github.com/kenwheeler/cash @license MIT */
 	
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 	
-	(function (root, factory) {
+	;(function (root, factory) {
 	  if (true) {
 	    !(__WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	  } else if (typeof exports !== "undefined") {
@@ -101,7 +101,8 @@ var KillrVideo =
 	
 	  var noop = function noop() {},
 	      isFunction = function isFunction(item) {
-	    return (typeof item === "undefined" ? "undefined" : _typeof(item)) === (typeof noop === "undefined" ? "undefined" : _typeof(noop));
+	    // @see https://crbug.com/568448
+	    return (typeof item === "undefined" ? "undefined" : _typeof(item)) === (typeof noop === "undefined" ? "undefined" : _typeof(noop)) && item.call;
 	  },
 	      isString = function isString(item) {
 	    return (typeof item === "undefined" ? "undefined" : _typeof(item)) === _typeof("");
@@ -118,12 +119,18 @@ var KillrVideo =
 	    return elems;
 	  }
 	
-	  var frag, tmp;
+	  var frag;
 	  function parseHTML(str) {
-	    frag = frag || doc.createDocumentFragment();
-	    tmp = tmp || frag.appendChild(doc.createElement("div"));
-	    tmp.innerHTML = str;
-	    return tmp.childNodes;
+	    if (!frag) {
+	      frag = doc.implementation.createHTMLDocument();
+	      var base = frag.createElement("base");
+	      base.href = doc.location.href;
+	      frag.head.appendChild(base);
+	    }
+	
+	    frag.body.innerHTML = str;
+	
+	    return frag.body.childNodes;
 	  }
 	
 	  function onReady(fn) {
@@ -186,7 +193,6 @@ var KillrVideo =
 	  }
 	
 	  var fn = cash.fn = cash.prototype = Init.prototype = { // jshint ignore:line
-	    constructor: cash,
 	    cash: true,
 	    length: 0,
 	    push: push,
@@ -194,6 +200,8 @@ var KillrVideo =
 	    map: ArrayProto.map,
 	    init: Init
 	  };
+	
+	  Object.defineProperty(fn, "constructor", { value: cash });
 	
 	  cash.parseHTML = parseHTML;
 	  cash.noop = noop;
@@ -240,6 +248,21 @@ var KillrVideo =
 	  function matches(el, selector) {
 	    var m = el && (el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector || el.oMatchesSelector);
 	    return !!m && m.call(el, selector);
+	  }
+	
+	  function getCompareFunction(selector) {
+	    return (
+	      /* Use browser's `matches` function if string */
+	      isString(selector) ? matches :
+	      /* Match a cash element */
+	      selector.cash ? function (el) {
+	        return selector.is(el);
+	      } :
+	      /* Direct comparison */
+	      function (el, selector) {
+	        return el === selector;
+	      }
+	    );
 	  }
 	
 	  function unique(collection) {
@@ -474,9 +497,15 @@ var KillrVideo =
 	    },
 	
 	    filter: function filter(selector) {
-	      return cash(_filter.call(this, isString(selector) ? function (e) {
-	        return matches(e, selector);
-	      } : selector));
+	      if (!selector) {
+	        return this;
+	      }
+	
+	      var comparator = isFunction(selector) ? selector : getCompareFunction(selector);
+	
+	      return cash(_filter.call(this, function (e) {
+	        return comparator(e, selector);
+	      }));
 	    },
 	
 	    first: function first() {
@@ -588,9 +617,20 @@ var KillrVideo =
 	  }
 	
 	  function removeEvent(node, eventName, callback) {
-	    var eventCache = getData(node, "_cashEvents")[eventName];
+	    var events = getData(node, "_cashEvents"),
+	        eventCache = events && events[eventName],
+	        index;
+	
+	    if (!eventCache) {
+	      return;
+	    }
+	
 	    if (callback) {
 	      node.removeEventListener(eventName, callback);
+	      index = eventCache.indexOf(callback);
+	      if (index >= 0) {
+	        eventCache.splice(index, 1);
+	      }
 	    } else {
 	      _each(eventCache, function (event) {
 	        node.removeEventListener(eventName, event);
@@ -678,28 +718,69 @@ var KillrVideo =
 	  function encode(name, value) {
 	    return "&" + encodeURIComponent(name) + "=" + encodeURIComponent(value).replace(/%20/g, "+");
 	  }
-	  function isCheckable(field) {
-	    return field.type === "radio" || field.type === "checkbox";
+	
+	  function getSelectMultiple_(el) {
+	    var values = [];
+	    _each(el.options, function (o) {
+	      if (o.selected) {
+	        values.push(o.value);
+	      }
+	    });
+	    return values.length ? values : null;
 	  }
 	
-	  var formExcludes = ["file", "reset", "submit", "button"];
+	  function getSelectSingle_(el) {
+	    var selectedIndex = el.selectedIndex;
+	    return selectedIndex >= 0 ? el.options[selectedIndex].value : null;
+	  }
+	
+	  function getValue(el) {
+	    var type = el.type;
+	    if (!type) {
+	      return null;
+	    }
+	    switch (type.toLowerCase()) {
+	      case "select-one":
+	        return getSelectSingle_(el);
+	      case "select-multiple":
+	        return getSelectMultiple_(el);
+	      case "radio":
+	        return el.checked ? el.value : null;
+	      case "checkbox":
+	        return el.checked ? el.value : null;
+	      default:
+	        return el.value ? el.value : null;
+	    }
+	  }
 	
 	  fn.extend({
 	    serialize: function serialize() {
-	      var formEl = this[0].elements,
-	          query = "";
+	      var query = "";
 	
-	      _each(formEl, function (field) {
-	        if (field.name && formExcludes.indexOf(field.type) < 0) {
-	          if (field.type === "select-multiple") {
-	            _each(field.options, function (o) {
-	              if (o.selected) {
-	                query += encode(field.name, o.value);
-	              }
-	            });
-	          } else if (!isCheckable(field) || isCheckable(field) && field.checked) {
-	            query += encode(field.name, field.value);
-	          }
+	      _each(this[0].elements || this, function (el) {
+	        if (el.disabled || el.tagName === "FIELDSET") {
+	          return;
+	        }
+	        var name = el.name;
+	        switch (el.type.toLowerCase()) {
+	          case "file":
+	          case "reset":
+	          case "submit":
+	          case "button":
+	            break;
+	          case "select-multiple":
+	            var values = getValue(el);
+	            if (values !== null) {
+	              _each(values, function (value) {
+	                query += encode(name, value);
+	              });
+	            }
+	            break;
+	          default:
+	            var value = getValue(el);
+	            if (value !== null) {
+	              query += encode(name, value);
+	            }
 	        }
 	      });
 	
@@ -708,7 +789,7 @@ var KillrVideo =
 	
 	    val: function val(value) {
 	      if (value === undefined) {
-	        return this[0].value;
+	        return getValue(this[0]);
 	      } else {
 	        return this.each(function (v) {
 	          return v.value = value;
@@ -863,10 +944,6 @@ var KillrVideo =
 	
 	  });
 	
-	  function directCompare(el, selector) {
-	    return el === selector;
-	  }
-	
 	  fn.extend({
 	    children: function children(selector) {
 	      var elems = [];
@@ -881,8 +958,11 @@ var KillrVideo =
 	    },
 	
 	    closest: function closest(selector) {
-	      if (!selector || matches(this[0], selector)) {
-	        return this;
+	      if (!selector || this.length < 1) {
+	        return cash();
+	      }
+	      if (this.is(selector)) {
+	        return this.filter(selector);
 	      }
 	      return this.parent().closest(selector);
 	    },
@@ -893,12 +973,10 @@ var KillrVideo =
 	      }
 	
 	      var match = false,
-	          comparator = isString(selector) ? matches : selector.cash ? function (el) {
-	        return selector.is(el);
-	      } : directCompare;
+	          comparator = getCompareFunction(selector);
 	
-	      this.each(function (el, i) {
-	        match = comparator(el, selector, i);
+	      this.each(function (el) {
+	        match = comparator(el, selector);
 	        return !match;
 	      });
 	
@@ -906,8 +984,8 @@ var KillrVideo =
 	    },
 	
 	    find: function find(selector) {
-	      if (!selector) {
-	        return cash();
+	      if (!selector || selector.nodeType) {
+	        return cash(selector && this.has(selector).length ? selector : null);
 	      }
 	
 	      var elems = [];
@@ -919,9 +997,13 @@ var KillrVideo =
 	    },
 	
 	    has: function has(selector) {
-	      return _filter.call(this, function (el) {
-	        return cash(el).find(selector).length !== 0;
-	      });
+	      var comparator = isString(selector) ? function (el) {
+	        return _find(selector, el).length !== 0;
+	      } : function (el) {
+	        return el.contains(selector);
+	      };
+	
+	      return this.filter(comparator);
 	    },
 	
 	    next: function next() {
@@ -929,14 +1011,24 @@ var KillrVideo =
 	    },
 	
 	    not: function not(selector) {
-	      return _filter.call(this, function (el) {
-	        return !matches(el, selector);
+	      if (!selector) {
+	        return this;
+	      }
+	
+	      var comparator = getCompareFunction(selector);
+	
+	      return this.filter(function (el) {
+	        return !comparator(el, selector);
 	      });
 	    },
 	
 	    parent: function parent() {
-	      var result = this.map(function (item) {
-	        return item.parentElement || doc.body.parentNode;
+	      var result = [];
+	
+	      this.each(function (item) {
+	        if (item && item.parentNode) {
+	          result.push(item.parentNode);
+	        }
 	      });
 	
 	      return unique(result);
@@ -949,8 +1041,8 @@ var KillrVideo =
 	      this.each(function (item) {
 	        last = item;
 	
-	        while (last !== doc.body.parentNode) {
-	          last = last.parentElement;
+	        while (last && last.parentNode && last !== doc.body.parentNode) {
+	          last = last.parentNode;
 	
 	          if (!selector || selector && matches(last, selector)) {
 	            result.push(last);
@@ -969,7 +1061,7 @@ var KillrVideo =
 	      var collection = this.parent().children(),
 	          el = this[0];
 	
-	      return _filter.call(collection, function (i) {
+	      return collection.filter(function (i) {
 	        return i !== el;
 	      });
 	    }
@@ -1086,7 +1178,7 @@ var KillrVideo =
 
 	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
 	
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 	
 	/**
 	 * lodash (Custom Build) <https://lodash.com/>
