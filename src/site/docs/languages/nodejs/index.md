@@ -55,7 +55,7 @@ doing:
 ## Running the Code
 
 Now that you've got the environment setup and the project built, you can run the project and
-explore the code in your IDE of choice with a debugger attached. The tranpiled JavaScript
+explore the code in your IDE of choice with a debugger attached. The transpiled JavaScript
 code (i.e. build output) is in the `dist` folder and the main entry point of the application
 is `dist/index.js`. Because the code in `src` is written using newer features of JavaScript
 and then transpiled, you'll want to use an IDE that supports source maps when debugging. 
