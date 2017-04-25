@@ -43,7 +43,7 @@ var KillrVideo =
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
@@ -73,9 +73,9 @@ var KillrVideo =
 	
 	exports.sticky = _sticky.sticky;
 
-/***/ },
+/***/ }),
 /* 1 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;"use strict";
 	
@@ -1071,9 +1071,9 @@ var KillrVideo =
 	  return cash;
 	});
 
-/***/ },
+/***/ }),
 /* 2 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
@@ -1172,9 +1172,9 @@ var KillrVideo =
 	  (0, _cashDom2.default)(window).on('resize', (0, _lodash2.default)(updateFixed, 100)).on('scroll', (0, _lodash2.default)(updateFixed, 100));
 	};
 
-/***/ },
+/***/ }),
 /* 3 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
 	
@@ -1617,9 +1617,9 @@ var KillrVideo =
 	module.exports = throttle;
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
-/***/ },
+/***/ }),
 /* 4 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	'use strict';
 	
@@ -1632,6 +1632,6 @@ var KillrVideo =
 	ga('create', 'UA-54473346-2', 'auto');
 	ga('send', 'pageview');
 
-/***/ }
+/***/ })
 /******/ ]);
 //# sourceMappingURL=bundle.js.map

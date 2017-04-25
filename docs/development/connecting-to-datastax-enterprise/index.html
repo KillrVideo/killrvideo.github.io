@@ -67,17 +67,17 @@ look at a part of the <code>docker-compose.yaml</code> where our DSE service is 
 
   <span class="hljs-comment"># DataStax Enterprise</span>
 <span class="hljs-attr">  dse:</span>
-<span class="hljs-attr">    image:</span> killrvideo/killrvideo-dse:<span class="hljs-number">1.0</span><span class="hljs-number">.0</span>
+<span class="hljs-attr">    image:</span> <span class="hljs-string">killrvideo/killrvideo-dse:1.0.0</span>
 <span class="hljs-attr">    ports:</span>
 <span class="hljs-bullet">    -</span> <span class="hljs-string">"9042:9042"</span>
 <span class="hljs-bullet">    -</span> <span class="hljs-string">"8983:8983"</span>
 <span class="hljs-attr">    cap_add:</span>
-<span class="hljs-bullet">    -</span> IPC_LOCK
+<span class="hljs-bullet">    -</span> <span class="hljs-string">IPC_LOCK</span>
 <span class="hljs-attr">    ulimits:</span>
 <span class="hljs-attr">      memlock:</span> <span class="hljs-bullet">-1</span>
 <span class="hljs-attr">    environment:</span>
-<span class="hljs-attr">      SERVICE_9042_NAME:</span> cassandra
-<span class="hljs-attr">      SERVICE_8983_NAME:</span> dse-search</pre></code><p>The environment variable <code>SERVICE_9042_NAME</code> is defined in that <code>.yaml</code> to tell Registrator
+<span class="hljs-attr">      SERVICE_9042_NAME:</span> <span class="hljs-string">cassandra</span>
+<span class="hljs-attr">      SERVICE_8983_NAME:</span> <span class="hljs-string">dse-search</span></pre></code><p>The environment variable <code>SERVICE_9042_NAME</code> is defined in that <code>.yaml</code> to tell Registrator
 to register the service listening on port <code>9042</code> (the default port for executing CQL in
 Cassandra) as the <code>cassandra</code> service. If we had not explicitly set the service name via that
 environment variable, Registrator would have used its <a href="http://gliderlabs.com/registrator/latest/user/services/#service-name" target="_blank">default behavior</a>
@@ -304,7 +304,7 @@ or <code>cqlsh</code> to connect and explore the CQL schema. Or you could access
             <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> license.
           <p>
           <p>
-            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/a7f5898fb75d71f7792d7c5c6842ef03f89b52c4" target="_blank">a7f5898</a></small>
+            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/9b25438ddf42d222f493d61b26833add0d1f0234" target="_blank">9b25438</a></small>
           </p>
         </div>
       </div>

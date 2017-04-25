@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-  <title>KillrVideo - Getting Started with C# (.NET)</title>
+  <title>KillrVideo - Getting Started with Java</title>
   <link href="/assets/css/bundle.css" rel="stylesheet">
   <link rel="icon" type="image/png" href="/assets/images/killrvideo-icon.png"/>
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -50,24 +50,29 @@
   <div class="container">
     <div class="columns">
       <article class="column is-8-tablet is-9-widescreen content">
-        <h1 id="getting-started-with-c-net-">Getting Started with C# (.NET)</h1>
-<p>The .NET version of KillrVideo is a reference application for .NET developers looking to
+        <h1 id="getting-started-with-java">Getting Started with Java</h1>
+<p>The Java version of KillrVideo is a reference application for Java developers looking to
 learn more about using <a href="http://cassandra.apache.org/" target="_blank">Apache Cassandra</a> and <a href="http://www.datastax.com/products/datastax-enterprise" target="_blank">DataStax Enterprise</a> in their
 applications and services. It contains sample code that uses:</p>
 <ul>
-<li>The <a href="https://github.com/datastax/csharp-driver" target="_blank">DataStax .NET Driver</a> for Cassandra</li>
+<li>The <a href="https://github.com/datastax/java-dse-driver" target="_blank">DataStax Java Driver</a> for DataStax Enterprise</li>
 <li>Google&#39;s <a href="http://www.grpc.io/" target="_blank">gRPC</a></li>
 </ul>
-<p>These instructions assume you already have Visual Studio installed on your local machine.</p>
-<h2 id="cloning-and-running-locally">Cloning and Running Locally</h2>
-<p>Like all KillrVideo implementations, the .NET version uses <a href="https://www.docker.com/" target="_blank">Docker</a> to run all its
+<p>These instructions assume you already have a <a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html" target="_blank">Java Development Kit</a> version 1.8 or higher installed. </p>
+<h2 id="cloning-and-setup">Cloning and Setup</h2>
+<p>Like all KillrVideo implementations, the Java version uses <a href="https://www.docker.com/" target="_blank">Docker</a> to run all its
 dependencies in your local development environment. If you haven&#39;t already, please read and
 follow the instructions in <a href="/getting-started/">Getting Started</a> to install Docker. Once you
 have Docker up and running, follow these steps:</p>
 <ol>
-<li>Clone the C# project&#39;s <a href="https://github.com/LukeTillman/killrvideo-csharp" target="_blank">GitHub repository</a>:<pre><code> > git clone https://github.com/LukeTillman/killrvideo-csharp.git</code></pre></li>
-<li><p>From inside the repository you just cloned, setup the Docker environment for the first
-time by running:</p>
+<li>Clone the Java project&#39;s <a href="https://github.com/KillrVideo/killrvideo-java" target="_blank">GitHub repository</a>:<pre><code> > git clone https://github.com/KillrVideo/killrvideo-java.git</code></pre></li>
+<li><p>We use <a href="https://maven.apache.org/" target="_blank">Maven</a> to build and package the KillrVideo Java implementation. Make sure you have Maven 3 or 
+later installed and initiate a clean build from the root of the repository. This will perform all <a href="http://www.grpc.io/" target="_blank">GRPC</a>
+code generation, compile the code, and run unit tests:</p>
+<pre><code> > mvn clean test</code></pre><p> You should end up with the build output in the <code>target</code> folder.    </p>
+</li>
+<li><p>Setup the Docker environment for the first time by running:</p>
+<pre><code> > ./setup-docker.sh</code></pre><p> Or on Windows:</p>
 <pre><code> > .\setup-docker.bat</code></pre><p> This should create a <code>.env</code> file with some environment variables, as well as pull all the
  Docker images that the application needs to run.</p>
 </li>
@@ -75,24 +80,31 @@ time by running:</p>
 <pre><code> > docker-compose up -d</code></pre><p> This starts up things like a DataStax Enterprise node, the Web UI, etc. You can learn
  more about how we use Docker in our <a href="/docs/guides/docker/">Docker Guide</a> documentation.</p>
 </li>
-<li><p>Open the main solution (<strong><code>/src/KillrVideo.sln</code></strong>) in Visual Studio.</p>
-</li>
-<li>Set the <strong>KillrVideo</strong> project as the Startup Project.<ul>
-<li>Right-click on the KillrVideo project node in Visual Studio&#39;s Solution Explorer window 
-and choose <strong>Set as Startup Project</strong> from the context menu.</li>
-</ul>
-</li>
-<li>Press <strong><code>F5</code></strong> to build the solution and run with debugging.</li>
 </ol>
+<h2 id="running-the-code">Running the Code</h2>
+<p>Now that you&#39;ve got the environment setup and the project built, you can run the project and
+explore the code in your IDE of choice with a debugger attached. We have instructions for running KillrVideo 
+in a couple popular IDEs:</p>
+<ul>
+<li><a href="#running-in-intellij-idea">IntelliJ IDEA</a></li>
+<li><a href="#running-in-eclipse">Eclipse</a></li>
+</ul>
+<h3 id="running-in-intellij-idea">Running in IntelliJ IDEA</h3>
+<p>To debug in <a href="https://www.jetbrains.com/idea" target="_blank">IntelliJ IDEA</a>, you&#39;ll first need to create a Run/Debug configuration.</p>
+<ol>
+<li>Open the root project folder with IntelliJ IDEA.</li>
+<li>TBD</li>
+</ol>
+<h3 id="running-in-eclipse">Running in Eclipse</h3>
+<p>(Coming Soon)</p>
 <h2 id="opening-the-web-ui">Opening the Web UI</h2>
 <p>When KillrVideo starts, you&#39;ll see a bunch of log output to the console telling you about the
 various things it&#39;s doing. You should see output that looks something like this:</p>
-<p><img src="/assets/images/csharp-startup.png" alt="Console Startup Output"></p>
+<p><img src="/assets/images/java-startup.png" alt="Console Startup Output"></p>
 <p>One of the last lines in the log output will tell you where to open a web browser in order to
-see the web application. The web UI makes calls to the C# microservices running on your
-local machine in Visual Studio. Look under the <code>Services</code> folder in Visual Studio&#39;s Solution
-Explorer window to explore that code and add breakpoints. As you interact with the web UI,
-you&#39;ll trigger those breakpoints in the C# code.</p>
+see the web application. The web UI makes calls to the Java microservices running on your
+local machine. Look in the <code>/src/main/java/killrvideo/service</code> folder to explore the service code and add
+breakpoints.</p>
 <h2 id="learn-more">Learn More</h2>
 <p>Check out the <a href="/docs/">Documentation</a> section for a lot more information on the architecture of
 KillrVideo and how the Web Tier interacts with the microservices running on your machine.</p>
@@ -112,29 +124,11 @@ KillrVideo and how the Web Tier interacts with the microservices running on your
           
           
           
-            
-          
 
-          <div class="panel-block is-active">
+          <div class="panel-block">
             <a href="/docs/languages/c-sharp/">Getting Started with C# (.NET)</a>
 
             
-            
-            <ul class="headings-list links-list">
-            
-              <li>
-                <a href="/docs/languages/c-sharp/#cloning-and-running-locally">Cloning and Running Locally</a>
-              </li>
-            
-              <li>
-                <a href="/docs/languages/c-sharp/#opening-the-web-ui">Opening the Web UI</a>
-              </li>
-            
-              <li>
-                <a href="/docs/languages/c-sharp/#learn-more">Learn More</a>
-              </li>
-            
-            </ul>
             
           </div>
 
@@ -143,11 +137,33 @@ KillrVideo and how the Web Tier interacts with the microservices running on your
           
           
           
+            
+          
 
-          <div class="panel-block">
+          <div class="panel-block is-active">
             <a href="/docs/languages/java/">Getting Started with Java</a>
 
             
+            
+            <ul class="headings-list links-list">
+            
+              <li>
+                <a href="/docs/languages/java/#cloning-and-setup">Cloning and Setup</a>
+              </li>
+            
+              <li>
+                <a href="/docs/languages/java/#running-the-code">Running the Code</a>
+              </li>
+            
+              <li>
+                <a href="/docs/languages/java/#opening-the-web-ui">Opening the Web UI</a>
+              </li>
+            
+              <li>
+                <a href="/docs/languages/java/#learn-more">Learn More</a>
+              </li>
+            
+            </ul>
             
           </div>
 
@@ -189,7 +205,7 @@ KillrVideo and how the Web Tier interacts with the microservices running on your
       </div>
       <div class="level-right">
         <div class="level-right">
-          <a class="button level-item" href="https://github.com/KillrVideo/killrvideo.github.io/tree/source/src/site/docs/languages/c-sharp/index.md" target="_blank">
+          <a class="button level-item" href="https://github.com/KillrVideo/killrvideo.github.io/tree/source/src/site/docs/languages/java/index.md" target="_blank">
             <i class="fa fa-github fa-fw"></i>Improve this page
           </a>
         </div>
