@@ -30,7 +30,7 @@ overwriting our implementation code.
 You'll have to decide, based on your programming language's idioms, when to generate code. 
 This could be, for example, every time the project is compiled (which is the default 
 behavior of gRPC in Java for example), or as a seperate step executed on-demand (for 
-example, using a seperate shell script or build step that you've created). Regardless of how
+example, using a separate shell script or build step that you've created). Regardless of how
 you choose to do it, you want to make sure that you have a repeatable way to generate code 
 checked in to the Git repo so that you can regenerate those files any time the service 
 definitions are updated in the [killrvideo-service-protos][service-protos] project.

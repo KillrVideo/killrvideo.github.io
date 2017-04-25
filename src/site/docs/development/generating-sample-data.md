@@ -20,7 +20,7 @@ services to add sample data to the application already built. Back when you
 ```
 
 This creates and starts an instance of the [KillrVideo Sample Data Generator][killrvideo-generator]
-applicaiton in Docker. This application listens for your services to become available and when
+application in Docker. This application listens for your services to become available and when
 they do, it calls your services to add sample users, videos, comments, and more to the site.
 
 ## Starting and Stopping the Generator
