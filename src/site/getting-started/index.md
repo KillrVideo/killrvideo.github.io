@@ -32,7 +32,7 @@ links below to get started with the language you're most comfortable with.
 
 - **[C\# (.NET)][c-sharp]**: A C\# implementation you can explore from Visual Studio. 
 - **[Node.js][nodejs]**: A JavaScript implementation running on Node.js.
-- **Java (w/ Achilles)**: A Java implementation using the [Achilles object mapper][achilles] 
+- **[Java][java]**: A Java implementation you can run via Spring boot
 for accessing data in DataStax Enterprise. Coming soon.
 
 Check back as we'll be adding more programming languages soon.
@@ -50,6 +50,6 @@ self-paced online courses on Cassandra's architecture, data modeling, and more.
 [mac-preferences]: https://docs.docker.com/docker-for-mac/#/preferences
 [win-preferences]: https://docs.docker.com/docker-for-windows/#/advanced
 [c-sharp]: /docs/languages/c-sharp/
-[achilles]: http://doanduyhai.github.io/Achilles/
 [academy]: https://academy.datastax.com/courses
 [nodejs]: /docs/languages/nodejs/
+[java]: /docs/languages/java/

@@ -7,7 +7,7 @@ to be a functional reference application. Those base dependencies are:
 - [**DataStax Enterprise**][dse]: we need at least one node of DSE / Cassandra running that
 the microservices implementations can use to store data.
 - [**KillrVideo Web Tier**][killrvideo-web]: we need the Web Tier in order to provide a
-working UI and applicaiton that drives calls to the microservices.
+working UI and application that drives calls to the microservices.
 - [**etcd**][etcd]: we use etcd as our service registry for service discovery so that our
 microservices know where to find DSE and our Web Tier knows where to find our microservices.
 
