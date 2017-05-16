@@ -20,3 +20,7 @@ node_modules
 /out
 /tmp
 /publish
+
+# IntelliJ Idea
+.idea
+*/.idea/*
