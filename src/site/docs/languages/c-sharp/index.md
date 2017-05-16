@@ -54,6 +54,12 @@ local machine in Visual Studio. Look under the `Services` folder in Visual Studi
 Explorer window to explore that code and add breakpoints. As you interact with the web UI,
 you'll trigger those breakpoints in the C\# code.
 
+## Using DataStax Studio
+
+The `docker-compose` file that you ran above started an instance of [DataStax Studio][studio], 
+an interactive tool for querying, exploring, analyzing, and visualizing both graph and tabular data. 
+Check out the [Using DataStax Studio][using-studio] page for more information.
+
 ## Learn More
 
 Check out the [Documentation][docs] section for a lot more information on the architecture of
@@ -69,3 +75,5 @@ KillrVideo and how the Web Tier interacts with the microservices running on your
 [repo]: https://github.com/LukeTillman/killrvideo-csharp
 [docker-guide]: /docs/guides/docker/
 [docs]: /docs/
+[studio]: https://www.datastax.com/products/datastax-studio-and-development-tools
+[using-studio]: /docs/guides/datastax-studio/

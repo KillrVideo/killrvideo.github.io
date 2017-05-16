@@ -6,3 +6,4 @@ sort_by:
 - microservices-tier.md
 - docker.md
 - service-discovery.md
+- datastax-studio.md

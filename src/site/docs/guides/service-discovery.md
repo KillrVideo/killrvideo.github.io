@@ -11,7 +11,8 @@ location of services.
 
 In KillrVideo, we decided to use [etcd][etcd] as our service registry. At its most basic, 
 etcd is just a distributed, consistent, key-value store. The [v2 API][v2] which we currently
-use to interact with etcd is just simple curlable HTTP API (funny enough, the [v3 API](https://github.com/coreos/etcd/blob/master/Documentation/dev-guide/api_reference_v3.md)
+use to interact with etcd is just simple curlable HTTP API (funny enough, the 
+[v3 API](https://github.com/coreos/etcd/blob/master/Documentation/dev-guide/api_reference_v3.md)
 for etcd is all based on Protocol Buffers and gRPC just like KillrVideo).
 
 As mentioned in the [previous section on Docker][prev], we use a program called 
@@ -60,7 +61,13 @@ http://${SOME_IP_ADDRESS}:2379/v2/keys/killrvideo/services/VideoCatalogService
 
 Again, for more details on the exact API request and response, see the [v2 API documentation][v2].
 
+Next, let's take a look at how we can use DataStax Studio to examine and analyze the data
+in our KillrVideo instance.
+
+[Next: Using DataStax Studio][next]
+
 [etcd]: https://github.com/coreos/etcd
 [v2]: https://github.com/coreos/etcd/blob/master/Documentation/v2/README.md
 [registrator]: http://gliderlabs.com/registrator/latest/
 [prev]: /docs/guides/docker/
+[next]: /docs/guides/datastax-studio/

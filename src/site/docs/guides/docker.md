@@ -40,7 +40,8 @@ dependencies when it's being developed. In the microservice implementations, we 
 advantage of a feature of Docker Compose that lets us define a `.yaml` file that inherits
 from our base `.yaml` file and then provide overrides and additions. In this way, each
 programming language's microservice project can specify the Web Tier as a dependency (along
-with any other infrastructure they might need, for example, messaging infrastructure).
+with any other infrastructure they might need, for example, messaging infrastructure, or 
+[DataStax Studio][studio].
 
 ## Docker Environment Scripts
 
@@ -79,3 +80,4 @@ Next, we'll take a quick look at service discovery in KillrVideo with etcd.
 [compose]: https://docs.docker.com/compose/overview/
 [docker-common]: https://github.com/KillrVideo/killrvideo-docker-common
 [registrator]: http://gliderlabs.com/registrator/latest/
+[studio]: https://www.datastax.com/products/datastax-studio-and-development-tools

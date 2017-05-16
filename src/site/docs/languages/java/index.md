@@ -59,24 +59,45 @@ in a couple popular IDEs:
 
 To debug in [IntelliJ IDEA][idea], you'll first need to create a Run/Debug configuration.
 
-1. Open the root project folder with IntelliJ IDEA.
-1. TBD
+1. In IntelliJ IDEA, select from the `File->New` menu the `Project from Existing Sources` option and then select the
+directory where you cloned the Git repository. Select the option which configures the project as a Maven project.
+This will enable you to run Maven targets such as those referenced above from the "Maven Projects" window (typically
+in the upper right).
+
+1. Create/edit a run configuration for the main class by selecting the `Run->Edit Configurations` menu option and 
+selecting the main class `KillrVideoServer`, which should be listed under "Spring Boot Configurations" at left. 
+In order to run in the IDE, you will need to set the same environment variables as were set in the `.env` file 
+you created above when running the `setup-docker` script. For an example of this configuration see the following image:
+
+![IntelliJ IDEA run configuration](/assets/images/idea-configuration.png)
+
+Once the configuration has been created you can invoke it from the `Run` menu or by right clicking on the 
+`KillrVideoServer` class in the "Project" window to the left.
 
 ### Running in Eclipse
 
-(Coming Soon)
+(Coming Soon - the instructions are very similar to running in IntelliJ IDEA.)
 
 ## Opening the Web UI
 
-When KillrVideo starts, you'll see a bunch of log output to the console telling you about the
-various things it's doing. You should see output that looks something like this:
+The Web UI will be started on the IP identified by the `KILLRVIDEO_HOST_IP` defined in the `.env` file above at
+port 3000. For example, this is typically something like [http://10.0.75.1:3000](http://10.0.75.1:3000).
+ 
+If you have trouble finding the web UI, it should be registered with etcd. You can discover it by using a query 
+such as [http://10.0.75.1:2379/v2/keys/killrvideo/services/web](http://10.0.75.1:2379/v2/keys/killrvideo/services/web),
+which will produce output like this:
 
-![Console Startup Output](/assets/images/java-startup.png)
+`
+{"action":"get","node":{"key":"/killrvideo/services/web","dir":true,
+ "nodes":[{"key":"/killrvideo/services/web/7546aded6d2c:killrvideo_web_1:3000","value":"10.0.75.1:3000",
+ "modifiedIndex":8,"createdIndex":8}],"modifiedIndex":8,"createdIndex":8}}
+`
 
-One of the last lines in the log output will tell you where to open a web browser in order to
-see the web application. The web UI makes calls to the Java microservices running on your
-local machine. Look in the `/src/main/java/killrvideo/service` folder to explore the service code and add
-breakpoints.
+## Using DataStax Studio
+
+The `docker-compose` file that you ran above started an instance of [DataStax Studio][studio], 
+an interactive tool for querying, exploring, analyzing, and visualizing both graph and tabular data. 
+Check out the [Using DataStax Studio][using-studio] page for more information.
 
 ## Learn More
 
@@ -97,4 +118,5 @@ KillrVideo and how the Web Tier interacts with the microservices running on your
 [docs]: /docs/
 [maven]: https://maven.apache.org/
 [jdk]: http://www.oracle.com/technetwork/java/javase/downloads/index.html
-
+[studio]: https://www.datastax.com/products/datastax-studio-and-development-tools
+[using-studio]: /docs/guides/datastax-studio/
