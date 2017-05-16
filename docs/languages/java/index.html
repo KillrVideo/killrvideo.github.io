@@ -92,19 +92,35 @@ in a couple popular IDEs:</p>
 <h3 id="running-in-intellij-idea">Running in IntelliJ IDEA</h3>
 <p>To debug in <a href="https://www.jetbrains.com/idea" target="_blank">IntelliJ IDEA</a>, you&#39;ll first need to create a Run/Debug configuration.</p>
 <ol>
-<li>Open the root project folder with IntelliJ IDEA.</li>
-<li>TBD</li>
+<li><p>In IntelliJ IDEA, select from the <code>File-&gt;New</code> menu the <code>Project from Existing Sources</code> option and then select the
+directory where you cloned the Git repository. Select the option which configures the project as a Maven project.
+This will enable you to run Maven targets such as those referenced above from the &quot;Maven Projects&quot; window (typically
+in the upper right).</p>
+</li>
+<li><p>Create/edit a run configuration for the main class by selecting the <code>Run-&gt;Edit Configurations</code> menu option and 
+selecting the main class <code>KillrVideoServer</code>, which should be listed under &quot;Spring Boot Configurations&quot; at left. 
+In order to run in the IDE, you will need to set the same environment variables as were set in the <code>.env</code> file 
+you created above when running the <code>setup-docker</code> script. For an example of this configuration see the following image:</p>
+</li>
 </ol>
+<p><img src="/assets/images/idea-configuration.png" alt="IntelliJ IDEA run configuration"></p>
+<p>Once the configuration has been created you can invoke it from the <code>Run</code> menu or by right clicking on the 
+<code>KillrVideoServer</code> class in the &quot;Project&quot; window to the left.</p>
 <h3 id="running-in-eclipse">Running in Eclipse</h3>
-<p>(Coming Soon)</p>
+<p>(Coming Soon - the instructions are very similar to running in IntelliJ IDEA.)</p>
 <h2 id="opening-the-web-ui">Opening the Web UI</h2>
-<p>When KillrVideo starts, you&#39;ll see a bunch of log output to the console telling you about the
-various things it&#39;s doing. You should see output that looks something like this:</p>
-<p><img src="/assets/images/java-startup.png" alt="Console Startup Output"></p>
-<p>One of the last lines in the log output will tell you where to open a web browser in order to
-see the web application. The web UI makes calls to the Java microservices running on your
-local machine. Look in the <code>/src/main/java/killrvideo/service</code> folder to explore the service code and add
-breakpoints.</p>
+<p>The Web UI will be started on the IP identified by the <code>KILLRVIDEO_HOST_IP</code> defined in the <code>.env</code> file above at
+port 3000. For example, this is typically something like <a href="http://10.0.75.1:3000" target="_blank">http://10.0.75.1:3000</a>.</p>
+<p>If you have trouble finding the web UI, it should be registered with etcd. You can discover it by using a query 
+such as <a href="http://10.0.75.1:2379/v2/keys/killrvideo/services/web" target="_blank">http://10.0.75.1:2379/v2/keys/killrvideo/services/web</a>,
+which will produce output like this:</p>
+<p><code>{&quot;action&quot;:&quot;get&quot;,&quot;node&quot;:{&quot;key&quot;:&quot;/killrvideo/services/web&quot;,&quot;dir&quot;:true,
+ &quot;nodes&quot;:[{&quot;key&quot;:&quot;/killrvideo/services/web/7546aded6d2c:killrvideo_web_1:3000&quot;,&quot;value&quot;:&quot;10.0.75.1:3000&quot;,
+ &quot;modifiedIndex&quot;:8,&quot;createdIndex&quot;:8}],&quot;modifiedIndex&quot;:8,&quot;createdIndex&quot;:8}}</code></p>
+<h2 id="using-datastax-studio">Using DataStax Studio</h2>
+<p>The <code>docker-compose</code> file that you ran above started an instance of <a href="https://www.datastax.com/products/datastax-studio-and-development-tools" target="_blank">DataStax Studio</a>, 
+an interactive tool for querying, exploring, analyzing, and visualizing both graph and tabular data. 
+Check out the <a href="/docs/guides/datastax-studio/">Using DataStax Studio</a> page for more information.</p>
 <h2 id="learn-more">Learn More</h2>
 <p>Check out the <a href="/docs/">Documentation</a> section for a lot more information on the architecture of
 KillrVideo and how the Web Tier interacts with the microservices running on your machine.</p>
@@ -160,6 +176,10 @@ KillrVideo and how the Web Tier interacts with the microservices running on your
               </li>
             
               <li>
+                <a href="/docs/languages/java/#using-datastax-studio">Using DataStax Studio</a>
+              </li>
+            
+              <li>
                 <a href="/docs/languages/java/#learn-more">Learn More</a>
               </li>
             
@@ -199,7 +219,7 @@ KillrVideo and how the Web Tier interacts with the microservices running on your
             <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> license.
           <p>
           <p>
-            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/9b25438ddf42d222f493d61b26833add0d1f0234" target="_blank">9b25438</a></small>
+            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/8bd17cc32c74b46f8db9e8fe0f15461131f2db77" target="_blank">8bd17cc</a></small>
           </p>
         </div>
       </div>

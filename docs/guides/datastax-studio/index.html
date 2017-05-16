@@ -1,0 +1,223 @@
+<!doctype html>
+<html>
+<head>
+  <title>KillrVideo - Using DataStax Studio</title>
+  <link href="/assets/css/bundle.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="/assets/images/killrvideo-icon.png"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  
+  <header>
+    <nav class="nav">
+      <div class="container">
+        <div class="nav-left">
+          <a href="/" class="nav-item">
+            <img src="/assets/images/killrvideo.png" alt="KillrVideo logo" />
+          </a>
+        </div>
+
+        <!-- Nav Toggle on mobile -->
+        <span class="nav-toggle">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+
+        <div class="nav-right nav-menu">
+          <span class="nav-item">
+            <a href="/getting-started/" class="button is-primary">
+              <i class="fa fa-code fa-fw"></i> Get Started
+            </a>
+          </span>
+          <a href="/docs/" class="nav-item">
+            Docs
+          </a>
+          <a href="/blog/" class="nav-item">
+            Blog
+          </a>
+          <a href="https://github.com/KillrVideo" target="_blank" class="nav-item">
+            <i class="fa fa-github fa-2x"></i>
+          </a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  
+  
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <article class="column is-8-tablet is-9-widescreen content">
+        <h1 id="using-datastax-studio">Using DataStax Studio</h1>
+<h2 id="about-datastax-studio">About DataStax Studio</h2>
+<p><a href="https://www.datastax.com/products/datastax-studio-and-development-tools" target="_blank">DataStax Studio</a> is an interactive tool for querying, exploring, analyzing, and visualizing data in CQL and Graph 
+(Gremlin) formats. </p>
+<ul>
+<li>For CQL, it provides the ability to visually create and navigate database objects, create complex queries, and tune 
+CQL queries. Studio includes an intelligent CQL editor that provides syntax highlighting, validation, intelligent code 
+completion, configuration options, and query profiling.</li>
+<li>For DSE Graph, it allows you to explore and view large datasets. It provides an intuitive interface for developers 
+and analysts to collaborate and test theories by mixing code, documentation, and visualizations for query results and 
+profiles into self-documenting notebooks. The code is written in the Gremlin graph traversal language.</li>
+<li>Notebooks combine runnable Gremlin and CQL code and markdown text in a rich interactive environment. 
+<a href="https://daringfireball.net/projects/markdown/" target="_blank">Markdown</a> is a simple language for creating human-readable plain text documents that can be displayed.</li>
+</ul>
+<h2 id="accessing-the-killrvideo-examples">Accessing the KillrVideo Examples</h2>
+<p>The docker-compose scripts that come with the language installations of KillrVideo
+are configured to start the DataStax Studio web application locally. You can access this instance of Studio by pointing 
+your browser at <a href="http://localhost:9091" target="_blank">http://localhost:9091</a>. </p>
+<p>Once you open Studio, you will see several built-in notebooks, including some with &quot;KillrVideo&quot; in the title
+which are specific to this application. For example, you should find a Notebook entitled &quot;KillrVideo QuickStart&quot;. 
+When you open it, it should look something like the following:</p>
+<p><img src="/assets/images/datastax-studio.png" alt="KillrVideo Notebook Example"></p>
+<p>After you explore the provided KillrVideo notebook(s), you can experiment with creating your own notebooks with 
+additional queries and visualizations, such as graph networks, pie charts, bar charts, scatter plots, etc.</p>
+
+      </article>
+      <div class="column is-4-tablet is-3-widescreen">
+        <nav class="docs panel">
+          <div class="panel-heading">
+            <span class="icon">
+              <i class="fa fa-info"></i>
+            </span>
+            General Guides
+          </div>
+
+          
+
+          
+          
+          
+
+          <div class="panel-block">
+            <a href="/docs/guides/architecture/">High Level Architecture Overview</a>
+
+            
+            
+          </div>
+
+          
+
+          
+          
+          
+
+          <div class="panel-block">
+            <a href="/docs/guides/web-tier/">Web Tier Implementation</a>
+
+            
+            
+          </div>
+
+          
+
+          
+          
+          
+
+          <div class="panel-block">
+            <a href="/docs/guides/microservices-tier/">Microservices Tier Implementation</a>
+
+            
+            
+          </div>
+
+          
+
+          
+          
+          
+
+          <div class="panel-block">
+            <a href="/docs/guides/docker/">Docker and Infrastructure Dependencies</a>
+
+            
+            
+          </div>
+
+          
+
+          
+          
+          
+
+          <div class="panel-block">
+            <a href="/docs/guides/service-discovery/">Service Discovery with etcd</a>
+
+            
+            
+          </div>
+
+          
+
+          
+          
+          
+            
+          
+
+          <div class="panel-block is-active">
+            <a href="/docs/guides/datastax-studio/">Using DataStax Studio</a>
+
+            
+            
+            <ul class="headings-list links-list">
+            
+              <li>
+                <a href="/docs/guides/datastax-studio/#about-datastax-studio">About DataStax Studio</a>
+              </li>
+            
+              <li>
+                <a href="/docs/guides/datastax-studio/#accessing-the-killrvideo-examples">Accessing the KillrVideo Examples</a>
+              </li>
+            
+            </ul>
+            
+          </div>
+
+          
+        
+        </nav>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+  
+  <footer class="footer">
+    <div class="container level">
+      <div class="level-left">
+        <div class="level-item">
+          <p>
+            <strong>KillrVideo</strong> is open source and available under an 
+            <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> license.
+          <p>
+          <p>
+            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/8bd17cc32c74b46f8db9e8fe0f15461131f2db77" target="_blank">8bd17cc</a></small>
+          </p>
+        </div>
+      </div>
+      <div class="level-right">
+        <div class="level-right">
+          <a class="button level-item" href="https://github.com/KillrVideo/killrvideo.github.io/tree/source/src/site/docs/guides/datastax-studio.md" target="_blank">
+            <i class="fa fa-github fa-fw"></i>Improve this page
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  
+  <script type="text/javascript" src="/assets/js/bundle.js"></script>
+
+  
+  
+<script type="text/javascript">
+  // Make doc navigation sticky once window is scrolled past 100px
+  KillrVideo.sticky('nav.docs', 100, 20);
+</script>
+
+</body>
+</html>
