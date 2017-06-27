@@ -28,6 +28,10 @@ When you open it, it should look something like the following:
 After you explore the provided KillrVideo notebook(s), you can experiment with creating your own notebooks with 
 additional queries and visualizations, such as graph networks, pie charts, bar charts, scatter plots, etc.
 
+[Next: Using DataStax Studio][next]
+
+
+[next]: /docs/guides/repositories
 [studio]: https://www.datastax.com/products/datastax-studio-and-development-tools
 [local-studio]: http://localhost:9091
 [markdown]: https://daringfireball.net/projects/markdown/
