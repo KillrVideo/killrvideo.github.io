@@ -1,0 +1,273 @@
+<!doctype html>
+<html>
+<head>
+  <title>KillrVideo - Repositories Overview</title>
+  <link href="/assets/css/bundle.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="/assets/images/killrvideo-icon.png"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  
+  <header>
+    <nav class="nav">
+      <div class="container">
+        <div class="nav-left">
+          <a href="/" class="nav-item">
+            <img src="/assets/images/killrvideo.png" alt="KillrVideo logo" />
+          </a>
+        </div>
+
+        <!-- Nav Toggle on mobile -->
+        <span class="nav-toggle">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+
+        <div class="nav-right nav-menu">
+          <span class="nav-item">
+            <a href="/getting-started/" class="button is-primary">
+              <i class="fa fa-code fa-fw"></i> Get Started
+            </a>
+          </span>
+          <a href="/docs/" class="nav-item">
+            Docs
+          </a>
+          <a href="/blog/" class="nav-item">
+            Blog
+          </a>
+          <a href="https://github.com/KillrVideo" target="_blank" class="nav-item">
+            <i class="fa fa-github fa-2x"></i>
+          </a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  
+  
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <article class="column is-8-tablet is-9-widescreen content">
+        <h1 id="repositories-overview">Repositories Overview</h1>
+<p>The KillrVideo application consists of multiple repositories which implement the various architecture 
+layers (see the <a href="/docs/guides/architecture">architecture</a> page for a review of the layers).</p>
+<h2 id="web-tier-repositories">Web Tier Repositories</h2>
+<ul>
+<li>The Web Client and Web Server code is implemented in the <a href="https://github.com/KillrVideo/killrvideo-web" target="_blank">killrvideo-web</a> repository.</li>
+</ul>
+<h2 id="microservices-tier-repositories">Microservices Tier Repositories</h2>
+<p>There are multiple implementations of the KillrVideo microservices tier in various languages:</p>
+<ul>
+<li>The Java implementation is found in the <a href="https://github.com/KillrVideo/killrvideo-java" target="_blank">killrvideo-java</a> repository.</li>
+<li>The Node.js implementation is found in the <a href="https://github.com/KillrVideo/killrvideo-nodejs" target="_blank">killrvideo-nodejs</a> repository.</li>
+<li>The C# implementation is found in Luke Tillman&#39;s <a href="https://github.com/LukeTillman/killrvideo-csharp" target="_blank">killrvideo-csharp</a> repository.</li>
+</ul>
+<p>Each of these implementations has dependencies on the following common repositories which are implemented as 
+<a href="https://www.atlassian.com/blog/git/alternatives-to-git-submodule-git-subtree" target="_blank">Git subtree</a>:</p>
+<ul>
+<li>The <a href="https://github.com/KillrVideo/killrvideo-docker-common" target="_blank">killrvideo-docker-common</a> contains a Docker compose file that describes how to spin
+up common infrastructure elements required by the microservices tier, including DataStax Enterprise and [etcd][etcd].</li>
+<li>The <a href="https://github.com/KillrVideo/killrvideo-service-protos" target="_blank">killrvideo-service-protos</a> contains the <a href="http://www.grpc.io/" target="_blank">gRPC</a> service definitions. </li>
+</ul>
+<p>The <a href="https://github.com/KillrVideo/killrvideo-generator" target="_blank">killrvideo-generator</a> repository contains a test data generator which exercises
+the microservices to insert data into the KillrVideo database. This repository has the same dependencies as the 
+various microservice tier implementations. This would only require changes in cases where there are changes to the 
+<a href="https://github.com/KillrVideo/killrvideo-service-protos" target="_blank">killrvideo-service-protos</a>.</p>
+<h2 id="data-tier-repositories">Data Tier Repositories</h2>
+<ul>
+<li>The <a href="https://github.com/KillrVideo/killrvideo-data" target="_blank">killrvideo-data</a> repository defines schema used by the KillrVideo application, including CQL for 
+Cassandra tables, DSE Search schema, and Graph schema.</li>
+<li>The <a href="https://github.com/KillrVideo/killrvideo-cdm" target="_blank">killrvideo-cdm</a> repository contains a sample data set for the <a href="http://cdm.readthedocs.io/en/latest/" target="_blank">Cassandra Dataset Manager</a>
+which can be used with the KillrVideo application.</li>
+</ul>
+<h2 id="infrastructure-repositories">Infrastructure Repositories</h2>
+<p>The following repositories are used to build up infrastructure elements such as Docker images
+which are used in the deployed KillrVideo application. </p>
+<ul>
+<li><p>The <a href="https://github.com/KillrVideo/killrvideo-dse-docker" target="_blank">killrvideo-dse-docker</a> and <a href="https://github.com/KillrVideo/killrvideo-studio-docker" target="_blank">killrvideo-studio-docker</a>
+repositories contain scripts to build Docker images for DataStax Enterprise and DataStax Studio 
+specifically initialized for the KillrVideo application. These repos are linked to <a href="https://travis-ci.org/KillrVideo" target="_blank">Travis CI</a>, which builds the 
+Docker images and publishes them to <a href="https://hub.docker.com/" target="_blank">DockerHub</a>. </p>
+</li>
+<li><p>The <a href="https://github.com/KillrVideo/killrvideo-dse-external" target="_blank">killrvideo-dse-external</a> repository provides Docker compose configuration for running 
+Killrvideo with an external cluster.</p>
+</li>
+</ul>
+<h2 id="documentation-repositories">Documentation Repositories</h2>
+<ul>
+<li>The <a href="https://github.com/KillrVideo/killrvideo.github.io" target="_blank">killrvideo.github.io</a> repository creates this documentation site.  </li>
+</ul>
+
+      </article>
+      <div class="column is-4-tablet is-3-widescreen">
+        <nav class="docs panel">
+          <div class="panel-heading">
+            <span class="icon">
+              <i class="fa fa-info"></i>
+            </span>
+            General Guides
+          </div>
+
+          
+
+          
+          
+          
+
+          <div class="panel-block">
+            <a href="/docs/guides/architecture/">High Level Architecture Overview</a>
+
+            
+            
+          </div>
+
+          
+
+          
+          
+          
+
+          <div class="panel-block">
+            <a href="/docs/guides/web-tier/">Web Tier Implementation</a>
+
+            
+            
+          </div>
+
+          
+
+          
+          
+          
+
+          <div class="panel-block">
+            <a href="/docs/guides/microservices-tier/">Microservices Tier Implementation</a>
+
+            
+            
+          </div>
+
+          
+
+          
+          
+          
+
+          <div class="panel-block">
+            <a href="/docs/guides/docker/">Docker and Infrastructure Dependencies</a>
+
+            
+            
+          </div>
+
+          
+
+          
+          
+          
+
+          <div class="panel-block">
+            <a href="/docs/guides/service-discovery/">Service Discovery with etcd</a>
+
+            
+            
+          </div>
+
+          
+
+          
+          
+          
+
+          <div class="panel-block">
+            <a href="/docs/guides/datastax-studio/">Using DataStax Studio</a>
+
+            
+            
+          </div>
+
+          
+
+          
+          
+          
+            
+          
+
+          <div class="panel-block is-active">
+            <a href="/docs/guides/repositories/">Repositories Overview</a>
+
+            
+            
+            <ul class="headings-list links-list">
+            
+              <li>
+                <a href="/docs/guides/repositories/#web-tier-repositories">Web Tier Repositories</a>
+              </li>
+            
+              <li>
+                <a href="/docs/guides/repositories/#microservices-tier-repositories">Microservices Tier Repositories</a>
+              </li>
+            
+              <li>
+                <a href="/docs/guides/repositories/#data-tier-repositories">Data Tier Repositories</a>
+              </li>
+            
+              <li>
+                <a href="/docs/guides/repositories/#infrastructure-repositories">Infrastructure Repositories</a>
+              </li>
+            
+              <li>
+                <a href="/docs/guides/repositories/#documentation-repositories">Documentation Repositories</a>
+              </li>
+            
+            </ul>
+            
+          </div>
+
+          
+        
+        </nav>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+  
+  <footer class="footer">
+    <div class="container level">
+      <div class="level-left">
+        <div class="level-item">
+          <p>
+            <strong>KillrVideo</strong> is open source and available under an 
+            <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> license.
+          <p>
+          <p>
+            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/a18ad288fdfbdee081c40d601834803c21f7db8c" target="_blank">a18ad28</a></small>
+          </p>
+        </div>
+      </div>
+      <div class="level-right">
+        <div class="level-right">
+          <a class="button level-item" href="https://github.com/KillrVideo/killrvideo.github.io/tree/source/src/site/docs/guides/repositories.md" target="_blank">
+            <i class="fa fa-github fa-fw"></i>Improve this page
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  
+  <script type="text/javascript" src="/assets/js/bundle.js"></script>
+
+  
+  
+<script type="text/javascript">
+  // Make doc navigation sticky once window is scrolled past 100px
+  KillrVideo.sticky('nav.docs', 100, 20);
+</script>
+
+</body>
+</html>
