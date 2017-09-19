@@ -28,7 +28,7 @@ When you open it, it should look something like the following:
 After you explore the provided KillrVideo notebook(s), you can experiment with creating your own notebooks with 
 additional queries and visualizations, such as graph networks, pie charts, bar charts, scatter plots, etc.
 
-[Next: Using DataStax Studio][next]
+[Next: Repositories Overview][next]
 
 
 [next]: /docs/guides/repositories
