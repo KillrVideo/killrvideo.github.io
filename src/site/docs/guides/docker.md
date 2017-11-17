@@ -5,7 +5,7 @@ each of these implementations have a base common set of dependencies they need i
 to be a functional reference application. Those base dependencies are:
 
 - [**DataStax Enterprise**][dse]: we need at least one node of DSE / Cassandra running that
-the microservices implementations can use to store data.
+the microservices implementations can use to store data. 
 - [**KillrVideo Web Tier**][killrvideo-web]: we need the Web Tier in order to provide a
 working UI and application that drives calls to the microservices.
 - [**etcd**][etcd]: we use etcd as our service registry for service discovery so that our
@@ -24,11 +24,14 @@ chances are they may already have it installed).
 The [Docker][docker] project offers a nice tool called [Docker Compose][compose] which
 allows you to run multiple Docker containers that are defined in a `.yaml` file. We created
 the [killrvideo-docker-common][docker-common] project to house the configuration that is the
-same across many of our projects. This project includes two main things:
+same across many of our projects. This project includes the following:
 
-- A base `docker-compose.yaml` configuration that includes etcd, a single DSE node, and 
+- A base `docker-compose.yaml` configuration that includes a single DSE node using the official 
+DSE image, which is available in the [Docker Store][docker-store]. It also includes etcd and 
 [Registrator][registrator], a program that automatically registers and deregisters Docker 
-containers with our Etcd service registry when they are started and stopped.
+containers with the etcd service registry when they are started and stopped.
+- Additional `docker-compose` files that show how to use Docker 
+images for DataStax tools including Studio and OpsCenter available in [Docker Hub][docker-hub].
 - Helper scripts (for Windows and Mac) that can be used to determine the Docker network
 setup on a developer's machine so we know what IP addresses the components can use to
 communicate with each other.
@@ -50,8 +53,11 @@ scripts that are useful for determining a developer's Docker setup. These script
 used to create a `.env` file which is used by [Docker Compose][compose] when it runs to set
 environment variables needed by KillrVideo. That `.env` file can also be used by the various
 microservice implementations to make sure that they register themselves with the appropriate
-IP address in [etcd][etcd] for service discovery. The output from those scripts is:
+IP address in [etcd][etcd] for service discovery. The contents of the `.env` file include:
 
+- `COMPOSE_PROJECT_NAME`: the name that will prefix each container name (i.e. `killrvideo_dse_1`).
+- `COMPOSE_FILE`: the list of compose files to use, for example: a compose file from
+[killrvideo-docker-common][docker-common] as well as a local compose file. 
 - `KILLRVIDEO_DOCKER_IP`: the Docker VM's IP where the containers are hosted. This is where
 the Web UI, DSE node, and etcd are available.
 - `KILLRVIDEO_HOST_IP`: the IP address of the user's local dev machine. This is the IP
@@ -67,6 +73,39 @@ running:
 > docker-compose up
 ```
 
+## Other Docker Compose Examples
+
+You may be interested in other configuration options for running KillrVideo in Docker, such as:
+ 
+- Starting a copy of [OpsCenter][ops-center], the web-based visual management and monitoring tool,
+to monitor your KillrVideo DSE node(s).
+- Starting a copy of [Studio][studio], an interactive web-based developer tool for interacting
+with Cassandra data using CQL and Graph data using Gremlin.
+- Storing DSE / Cassandra data on a volume mounted from the host machine, so that your data
+can survive beyond the lifespan of a single container.
+
+These alternate configurations are available as part of the [killrvideo-docker-common][docker-common] 
+repository, which is included as part of the service implemementation repositories.  
+
+To use one of these alternate configurations, you'll want to edit the `COMPOSE_FILE` variable in the
+`.env` file described above to include the `docker-compose` of your choice instead of the 
+basic `docker-compose.yaml` file.
+
+For example, you might change the default configuration of: 
+
+```
+COMPOSE_FILE=./lib/killrvideo-docker-common/docker-compose.yaml:./docker-compose.yaml
+```
+
+to:
+
+```
+COMPOSE_FILE=./lib/killrvideo-docker-common/docker-compose-volumes.yaml:./docker-compose.yaml
+```
+
+in order to use the `docker-compose-volumes.yaml` file which starts a DSE instance 
+with the data drive mounted from the host machine.
+
 Next, we'll take a quick look at service discovery in KillrVideo with etcd.
 
 [Next: Service Discovery with etcd][next]
@@ -81,3 +120,6 @@ Next, we'll take a quick look at service discovery in KillrVideo with etcd.
 [docker-common]: https://github.com/KillrVideo/killrvideo-docker-common
 [registrator]: http://gliderlabs.com/registrator/latest/
 [studio]: https://www.datastax.com/products/datastax-studio-and-development-tools
+[docker-store]: https://store.docker.com/images/datastax
+[docker-hub]: https://hub.docker.com/u/datastax/
+[ops-center]: https://www.datastax.com/products/datastax-opscenter
