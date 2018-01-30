@@ -79,7 +79,7 @@ var KillrVideo =
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;"use strict";
 	
-	/*! cash-dom 1.3.5, https://github.com/kenwheeler/cash @license MIT */
+	/*! cash-dom 1.3.7, https://github.com/kenwheeler/cash @license MIT */
 	
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 	
@@ -122,7 +122,7 @@ var KillrVideo =
 	  var frag;
 	  function parseHTML(str) {
 	    if (!frag) {
-	      frag = doc.implementation.createHTMLDocument();
+	      frag = doc.implementation.createHTMLDocument(null);
 	      var base = frag.createElement("base");
 	      base.href = doc.location.href;
 	      frag.head.appendChild(base);
@@ -135,7 +135,7 @@ var KillrVideo =
 	
 	  function onReady(fn) {
 	    if (doc.readyState !== "loading") {
-	      fn();
+	      setTimeout(fn);
 	    } else {
 	      doc.addEventListener("DOMContentLoaded", fn);
 	    }
@@ -357,10 +357,10 @@ var KillrVideo =
 	    return v.classList ? v.classList.contains(c) : new RegExp("(^| )" + c + "( |$)", "gi").test(v.className);
 	  }
 	
-	  function _addClass(v, c, spacedName) {
+	  function _addClass(v, c) {
 	    if (v.classList) {
 	      v.classList.add(c);
-	    } else if (spacedName.indexOf(" " + c + " ")) {
+	    } else if (!_hasClass(v, c)) {
 	      v.className += " " + c;
 	    }
 	  }
@@ -378,9 +378,8 @@ var KillrVideo =
 	      var classes = getClasses(c);
 	
 	      return classes ? this.each(function (v) {
-	        var spacedName = " " + v.className + " ";
 	        _each(classes, function (c) {
-	          _addClass(v, c, spacedName);
+	          _addClass(v, c);
 	        });
 	      }) : this;
 	    },
@@ -471,12 +470,11 @@ var KillrVideo =
 	      }
 	      var classes = getClasses(c);
 	      return classes ? this.each(function (v) {
-	        var spacedName = " " + v.className + " ";
 	        _each(classes, function (c) {
 	          if (_hasClass(v, c)) {
 	            _removeClass(v, c);
 	          } else {
-	            _addClass(v, c, spacedName);
+	            _addClass(v, c);
 	          }
 	        });
 	      }) : this;
