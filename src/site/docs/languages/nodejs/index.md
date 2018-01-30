@@ -11,6 +11,8 @@ These instructions assume you already have [Node.js][node] and npm installed, as
 IDE that supports debugging with source maps like [WebStorm][webstorm] or 
 [Visual Studio Code][vscode] on your local machine.
 
+Node.js **v6.12.3** is confirmed to work with this version of KillrVideo.  You can find the download link [here][nodedownload].
+
 ## Cloning and Setup
 
 Like all KillrVideo implementations, the Node.js version uses [Docker][docker] to run all its
@@ -121,6 +123,7 @@ KillrVideo and how the Web Tier interacts with the microservices running on your
 [driver]: https://github.com/datastax/nodejs-driver
 [grpc]: http://www.grpc.io/
 [node]: https://nodejs.org/
+[nodedownload]: https://nodejs.org/en/download/releases/
 [webstorm]: https://www.jetbrains.com/webstorm/
 [vscode]: https://code.visualstudio.com/
 [webstorm-config]: https://www.jetbrains.com/help/webstorm/2016.2/running-and-debugging-node-js.html#Node.js_run
