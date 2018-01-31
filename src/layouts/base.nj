@@ -33,8 +33,8 @@
           <a href="{{ nav.docs }}" class="nav-item">
             Docs
           </a>
-          <a href="{{ nav.blog }}" class="nav-item">
-            Blog
+          <a href="{{ nav.support }}" class="nav-item">
+            Support
           </a>
           <a href="{{ github.org }}" target="_blank" class="nav-item">
             <i class="fa fa-github fa-2x"></i>
