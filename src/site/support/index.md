@@ -14,3 +14,4 @@ visit us in the #killrvideo room with your questions, suggestions or other feedb
 We're also happy to interact with you via issues or receive your pull requests on GitHub 
 
 [slack]: https://academy.datastax.com/slack
+[academy]: https://academy.datastax.com
