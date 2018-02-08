@@ -134,7 +134,21 @@ basic <code>docker-compose.yaml</code> file.</p>
 <pre><code>COMPOSE_FILE=./lib/killrvideo-docker-common/docker-compose.yaml:./docker-compose.yaml</code></pre><p>to:</p>
 <pre><code>COMPOSE_FILE=./lib/killrvideo-docker-common/docker-compose-volumes.yaml:./docker-compose.yaml</code></pre><p>in order to use the <code>docker-compose-volumes.yaml</code> file which starts a DSE instance 
 with the data drive mounted from the host machine.</p>
-<p>Next, we&#39;ll take a quick look at service discovery in KillrVideo with etcd.</p>
+<h2 id="running-killrvideo-with-an-external-dse-cluster">Running KillrVideo with an external DSE cluster</h2>
+<p>While the default configuration we provide for running KillrVideo in Docker includes running a single
+DSE node in a docker container, it is also possible to configure KillrVideo to run against an external cluster
+(that is, a cluster not running in Docker). We use this configuration option to run the publicly accessible
+version of KillrVideo you can find at <a href="http://www.killrvideo.com" target="_blank">www.killrvideo.com</a>.</p>
+<p>To configure KillrVideo to run with an external cluster, you&#39;ll want to take a look at the configuration options
+supported by the <a href="https://github.com/killrvideo/killrvideo-dse-config" target="_blank">killrvideo-dse-config</a> container. You&#39;ll want to edit the <code>docker-compose</code> configuration so that
+DSE is not started in a docker container, and you&#39;ll want to edit the environment variables in your local <code>.env</code> file
+in the directory where you run <code>docker-compose</code> to configure:</p>
+<ul>
+<li>any desired security roles that you have set in the cluster for administrative and application roles</li>
+<li>replication strategies to use for Cassandra and Graph data</li>
+</ul>
+<p>See the <a href="https://github.com/killrvideo/killrvideo-dse-config" target="_blank">killrvideo-dse-config</a> repo for more information on the environment variables you can set in order to
+configure these options.</p>
 <p><a href="/docs/guides/service-discovery/">Next: Service Discovery with etcd</a></p>
 
       </article>
@@ -213,6 +227,10 @@ with the data drive mounted from the host machine.</p>
                 <a href="/docs/guides/docker/#other-docker-compose-examples">Other Docker Compose Examples</a>
               </li>
             
+              <li>
+                <a href="/docs/guides/docker/#running-killrvideo-with-an-external-dse-cluster">Running KillrVideo with an external DSE cluster</a>
+              </li>
+            
             </ul>
             
           </div>
@@ -275,7 +293,7 @@ with the data drive mounted from the host machine.</p>
             <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> license.
           <p>
           <p>
-            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/0fa2358d08352e99ca7101a53e10facdc06dd035" target="_blank">0fa2358</a></small>
+            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/c8c09ce0827b53d1da6f5001ddf2cf58ce5c2984" target="_blank">c8c09ce</a></small>
           </p>
         </div>
       </div>
