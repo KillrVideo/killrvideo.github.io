@@ -106,7 +106,23 @@ COMPOSE_FILE=./lib/killrvideo-docker-common/docker-compose-volumes.yaml:./docker
 in order to use the `docker-compose-volumes.yaml` file which starts a DSE instance 
 with the data drive mounted from the host machine.
 
-Next, we'll take a quick look at service discovery in KillrVideo with etcd.
+## Running KillrVideo with an external DSE cluster
+
+While the default configuration we provide for running KillrVideo in Docker includes running a single
+DSE node in a docker container, it is also possible to configure KillrVideo to run against an external cluster
+(that is, a cluster not running in Docker). We use this configuration option to run the publicly accessible
+version of KillrVideo you can find at [www.killrvideo.com][website].
+
+To configure KillrVideo to run with an external cluster, you'll want to take a look at the configuration options
+supported by the [killrvideo-dse-config] container. You'll want to edit the `docker-compose` configuration so that
+DSE is not started in a docker container, and you'll want to edit the environment variables in your local `.env` file
+in the directory where you run `docker-compose` to configure:
+ 
+- any desired security roles that you have set in the cluster for administrative and application roles
+- replication strategies to use for Cassandra and Graph data
+
+See the [killrvideo-dse-config] repo for more information on the environment variables you can set in order to
+configure these options.
 
 [Next: Service Discovery with etcd][next]
 
@@ -123,3 +139,5 @@ Next, we'll take a quick look at service discovery in KillrVideo with etcd.
 [docker-store]: https://store.docker.com/images/datastax
 [docker-hub]: https://hub.docker.com/u/datastax/
 [ops-center]: https://www.datastax.com/products/datastax-opscenter
+[website]: http://www.killrvideo.com
+[killrvideo-dse-config]: https://github.com/killrvideo/killrvideo-dse-config
