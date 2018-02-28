@@ -107,7 +107,32 @@ you created above when running the <code>setup-docker</code> script. For an exam
 <p>Once the configuration has been created you can invoke it from the <code>Run</code> menu or by right clicking on the 
 <code>KillrVideoServer</code> class in the &quot;Project&quot; window to the left.</p>
 <h3 id="running-in-eclipse">Running in Eclipse</h3>
-<p>(Coming Soon - the instructions are very similar to running in IntelliJ IDEA.)</p>
+<p>To debug in<a href="https://www.eclipse.org/" target="_blank">Eclipse</a>, you&#39;ll need to import project and create a Run/Debug configuration.</p>
+<ul>
+<li><p><strong>Patch m2e Eclipse to work <code>maven-os-plugin</code></strong> : As <code>m2e</code> does not evaluate the extension specified 
+in a <code>pom.xml</code> you need to install an additional Eclipse plugin. To do so please download <a href="http://repo1.maven.org/maven2/kr/motd/maven/os-maven-plugin/1.5.0.Final/os-maven-plugin-1.5.0.Final.jar" target="_blank"><code>os-maven-plugin-1.5.0.Final.jar</code></a> and put it into the <code>&lt;ECLIPSE_HOME&gt;/plugins</code> directory. (As you might have noticed, <code>os-maven-plugin</code> is a Maven extension, a Maven plugin, and an Eclipse plugin). You will need to restart eclipse.</p>
+</li>
+<li><p><strong>Import Maven Project</strong>: In Eclipse, select <code>File-&gt;Import</code>, in the menu pick <code>Maven&gt;Existing Maven Projects</code> and select the directory where you cloned the Git repository. The <code>pom.xml</code> file should appear in the list, validate that associated box is checked then click <code>finish</code>.
+<img src="/assets/images/eclipse-import.png" alt="Eclipse Import Project"></p>
+</li>
+<li><p><strong>Update classpath</strong>: During <code>build</code> maven phase classes are generated for both GRPC and Gremling DSL in <code>generated-sources</code>. 
+Eclipse does not include all paths by default to the classpath, you need an extra configuration step. Right-click on your project and 
+select <code>properties</code>. Then, in the tree on the left part of the wizard select <code>Java Build Path</code>, <code>Add Folder</code> and browse project 
+to check <code>target/generated-sources/annotations</code> box as displayed in the picture below, apply and close. 
+You project should now compile without error in the UI.
+<img src="/assets/images/eclipse-annotation.png" alt="Eclipse Add Annotations"></p>
+</li>
+<li><p><strong>Run configuration</strong>: Right-click on your project and select <code>Run As...&gt;Run As Java Applications</code>. (<em>if you are using Eclipse STS you can also
+<code>Run As...&gt;Run As Spring Boot App</code></em>). On the main tab enter name <code>Run KillrVideo</code> and for main class field please use <code>killrvideo.KillrVideoServer</code>.
+You will need to set the same environment variables as were set in the <code>.env</code> file you created above when running the <code>setup-docker</code> 
+script. Select <code>Environment</code> tag and add the variables as shown in the picture below : <code>KILLRVIDEO_HOST_IP</code>, <code>KILLRVIDEO_DOCKER_IP</code>
+<img src="/assets/images/eclipse-run.png" alt="Eclipse run configuration"> </p>
+</li>
+</ul>
+<h3 id="running-as-command-line">Running as command line</h3>
+<p>The purpose of KillrVideo application is to illustrate how to implement an application with DataStax Enterprise and thus 
+we expect you to import the source code in a IDE to manipulate and understand the code. To simply execute the application
+you can execute the following:<code>mvn spring-boot:run -D=KILLRVIDEO_HOST_IP=10.0.75.1 -D=KILLRVIDEO_DOCKER_IP=10.0.75.1</code></p>
 <h2 id="opening-the-web-ui">Opening the Web UI</h2>
 <p>The Web UI will be started on the IP identified by the <code>KILLRVIDEO_HOST_IP</code> defined in the <code>.env</code> file above at
 port 3000. For example, this is typically something like <a href="http://10.0.75.1:3000" target="_blank">http://10.0.75.1:3000</a>.</p>
@@ -219,7 +244,7 @@ KillrVideo and how the Web Tier interacts with the microservices running on your
             <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> license.
           <p>
           <p>
-            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/c8c09ce0827b53d1da6f5001ddf2cf58ce5c2984" target="_blank">c8c09ce</a></small>
+            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/c3adf151e299698e3b308f296b6a85e05393f086" target="_blank">c3adf15</a></small>
           </p>
         </div>
       </div>
