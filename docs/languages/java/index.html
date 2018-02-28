@@ -88,6 +88,7 @@ in a couple popular IDEs:</p>
 <ul>
 <li><a href="#running-in-intellij-idea">IntelliJ IDEA</a></li>
 <li><a href="#running-in-eclipse">Eclipse</a></li>
+<li><a href="#running-as-command-line">Command Line</a></li>
 </ul>
 <h3 id="running-in-intellij-idea">Running in IntelliJ IDEA</h3>
 <p>To debug in <a href="https://www.jetbrains.com/idea" target="_blank">IntelliJ IDEA</a>, you&#39;ll first need to create a Run/Debug configuration.</p>
@@ -107,28 +108,30 @@ you created above when running the <code>setup-docker</code> script. For an exam
 <p>Once the configuration has been created you can invoke it from the <code>Run</code> menu or by right clicking on the 
 <code>KillrVideoServer</code> class in the &quot;Project&quot; window to the left.</p>
 <h3 id="running-in-eclipse">Running in Eclipse</h3>
-<p>To debug in<a href="https://www.eclipse.org/" target="_blank">Eclipse</a>, you&#39;ll need to import project and create a Run/Debug configuration.</p>
+<p>To debug in <a href="https://www.eclipse.org/" target="_blank">Eclipse</a>, you&#39;ll need to import project and create a Run/Debug configuration.</p>
 <ul>
 <li><p><strong>Patch m2e Eclipse to work <code>maven-os-plugin</code></strong> : As <code>m2e</code> does not evaluate the extension specified 
 in a <code>pom.xml</code> you need to install an additional Eclipse plugin. To do so please download <a href="http://repo1.maven.org/maven2/kr/motd/maven/os-maven-plugin/1.5.0.Final/os-maven-plugin-1.5.0.Final.jar" target="_blank"><code>os-maven-plugin-1.5.0.Final.jar</code></a> and put it into the <code>&lt;ECLIPSE_HOME&gt;/plugins</code> directory. (As you might have noticed, <code>os-maven-plugin</code> is a Maven extension, a Maven plugin, and an Eclipse plugin). You will need to restart eclipse.</p>
 </li>
-<li><p><strong>Import Maven Project</strong>: In Eclipse, select <code>File-&gt;Import</code>, in the menu pick <code>Maven&gt;Existing Maven Projects</code> and select the directory where you cloned the Git repository. The <code>pom.xml</code> file should appear in the list, validate that associated box is checked then click <code>finish</code>.
-<img src="/assets/images/eclipse-import.png" alt="Eclipse Import Project"></p>
+<li><p><strong>Import Maven Project</strong>: In Eclipse, select <code>File-&gt;Import</code>, in the menu pick <code>Maven&gt;Existing Maven Projects</code> and select the directory where you cloned the Git repository. The <code>pom.xml</code> file should appear in the list, validate that associated box is checked then click <code>finish</code>.</p>
 </li>
-<li><p><strong>Update classpath</strong>: During <code>build</code> maven phase classes are generated for both GRPC and Gremling DSL in <code>generated-sources</code>. 
+</ul>
+<p><img src="/assets/images/eclipse-import.png" alt="Eclipse Import Project"></p>
+<ul>
+<li><strong>Update classpath</strong>: During <code>build</code> maven phase classes are generated for both GRPC and Gremling DSL in <code>generated-sources</code>. 
 Eclipse does not include all paths by default to the classpath, you need an extra configuration step. Right-click on your project and 
 select <code>properties</code>. Then, in the tree on the left part of the wizard select <code>Java Build Path</code>, <code>Add Folder</code> and browse project 
 to check <code>target/generated-sources/annotations</code> box as displayed in the picture below, apply and close. 
-You project should now compile without error in the UI.
-<img src="/assets/images/eclipse-annotation.png" alt="Eclipse Add Annotations"></p>
-</li>
-<li><p><strong>Run configuration</strong>: Right-click on your project and select <code>Run As...&gt;Run As Java Applications</code>. (<em>if you are using Eclipse STS you can also
+You project should now compile without error in the UI.</li>
+</ul>
+<p><img src="/assets/images/eclipse-annotation.png" alt="Eclipse Add Annotations"></p>
+<ul>
+<li><strong>Run configuration</strong>: Right-click on your project and select <code>Run As...&gt;Run As Java Applications</code>. (<em>if you are using Eclipse STS you can also
 <code>Run As...&gt;Run As Spring Boot App</code></em>). On the main tab enter name <code>Run KillrVideo</code> and for main class field please use <code>killrvideo.KillrVideoServer</code>.
 You will need to set the same environment variables as were set in the <code>.env</code> file you created above when running the <code>setup-docker</code> 
-script. Select <code>Environment</code> tag and add the variables as shown in the picture below : <code>KILLRVIDEO_HOST_IP</code>, <code>KILLRVIDEO_DOCKER_IP</code>
-<img src="/assets/images/eclipse-run.png" alt="Eclipse run configuration"> </p>
-</li>
+script. Select <code>Environment</code> tag and add the variables as shown in the picture below : <code>KILLRVIDEO_HOST_IP</code>, <code>KILLRVIDEO_DOCKER_IP</code></li>
 </ul>
+<p><img src="/assets/images/eclipse-run.png" alt="Eclipse run configuration"> </p>
 <h3 id="running-as-command-line">Running as command line</h3>
 <p>The purpose of KillrVideo application is to illustrate how to implement an application with DataStax Enterprise and thus 
 we expect you to import the source code in a IDE to manipulate and understand the code. To simply execute the application
@@ -244,7 +247,7 @@ KillrVideo and how the Web Tier interacts with the microservices running on your
             <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> license.
           <p>
           <p>
-            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/c3adf151e299698e3b308f296b6a85e05393f086" target="_blank">c3adf15</a></small>
+            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/c9db3a69f4287f722b3a4d4e4740fb44f5640a43" target="_blank">c9db3a6</a></small>
           </p>
         </div>
       </div>
