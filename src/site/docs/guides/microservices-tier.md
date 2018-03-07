@@ -133,8 +133,8 @@ It's also possible, since we're using a Docker container to package and run the 
 that an implementation might choose to use some other external piece of infrastructure 
 running in a Docker container. Again, this is left up to the individual implementation.
 
-Next, let's take a look at how we're using Docker to run our infrastructure dependencies in
-KillrVideo.
+Next, let's take a look at how the microservices tier demonstrates various features of 
+Apache Cassandra and DataStax Enterprise.
 
 [Next: Feature Matrix][next]
 
