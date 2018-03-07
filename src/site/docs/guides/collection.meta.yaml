@@ -4,6 +4,7 @@ sort_by:
 - architecture.md
 - web-tier.md
 - microservices-tier.md
+- feature-matrix.md
 - docker.md
 - service-discovery.md
 - datastax-studio.md

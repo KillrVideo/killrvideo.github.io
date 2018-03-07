@@ -136,10 +136,10 @@ running in a Docker container. Again, this is left up to the individual implemen
 Next, let's take a look at how we're using Docker to run our infrastructure dependencies in
 KillrVideo.
 
-[Next: Docker and Infrastructure Dependencies][next]
+[Next: Feature Matrix][next]
 
 [grpc]: http://www.grpc.io/
 [protobuf]: https://developers.google.com/protocol-buffers/
 [service-protos]: https://github.com/KillrVideo/killrvideo-service-protos
 [architecture]: ./architecture.md
-[next]: /docs/guides/docker/
+[next]: /docs/guides/feature-matrix/
