@@ -54,6 +54,7 @@ in a couple popular IDEs:
 
 - [IntelliJ IDEA](#running-in-intellij-idea)
 - [Eclipse](#running-in-eclipse)
+- [Command Line](#running-as-command-line)
 
 ### Running in IntelliJ IDEA
 
@@ -76,7 +77,36 @@ Once the configuration has been created you can invoke it from the `Run` menu or
 
 ### Running in Eclipse
 
-(Coming Soon - the instructions are very similar to running in IntelliJ IDEA.)
+To debug in [Eclipse][eclipse], you'll need to import project and create a Run/Debug configuration.
+
+- **Patch m2e Eclipse to work `maven-os-plugin`** : As `m2e` does not evaluate the extension specified 
+in a `pom.xml` you need to install an additional Eclipse plugin. To do so please download [`os-maven-plugin-1.5.0.Final.jar`][os-plugin-url] and put it into the `<ECLIPSE_HOME>/plugins` directory. (As you might have noticed, `os-maven-plugin` is a Maven extension, a Maven plugin, and an Eclipse plugin). You will need to restart eclipse.
+
+- **Import Maven Project**: In Eclipse, select `File->Import`, in the menu pick `Maven>Existing Maven Projects` and select the directory where you cloned the Git repository. The `pom.xml` file should appear in the list, validate that associated box is checked then click `finish`.
+
+![Eclipse Import Project](/assets/images/eclipse-import.png)
+
+- **Update classpath**: During `build` maven phase classes are generated for both GRPC and Gremling DSL in `generated-sources`. 
+Eclipse does not include all paths by default to the classpath, you need an extra configuration step. Right-click on your project and 
+select `properties`. Then, in the tree on the left part of the wizard select `Java Build Path`, `Add Folder` and browse project 
+to check `target/generated-sources/annotations` box as displayed in the picture below, apply and close. 
+You project should now compile without error in the UI.
+
+![Eclipse Add Annotations](/assets/images/eclipse-annotation.png)
+
+- **Run configuration**: Right-click on your project and select `Run As...>Run As Java Applications`. (*if you are using Eclipse STS you can also
+`Run As...>Run As Spring Boot App`*). On the main tab enter name `Run KillrVideo` and for main class field please use `killrvideo.KillrVideoServer`.
+You will need to set the same environment variables as were set in the `.env` file you created above when running the `setup-docker` 
+script. Select `Environment` tag and add the variables as shown in the picture below : `KILLRVIDEO_HOST_IP`, `KILLRVIDEO_DOCKER_IP`
+
+![Eclipse run configuration](/assets/images/eclipse-run.png) 
+
+### Running as command line
+
+The purpose of KillrVideo application is to illustrate how to implement an application with DataStax Enterprise and thus 
+we expect you to import the source code in a IDE to manipulate and understand the code. To simply execute the application
+you can execute the following:`mvn spring-boot:run -D=KILLRVIDEO_HOST_IP=10.0.75.1 -D=KILLRVIDEO_DOCKER_IP=10.0.75.1`
+
 
 ## Opening the Web UI
 
@@ -120,3 +150,4 @@ KillrVideo and how the Web Tier interacts with the microservices running on your
 [jdk]: http://www.oracle.com/technetwork/java/javase/downloads/index.html
 [studio]: https://www.datastax.com/products/datastax-studio-and-development-tools
 [using-studio]: /docs/guides/datastax-studio/
+[os-plugin-url]: http://repo1.maven.org/maven2/kr/motd/maven/os-maven-plugin/1.5.0.Final/os-maven-plugin-1.5.0.Final.jar
