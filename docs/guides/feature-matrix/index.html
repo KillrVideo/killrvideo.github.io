@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-  <title>KillrVideo - Using DataStax Studio</title>
+  <title>KillrVideo - Feature Matrix</title>
   <link href="/assets/css/bundle.css" rel="stylesheet">
   <link rel="icon" type="image/png" href="/assets/images/killrvideo-icon.png"/>
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -50,31 +50,57 @@
   <div class="container">
     <div class="columns">
       <article class="column is-8-tablet is-9-widescreen content">
-        <h1 id="using-datastax-studio">Using DataStax Studio</h1>
-<h2 id="about-datastax-studio">About DataStax Studio</h2>
-<p><a href="https://www.datastax.com/products/datastax-studio-and-development-tools" target="_blank">DataStax Studio</a> is an interactive tool for querying, exploring, analyzing, and visualizing data in CQL and Graph 
-(Gremlin) formats. </p>
-<ul>
-<li>For CQL, it provides the ability to visually create and navigate database objects, create complex queries, and tune 
-CQL queries. Studio includes an intelligent CQL editor that provides syntax highlighting, validation, intelligent code 
-completion, configuration options, and query profiling.</li>
-<li>For DSE Graph, it allows you to explore and view large datasets. It provides an intuitive interface for developers 
-and analysts to collaborate and test theories by mixing code, documentation, and visualizations for query results and 
-profiles into self-documenting notebooks. The code is written in the Gremlin graph traversal language.</li>
-<li>Notebooks combine runnable Gremlin and CQL code and markdown text in a rich interactive environment. 
-<a href="https://daringfireball.net/projects/markdown/" target="_blank">Markdown</a> is a simple language for creating human-readable plain text documents that can be displayed.</li>
-</ul>
-<h2 id="accessing-the-killrvideo-examples">Accessing the KillrVideo Examples</h2>
-<p>The docker-compose scripts that come with the language installations of KillrVideo
-are configured to start the DataStax Studio web application locally. You can access this instance of Studio by pointing 
-your browser at <a href="http://localhost:9091" target="_blank">http://localhost:9091</a>. </p>
-<p>Once you open Studio, you will see several built-in notebooks, including some with &quot;KillrVideo&quot; in the title
-which are specific to this application. For example, you should find a Notebook entitled &quot;KillrVideo QuickStart&quot;. 
-When you open it, it should look something like the following:</p>
-<p><img src="/assets/images/datastax-studio.png" alt="KillrVideo Notebook Example"></p>
-<p>After you explore the provided KillrVideo notebook(s), you can experiment with creating your own notebooks with 
-additional queries and visualizations, such as graph networks, pie charts, bar charts, scatter plots, etc.</p>
-<p><a href="/docs/guides/repositories">Next: Repositories Overview</a></p>
+        <h1 id="feature-matrix">Feature Matrix</h1>
+<p>KillrVideo is intended to serve as a reference application that demonstrates usage of many different features
+of DataStax Enterprise. We try to support these features in each of our different language implementations, but
+sometimes we&#39;re not completely at parity across all of our language implementations. </p>
+<p>The table below provides a mapping of DataStax Enterprise features to the location in the
+<a href="/docs/guides/microservices-tier/">microservices tier</a> where each is implemented:</p>
+<table>
+<thead>
+<tr>
+<th>Product</th>
+<th>Feature</th>
+<th>Service</th>
+<th style="text-align:center">Java</th>
+<th style="text-align:center">Node.JS</th>
+<th style="text-align:center">C#</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DSE DB (Apache Cassandra)</td>
+<td>Read / write using DataStax client drivers<ul><li>Statements (Prepared, Batch, etc.)</li><li>Asynchronous Execution</li></ul></td>
+<td>All services</td>
+<td style="text-align:center">[x]</td>
+<td style="text-align:center">[x]</td>
+<td style="text-align:center">[x]</td>
+</tr>
+<tr>
+<td>DSE Search (Apache Solr)</td>
+<td>Searching for videos by tag and title <ul><li>Suggester</li><li>Text Search</li></ul></td>
+<td>Search Service</td>
+<td style="text-align:center">[x]</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>DSE Graph</td>
+<td>Recommendation Engine <ul><li>Domain-specific language</li><li>OLTP graph traversals</li></ul></td>
+<td>Suggested Videos Service</td>
+<td style="text-align:center">[x]</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>DSE Analytics (Apache Spark)</td>
+<td>Calculation of platform metrics <ul><li>Views</li><li>User activities</li></ul></td>
+<td>(Currently available in Studio Notebooks only)</td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+<p>Additionally, you can use DataStax tools including Studio and Ops Center with KillrVideo by launching them via official 
+DSE Docker images. See the <a href="/docs/guides/docker/">Docker</a> page for more information.</p>
+<p><a href="/docs/guides/docker/">Next: Docker and Infrastructure Dependencies</a></p>
 
       </article>
       <div class="column is-4-tablet is-3-widescreen">
@@ -130,8 +156,10 @@ additional queries and visualizations, such as graph networks, pie charts, bar c
           
           
           
+            
+          
 
-          <div class="panel-block">
+          <div class="panel-block is-active">
             <a href="/docs/guides/feature-matrix/">Feature Matrix</a>
 
             
@@ -169,25 +197,11 @@ additional queries and visualizations, such as graph networks, pie charts, bar c
           
           
           
-            
-          
 
-          <div class="panel-block is-active">
+          <div class="panel-block">
             <a href="/docs/guides/datastax-studio/">Using DataStax Studio</a>
 
             
-            
-            <ul class="headings-list links-list">
-            
-              <li>
-                <a href="/docs/guides/datastax-studio/#about-datastax-studio">About DataStax Studio</a>
-              </li>
-            
-              <li>
-                <a href="/docs/guides/datastax-studio/#accessing-the-killrvideo-examples">Accessing the KillrVideo Examples</a>
-              </li>
-            
-            </ul>
             
           </div>
 
@@ -229,7 +243,7 @@ additional queries and visualizations, such as graph networks, pie charts, bar c
       </div>
       <div class="level-right">
         <div class="level-right">
-          <a class="button level-item" href="https://github.com/KillrVideo/killrvideo.github.io/tree/source/src/site/docs/guides/datastax-studio.md" target="_blank">
+          <a class="button level-item" href="https://github.com/KillrVideo/killrvideo.github.io/tree/source/src/site/docs/guides/feature-matrix.md" target="_blank">
             <i class="fa fa-github fa-fw"></i>Improve this page
           </a>
         </div>
