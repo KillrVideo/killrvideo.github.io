@@ -28,6 +28,11 @@ time by running:
     This should create a `.env` file with some environment variables, as well as pull all the
     Docker images that the application needs to run.
 
+    If you are on MAC you can generate the same file by doing :
+    ```
+    > ./setup-docker.sh
+    ```
+
 1. Start the docker dependencies that you just pulled down via `docker-compose`:
     ```
     > docker-compose up -d
@@ -39,6 +44,7 @@ time by running:
 1. Set the **KillrVideo** project as the Startup Project.
    * Right-click on the KillrVideo project node in Visual Studio's Solution Explorer window 
      and choose **Set as Startup Project** from the context menu.
+1. Locate the (**`src/KillrVideo/Configuration/HostConfigurationFactory.cs`**) class within the project and edit the `ConfigEnvFilePath` to match tne `.env` file location.
 1. Press **`F5`** to build the solution and run with debugging.
 
 ## Opening the Web UI
