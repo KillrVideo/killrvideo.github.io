@@ -70,7 +70,8 @@ have Docker up and running, follow these steps:</p>
 time by running:</p>
 <pre><code> > .\setup-docker.bat</code></pre><p> This should create a <code>.env</code> file with some environment variables, as well as pull all the
  Docker images that the application needs to run.</p>
-</li>
+<p> If you are on MAC you can generate the same file by doing :</p>
+<pre><code> > ./setup-docker.sh</code></pre></li>
 <li><p>Start the docker dependencies that you just pulled down via <code>docker-compose</code>:</p>
 <pre><code> > docker-compose up -d</code></pre><p> This starts up things like a DataStax Enterprise node, the Web UI, etc. You can learn
  more about how we use Docker in our <a href="/docs/guides/docker/">Docker Guide</a> documentation.</p>
@@ -82,6 +83,7 @@ time by running:</p>
 and choose <strong>Set as Startup Project</strong> from the context menu.</li>
 </ul>
 </li>
+<li>Locate the (<strong><code>src/KillrVideo/Configuration/HostConfigurationFactory.cs</code></strong>) class within the project and edit the <code>ConfigEnvFilePath</code> to match tne <code>.env</code> file location.</li>
 <li>Press <strong><code>F5</code></strong> to build the solution and run with debugging.</li>
 </ol>
 <h2 id="opening-the-web-ui">Opening the Web UI</h2>
@@ -191,7 +193,7 @@ KillrVideo and how the Web Tier interacts with the microservices running on your
             <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> license.
           <p>
           <p>
-            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/40699167884c571c1c72cf2fb3482a9dddae8fe7" target="_blank">4069916</a></small>
+            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/e669458367f4d9a69ade256547d9cdab3f41f9f3" target="_blank">e669458</a></small>
           </p>
         </div>
       </div>
