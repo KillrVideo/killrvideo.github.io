@@ -39,7 +39,7 @@ COMPOSE_PROJECT_NAME=killrvideo
 COMPOSE_FILE=.\lib\killrvideo-docker-common\docker-compose.yaml;.\docker-compose.yaml
 KILLRVIDEO_DOCKER_TOOLBOX=false
 KILLRVIDEO_HOST_IP=10.0.75.1
-KILLRVIDEO_DOCKER_IP=10.0.75.2
+KILLRVIDEO_DOCKER_IP=10.0.75.1
 ```
 
 You should make sure that the `.env` file is added to the `.gitignore` for the repo since 
@@ -71,13 +71,13 @@ and the [KillrVideo Sample Data Generator][killrvideo-generator] application.
 Typically, that file will look something like this:
 
 ```yaml
-version: '2'
-
+version: '3'
+  
 # Other services are specified in .\lib\killrvideo-docker-common\docker-compose.yaml
 services:
   # Start the KillrVideo web UI on port 3000
   web:
-    image: killrvideo/killrvideo-web:1.2.0
+    image: killrvideo/killrvideo-web:1.2.7
     ports:
     - "3000:3000"
     depends_on:
@@ -86,15 +86,24 @@ services:
     environment:
       SERVICE_3000_NAME: web
       KILLRVIDEO_ETCD: "etcd:2379"
+      KILLRVIDEO_DSE_USERNAME: $KILLRVIDEO_DSE_USERNAME
+      KILLRVIDEO_DSE_PASSWORD: $KILLRVIDEO_DSE_PASSWORD
+      KILLRVIDEO_CASSANDRA_REPLICATION: $KILLRVIDEO_CASSANDRA_REPLICATION
+      KILLRVIDEO_LOGGING_LEVEL: $KILLRVIDEO_LOGGING_LEVEL
 
   # The sample data generator
   generator:
-    image: killrvideo/killrvideo-generator:1.2.1
+    image: killrvideo/killrvideo-generator:1.2.5
     depends_on:
     - dse
     - etcd
     environment:
       KILLRVIDEO_ETCD: "etcd:2379"
+      KILLRVIDEO_DSE_USERNAME: $KILLRVIDEO_DSE_USERNAME
+      KILLRVIDEO_DSE_PASSWORD: $KILLRVIDEO_DSE_PASSWORD
+      NODE_ENV: $NODE_ENV
+      KILLRVIDEO_CASSANDRA_REPLICATION: $KILLRVIDEO_CASSANDRA_REPLICATION
+      KILLRVIDEO_LOGGING_LEVEL: $KILLRVIDEO_LOGGING_LEVEL
 ```
 
 The tags (i.e. version numbers) you use for the images may be different as newer versions of 
@@ -140,12 +149,12 @@ implementation for, we won't tell you specifically what that should look like. I
 for example, some orchestration that happens as part of your project's initial build. Or it
 could be a separate script that a developer is told to run in your project's documentation.
 
-For example, in the [C# Implementation][killrvideo-csharp] we've included a `setup-docker.bat`
+For example, in the [Java Implementation][killrvideo-java] we've included a `setup-docker.sh`
 file in the root of the project that runs the [killrvideo-docker-common][docker-common]
-Powershell script to create the `.env` file for the user and then runs a `docker-compose pull`
-to download all the Docker images. In the [Getting Started][getting-started-csharp] docs, we
+script to create the `.env` file for the user and then runs a `docker-compose pull`
+to download all the Docker images. In the [Getting Started][getting-started-java] docs, we
 tell the user to run that `.bat` file, followed by running `docker-compose up -d` to start
-the environment before running the C\# code. 
+the environment before running the Java code. 
 
 
 [docker-common]: https://github.com/KillrVideo/killrvideo-docker-common
@@ -158,5 +167,5 @@ the environment before running the C\# code.
 [killrvideo-web]: https://github.com/KillrVideo/killrvideo-web
 [killrvideo-generator]: https://github.com/KillrVideo/killrvideo-generator
 [docker-hub]: https://hub.docker.com/u/killrvideo/
-[killrvideo-csharp]: https://github.com/LukeTillman/killrvideo-csharp
-[getting-started-csharp]: /docs/languages/c-sharp/
+[killrvideo-java]: https://github.com/KillrVideo/killrvideo-java
+[getting-started-java]: /docs/languages/java/

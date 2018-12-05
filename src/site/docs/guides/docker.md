@@ -27,7 +27,7 @@ the [killrvideo-docker-common][docker-common] project to house the configuration
 same across many of our projects. This project includes the following:
 
 - A base `docker-compose.yaml` configuration that includes a single DSE node using the official 
-DSE image, which is available in the [Docker Store][docker-store]. It also includes etcd and 
+DSE image, which is available in the [Docker Hub][docker-hub]. It also includes etcd and 
 [Registrator][registrator], a program that automatically registers and deregisters Docker 
 containers with the etcd service registry when they are started and stopped.
 - Additional `docker-compose` files that show how to use Docker 

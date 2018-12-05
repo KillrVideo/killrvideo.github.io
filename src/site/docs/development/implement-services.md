@@ -14,6 +14,7 @@ for the language you're working in. Here are some other implementations to use a
 
 - [Node.js][killrvideo-nodejs]
 - [C\# / .NET][killrvideo-csharp]
+- [Java][killrvideo-java]
 
 ## Create Idiomatic Examples
 
@@ -30,7 +31,7 @@ when writing the service code:
 
 1. **Sync or async?** Most of the Cassandra drivers offer both sync and async APIs. When
 writing your service code, do you need to show examples of both? What do most people use in
-your language when building applications these days? (Hint: It's probably all async.)
+your language when building applications these days? (Hint: It's probably mostly async.)
 1. **What features should I show examples of?** Is there a specific feature offered
 in your language that would be good to show off? For example, in Java, we might want to
 include an example of using the built-in object mapper, or in C\# we might want to include
@@ -92,7 +93,8 @@ relevant API.
 
 [generate-service-code]: /docs/development/generate-service-code/
 [killrvideo-nodejs]: https://github.com/KillrVideo/killrvideo-nodejs
-[killrvideo-csharp]: https://github.com/LukeTillman/killrvideo-csharp
+[killrvideo-csharp]: https://github.com/KillrVideo/killrvideo-csharp
+[killrvideo-java]: https://github.com/KillrVideo/killrvideo-java
 [well-known-types]: https://developers.google.com/protocol-buffers/docs/reference/google.protobuf
 [timestamp-def]: https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.Timestamp
 [common-types-proto]: https://github.com/KillrVideo/killrvideo-service-protos/blob/master/src/common/common_types.proto
