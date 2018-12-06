@@ -74,7 +74,7 @@ generate the bulk of this file for you.</p>
 COMPOSE_FILE=.\lib\killrvideo-docker-common\docker-compose.yaml;.\docker-compose.yaml
 KILLRVIDEO_DOCKER_TOOLBOX=<span class="hljs-literal">false</span>
 KILLRVIDEO_HOST_IP=10.0.75.1
-KILLRVIDEO_DOCKER_IP=10.0.75.2</pre></code><p>You should make sure that the <code>.env</code> file is added to the <code>.gitignore</code> for the repo since 
+KILLRVIDEO_DOCKER_IP=10.0.75.1</pre></code><p>You should make sure that the <code>.env</code> file is added to the <code>.gitignore</code> for the repo since 
 its contents will vary from system to system depending on that user&#39;s Docker setup. The IP
 addresses contained in the file are the ones we&#39;ll use to communicate between the components
 running in Docker (i.e. DataStax Enterprise, the Web UI, etc.) and the ones running on a
@@ -99,13 +99,13 @@ to the <code>.env</code> file that you generated). This file will contain some a
 that your microservices implementation will need, including the <a href="https://github.com/KillrVideo/killrvideo-web" target="_blank">KillrVideo Web UI</a>
 and the <a href="https://github.com/KillrVideo/killrvideo-generator" target="_blank">KillrVideo Sample Data Generator</a> application.</p>
 <p>Typically, that file will look something like this:</p>
-<pre><code class="hljs"><span class="hljs-attr">version:</span> <span class="hljs-string">'2'</span>
+<pre><code class="hljs"><span class="hljs-attr">version:</span> <span class="hljs-string">'3'</span>
 
 <span class="hljs-comment"># Other services are specified in .\lib\killrvideo-docker-common\docker-compose.yaml</span>
 <span class="hljs-attr">services:</span>
   <span class="hljs-comment"># Start the KillrVideo web UI on port 3000</span>
 <span class="hljs-attr">  web:</span>
-<span class="hljs-attr">    image:</span> <span class="hljs-string">killrvideo/killrvideo-web:1.2.0</span>
+<span class="hljs-attr">    image:</span> <span class="hljs-string">killrvideo/killrvideo-web:1.2.7</span>
 <span class="hljs-attr">    ports:</span>
 <span class="hljs-bullet">    -</span> <span class="hljs-string">"3000:3000"</span>
 <span class="hljs-attr">    depends_on:</span>
@@ -114,15 +114,24 @@ and the <a href="https://github.com/KillrVideo/killrvideo-generator" target="_bl
 <span class="hljs-attr">    environment:</span>
 <span class="hljs-attr">      SERVICE_3000_NAME:</span> <span class="hljs-string">web</span>
 <span class="hljs-attr">      KILLRVIDEO_ETCD:</span> <span class="hljs-string">"etcd:2379"</span>
+<span class="hljs-attr">      KILLRVIDEO_DSE_USERNAME:</span> <span class="hljs-string">$KILLRVIDEO_DSE_USERNAME</span>
+<span class="hljs-attr">      KILLRVIDEO_DSE_PASSWORD:</span> <span class="hljs-string">$KILLRVIDEO_DSE_PASSWORD</span>
+<span class="hljs-attr">      KILLRVIDEO_CASSANDRA_REPLICATION:</span> <span class="hljs-string">$KILLRVIDEO_CASSANDRA_REPLICATION</span>
+<span class="hljs-attr">      KILLRVIDEO_LOGGING_LEVEL:</span> <span class="hljs-string">$KILLRVIDEO_LOGGING_LEVEL</span>
 
   <span class="hljs-comment"># The sample data generator</span>
 <span class="hljs-attr">  generator:</span>
-<span class="hljs-attr">    image:</span> <span class="hljs-string">killrvideo/killrvideo-generator:1.2.1</span>
+<span class="hljs-attr">    image:</span> <span class="hljs-string">killrvideo/killrvideo-generator:1.2.5</span>
 <span class="hljs-attr">    depends_on:</span>
 <span class="hljs-bullet">    -</span> <span class="hljs-string">dse</span>
 <span class="hljs-bullet">    -</span> <span class="hljs-string">etcd</span>
 <span class="hljs-attr">    environment:</span>
-<span class="hljs-attr">      KILLRVIDEO_ETCD:</span> <span class="hljs-string">"etcd:2379"</span></pre></code><p>The tags (i.e. version numbers) you use for the images may be different as newer versions of 
+<span class="hljs-attr">      KILLRVIDEO_ETCD:</span> <span class="hljs-string">"etcd:2379"</span>
+<span class="hljs-attr">      KILLRVIDEO_DSE_USERNAME:</span> <span class="hljs-string">$KILLRVIDEO_DSE_USERNAME</span>
+<span class="hljs-attr">      KILLRVIDEO_DSE_PASSWORD:</span> <span class="hljs-string">$KILLRVIDEO_DSE_PASSWORD</span>
+<span class="hljs-attr">      NODE_ENV:</span> <span class="hljs-string">$NODE_ENV</span>
+<span class="hljs-attr">      KILLRVIDEO_CASSANDRA_REPLICATION:</span> <span class="hljs-string">$KILLRVIDEO_CASSANDRA_REPLICATION</span>
+<span class="hljs-attr">      KILLRVIDEO_LOGGING_LEVEL:</span> <span class="hljs-string">$KILLRVIDEO_LOGGING_LEVEL</span></pre></code><p>The tags (i.e. version numbers) you use for the images may be different as newer versions of 
 those applications are developed and released to the <a href="https://hub.docker.com/u/killrvideo/" target="_blank">KillrVideo Docker Hub</a>.
 This file should be checked-in to Git since developers who are trying out your code will want
 to run those same dependencies.</p>
@@ -145,12 +154,12 @@ that &quot;easy path&quot; may be different depending on the programming languag
 implementation for, we won&#39;t tell you specifically what that should look like. It could be,
 for example, some orchestration that happens as part of your project&#39;s initial build. Or it
 could be a separate script that a developer is told to run in your project&#39;s documentation.</p>
-<p>For example, in the <a href="https://github.com/LukeTillman/killrvideo-csharp" target="_blank">C# Implementation</a> we&#39;ve included a <code>setup-docker.bat</code>
+<p>For example, in the <a href="https://github.com/KillrVideo/killrvideo-java" target="_blank">Java Implementation</a> we&#39;ve included a <code>setup-docker.sh</code>
 file in the root of the project that runs the <a href="https://github.com/KillrVideo/killrvideo-docker-common" target="_blank">killrvideo-docker-common</a>
-Powershell script to create the <code>.env</code> file for the user and then runs a <code>docker-compose pull</code>
-to download all the Docker images. In the <a href="/docs/languages/c-sharp/">Getting Started</a> docs, we
+script to create the <code>.env</code> file for the user and then runs a <code>docker-compose pull</code>
+to download all the Docker images. In the <a href="/docs/languages/java/">Getting Started</a> docs, we
 tell the user to run that <code>.bat</code> file, followed by running <code>docker-compose up -d</code> to start
-the environment before running the C# code. </p>
+the environment before running the Java code. </p>
 
       </article>
       <div class="column is-4-tablet is-3-widescreen">
@@ -282,6 +291,19 @@ the environment before running the C# code. </p>
           
 
           <div class="panel-block">
+            <a href="/docs/development/functional-specs/">Microservice Functional Specifications</a>
+
+            
+            
+          </div>
+
+          
+
+          
+          
+          
+
+          <div class="panel-block">
             <a href="/docs/development/register-with-etcd/">Registering Services with etcd</a>
 
             
@@ -333,7 +355,7 @@ the environment before running the C# code. </p>
             <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> license.
           <p>
           <p>
-            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/e669458367f4d9a69ade256547d9cdab3f41f9f3" target="_blank">e669458</a></small>
+            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/5fb93520edf0fff4cf0db10dd6fc63de3e15a9f9" target="_blank">5fb9352</a></small>
           </p>
         </div>
       </div>
