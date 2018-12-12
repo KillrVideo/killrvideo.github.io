@@ -109,7 +109,7 @@ This method returns no results.
 This operation gets a video and all its details from the catalog.
 
 #### Inputs
-- `video_id` - unique IDs representing the video to be returned
+- `video_id` - unique ID representing the video to be returned
 
 #### Behavior
 1. Retrieve the video details from the `videos` table by ID
