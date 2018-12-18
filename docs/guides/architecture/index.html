@@ -54,48 +54,148 @@
 <p>KillrVideo is a video sharing web application. As such, it&#39;s got a tiered setup that&#39;s
 pretty common for web applications:</p>
 <ul>
+<li><strong>Web :</strong> The web UI that runs in a browser and is interacted with by the user and
+send requests to the backend</li>
+<li><strong>Microservices Tier:</strong> A tier of independent services that house the data and the logic for the features and functionality of the site.</li>
+<li><strong>Data Tier :</strong> DataStax Enteprise server will persist all informations required by the application.</li>
+</ul>
+<p>We&#39;ll get into the details of how these tiers are actually implemented in the <a href="/docs/guides/web-tier/">next section</a>, but first let&#39;s take a look to an overall architecture diagram. Each compoment is deployed as Docker container.</p>
+<p><img src="https://i.imgur.com/H6Xj0kU.png" alt=""></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Name</th>
+<th>Technology</th>
+<th>Execution</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><a href="https://github.com/KillrVideo/killrvideo-web" target="_blank">WEB</a></td>
+<td>NodeJS</td>
+<td>Docker</td>
+<td>The web UI of the application.</td>
+</tr>
+<tr>
+<td>2</td>
+<td><a href="https://coreos.com/etcd/" target="_blank">SERVICE REGISTRY</a></td>
+<td>Etcd</td>
+<td>Docker</td>
+<td>The service discovery to allow dynamic scalability in a microservice architecture.</td>
+</tr>
+<tr>
+<td>3</td>
+<td><a href="https://hub.docker.com/r/gliderlabs/registrator" target="_blank">REGISTRATOR</a></td>
+<td>---</td>
+<td>Docker</td>
+<td>Agent registrating middlewares into ETCD</td>
+</tr>
+<tr>
+<td>4</td>
+<td><a href="https://www.datastax.com/products/datastax-studio-and-development-tools#DataStax-Studio" target="_blank">STUDIO</a></td>
+<td>---</td>
+<td>Docker</td>
+<td>The notebook-oriented developer tool provided by Datastax for developers</td>
+</tr>
+<tr>
+<td>5</td>
+<td><a href="Microservices-Tier">SERVICES</a></td>
+<td>NodeJS,Java, Python,C#</td>
+<td>IDEs for dev and Headless Docker for production</td>
+<td>Main code of the application, provides services for the UI and sample codes to use DSE (Cassandra, Search, Graph) in multiple use cases. Services are exposed in GRPC</td>
+</tr>
+<tr>
+<td>6</td>
+<td><a href="https://github.com/KillrVideo/killrvideo-generator" target="_blank">GENERATOR</a></td>
+<td>---</td>
+<td>Docker</td>
+<td>Job scheduled by vacation to collect some new videos from Youtube and saving them (through SERVICES)</td>
+</tr>
+<tr>
+<td>7</td>
+<td><a href="https://github.com/KillrVideo/killrvideo-integration-tests" target="_blank">INTEGRATION TESTS</a></td>
+<td>Java</td>
+<td>IDE(s)</td>
+<td>Cucumber integration tests call GRPC services and testing expected behavior</td>
+</tr>
+<tr>
+<td>8</td>
+<td><a href="https://hub.docker.com/r/datastax/dse-server" target="_blank">DSE</a></td>
+<td>---</td>
+<td>Docker in dev, DMC in Production</td>
+</tr>
+</tbody>
+</table>
+<h2 id="web-tier">Web Tier</h2>
+<p>it&#39;s got a tiered setup that&#39;s pretty common for web applications:</p>
+<ul>
 <li><strong>Web Client:</strong> The web UI that runs in a browser and is interacted with by the user. It
 sends requests to a Web Server (via HTTP, web sockets, etc.)</li>
 <li><strong>Web Server:</strong> Serves up static assets for the client (i.e. JavaScript, CSS, images) and
 responds to requests from the Web Client by routing them to the appropriate service(s) on
 the backend.</li>
-<li><strong>Microservices Tier:</strong> A tier of independent services that house the data and the logic
-for the features and functionality of the site.</li>
 </ul>
-<p>We&#39;ll get into the details of how these tiers are actually implemented in the <a href="/docs/guides/web-tier/">next section</a>,
-but first let&#39;s take a closer look at the Microservices Tier conceptually.  </p>
 <h2 id="microservices-tier">Microservices Tier</h2>
-<p>KillrVideo uses a <a href="http://martinfowler.com/articles/microservices.html" target="_blank">microservices</a> style 
-architecture where the site is broken up into multiple smaller services where each service
-is responsible for providing the functionality for a specific feature. This is the current
-list of services and the functionality they are responsible for:</p>
-<ul>
-<li><strong>Comments:</strong> Allows users to comment on videos and keeps track of those comments.</li>
-<li><strong>Ratings:</strong> Allows users to rate videos (on a scale of 1-5) and keeps track of those
-ratings.</li>
-<li><strong>Search:</strong> Indexes the available videos for searching by keyword and provides search
-suggestions (i.e. typeahead) support.</li>
-<li><strong>Statistics:</strong> Keeps track of statistics for videos like how many times they&#39;ve been
-played back.</li>
-<li><strong>Suggested Videos:</strong> Provides suggestions for videos similar to another video as well
-as personalized video suggestions for a particular user.</li>
-<li><strong>Uploads:</strong> Allows users to upload videos to the site and handles converting uploaded
-video files to a format that&#39;s compatible with the site.</li>
-<li><strong>User Management:</strong> Manages user accounts including signing up and logging in/out.</li>
-<li><strong>Video Catalog:</strong> Keeps track of all the videos available for playback and the details
-of those videos (i.e. title, description, etc.)</li>
-</ul>
-<p>Each of these services is designed to be completely independent and not have a dependency 
-on any other service being available to do its job. What does this mean in practice? That 
-the implementations of our services shouldn&#39;t be making calls to other service APIs in 
-order to do their work when at all possible.</p>
+<p>KillrVideo uses a <a href="http://martinfowler.com/articles/microservices.html" target="_blank">microservices</a> style architecture where the site is broken up into multiple smaller services where each service is responsible for providing the functionality for a specific feature. This is the current list of services and the functionality they are responsible for:</p>
+<table>
+<thead>
+<tr>
+<th>Service Name</th>
+<th>Description</th>
+<th>Used Workloads</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Comments</strong></td>
+<td>Allows users to comment on videos and keeps track of those comments.</td>
+<td>Cassandra</td>
+</tr>
+<tr>
+<td><strong>Ratings</strong></td>
+<td>Allows users to rate videos (on a scale of 1-5) and keeps track of those ratings.</td>
+<td>Cassandra,Graph</td>
+</tr>
+<tr>
+<td><strong>Search</strong></td>
+<td>Indexes the available videos for searching by keyword and provides search suggestions (i.e. typeahead) support.</td>
+<td>Cassandra,Search</td>
+</tr>
+<tr>
+<td><strong>Statistics</strong></td>
+<td>Keeps track of statistics for videos like how many times they&#39;ve been played back.</td>
+<td>Cassandra</td>
+</tr>
+<tr>
+<td><strong>Suggested Videos</strong></td>
+<td>Provides suggestions for videos similar to another video as well as personalized video suggestions for a particular user.</td>
+<td>Cassandra, Search, Graph</td>
+</tr>
+<tr>
+<td><strong>Uploads</strong></td>
+<td>Allows users to upload videos to the site and handles converting uploaded video files to a format that&#39;s compatible with the site.</td>
+<td>Cassandra</td>
+</tr>
+<tr>
+<td><strong>User Management</strong></td>
+<td>Manages user accounts including signing up and logging in/out.</td>
+<td>Cassandra</td>
+</tr>
+<tr>
+<td><strong>Video Catalog</strong></td>
+<td>Keeps track of all the videos available for playback and the details of those videos (i.e. title, description, etc.)</td>
+<td>Cassandra</td>
+</tr>
+</tbody>
+</table>
+<p>Each of these services is designed to be completely independent and not have a dependency  on any other service being available to do its job. What does this mean in practice? That the implementations of our services shouldn&#39;t be making calls to other service APIs in order to do their work when at all possible.</p>
 <p>So if we don&#39;t want our services directly calling other service APIs, how will the services
 interact with each other?</p>
-<h2 id="using-events-for-service-collaboration">Using Events for Service Collaboration</h2>
-<p>In KillrVideo we&#39;ve chosen to use <a href="http://martinfowler.com/eaaDev/EventCollaboration.html" target="_blank">events for collaboration</a>
-between services rather than having services calling each other directly. Each service is
-for publishing events about interesting things that happen inside of them. Other services
-can then subscribe to any events they are interested in and react accordingly.</p>
+<h2 id="events-for-service-collaboration">Events for Service Collaboration</h2>
+<p>In KillrVideo we&#39;ve chosen to use <a href="http://martinfowler.com/eaaDev/EventCollaboration.html" target="_blank">events for collaboration</a> between services rather than having services calling each other directly. Each service is for publishing events about interesting things that happen inside of them. Other services can then subscribe to any events they are interested in and react accordingly.</p>
 <blockquote>
 <h4 id="an-example-from-killrvideo">An Example from KillrVideo</h4>
 <p>Whenever a new YouTube video is added to the video catalog, the <strong>Video Catalog</strong> 
@@ -137,11 +237,15 @@ messaging. We&#39;ll cover the specifics of actually implementing pub-sub shortl
             <ul class="headings-list links-list">
             
               <li>
+                <a href="/docs/guides/architecture/#web-tier">Web Tier</a>
+              </li>
+            
+              <li>
                 <a href="/docs/guides/architecture/#microservices-tier">Microservices Tier</a>
               </li>
             
               <li>
-                <a href="/docs/guides/architecture/#using-events-for-service-collaboration">Using Events for Service Collaboration</a>
+                <a href="/docs/guides/architecture/#events-for-service-collaboration">Events for Service Collaboration</a>
               </li>
             
             </ul>
@@ -258,7 +362,7 @@ messaging. We&#39;ll cover the specifics of actually implementing pub-sub shortl
             <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> license.
           <p>
           <p>
-            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/5b3f32710b8eede0c7e46a1336e91a09b4d7711a" target="_blank">5b3f327</a></small>
+            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/9af6111d2765f5f06d5f5cdbe98d9d5f4729105f" target="_blank">9af6111</a></small>
           </p>
         </div>
       </div>
