@@ -57,6 +57,153 @@ However, the GRPC contracts don&#39;t specify the behavior supported by each ope
 <p>To facilitate the creation of implementations in additional languages, we provide here the functional
 specifications for each service.</p>
 <p><em>Note: This page is a work in progress.</em></p>
+<h2 id="comment-service">Comment Service</h2>
+<p>TODO</p>
+<h2 id="ratings-service">Ratings Service</h2>
+<h3 id="ratevideo-operation">RateVideo operation</h3>
+<p>This operation allows a user to rate a video</p>
+<h4 id="inputs">Inputs</h4>
+<ul>
+<li><code>user_id</code> - unique identifier for the user (required)</li>
+<li><code>video_id</code> - unique identifier for the video (required)</li>
+<li><code>rating</code> - integer rating provided by the user for this video (required)</li>
+</ul>
+<h4 id="behavior">Behavior</h4>
+<ol>
+<li>Validate input</li>
+<li>Insert records representing the rating into the <code>video_ratings</code> and <code>video_ratings_by_user</code> tables.<ul>
+<li>These inserts should be grouped in a logged batch to ensure they succeed or fail together. </li>
+<li>The <code>video_ratings</code> table uses counters to accumulate the number of reviews for each video
+and the total value of the ratings (thus enabling the client to calculate an average review value). 
+Remember that updating a counter column increments the counter by the provided value.</li>
+</ul>
+</li>
+<li>Publish a <code>UserRatedVideo</code> event.</li>
+</ol>
+<h4 id="output">Output</h4>
+<p>This method returns no results.</p>
+<h3 id="getrating-operation">GetRating operation</h3>
+<p>This operation returns the rating statistics for a video</p>
+<h4 id="inputs">Inputs</h4>
+<ul>
+<li><code>video_id</code> - unique identifier for the video (required)</li>
+</ul>
+<h4 id="behavior">Behavior</h4>
+<ol>
+<li>Validate input</li>
+<li>Retrieve the rating from the <code>video_ratings</code> table by ID</li>
+</ol>
+<h4 id="output">Output</h4>
+<p>This method returns a <code>response</code> object containing: </p>
+<ul>
+<li><code>video_id</code> - unique identifier for the video</li>
+<li><code>ratings_count</code> - number of times the video has been rated</li>
+<li><code>ratings_total</code> - sum of all of the ratings</li>
+</ul>
+<h3 id="getuserrating-operation">GetUserRating operation</h3>
+<p>This operation returns a user&#39;s rating of a specific video </p>
+<h4 id="inputs">Inputs</h4>
+<ul>
+<li><code>video_id</code> - unique identifier for the video (required)</li>
+<li><code>user_id</code> - unique identifier for the user (required)</li>
+</ul>
+<h4 id="behavior">Behavior</h4>
+<ol>
+<li>Validate input</li>
+<li><p>Retrieve the user&#39;s rating from the <code>video_ratings_by_user</code> table using the provided IDs</p>
+<h4 id="output">Output</h4>
+<p>This method returns a <code>response</code> object containing: </p>
+</li>
+<li><code>video_id</code> - unique identifier for the video</li>
+<li><code>user_id</code> - unique identifier for the user</li>
+<li><code>rating</code> - the user&#39;s rating for the video, or 0 if the user hasn&#39;t rated the video</li>
+</ol>
+<h2 id="search-service">Search Service</h2>
+<h3 id="searchvideos-operation">SearchVideos operation</h3>
+<p>This operation returns videos matching a given query term</p>
+<h4 id="inputs">Inputs</h4>
+<ul>
+<li><code>query</code> - the term to match (required)</li>
+<li><code>page_size</code> - max number of videos to be returned in a single response (required)</li>
+<li><code>paging_state</code> - paging state returned from the previous request (optional)</li>
+</ul>
+<h4 id="behavior">Behavior</h4>
+<ol>
+<li>Validate input</li>
+<li>Use DSE Search via CQL syntax to obtain videos matching the query term from the <code>videos</code> table, 
+using any paging state provided.<ul>
+<li>Recommendation: use the <code>name</code>, <code>description</code>, and <code>tags</code> columns for matching</li>
+<li>For details of the paging algorithm see this <a href="https://academy.datastax.com/content/paging-killrvideo" target="_blank">blog post</a></li>
+</ul>
+</li>
+<li>Create a video preview object for each matching video.</li>
+</ol>
+<h4 id="output">Output</h4>
+<p>This method returns a <code>response</code> object containing the original <code>query</code>, an optional <code>paging_state</code> if additional 
+results are available, and a preview for each <code>video</code> including: </p>
+<ul>
+<li><code>video_id</code> - unique identifier for the video </li>
+<li><code>user_id</code> - unique identifier of the user who uploaded the video </li>
+<li><code>name</code> - name or title of the video </li>
+<li><code>preview_image_location</code> - string representing URL of the preview image</li>
+<li><code>added_date</code> - Date / time the video was added to the system</li>
+</ul>
+<h3 id="getquerysuggestions-operation">GetQuerySuggestions operation</h3>
+<p>This operation returns search query suggestions, for example, as could be used for typeahead support</p>
+<h4 id="inputs">Inputs</h4>
+<ul>
+<li><code>query</code> - the string to use to find matching terms (required)</li>
+<li><code>page_size</code> - max number of terms to be returned in a single response (required)</li>
+</ul>
+<h4 id="behavior">Behavior</h4>
+<ol>
+<li>Validate input</li>
+<li>Use DSE Search via CQL syntax to obtain possible terms matching the query term from the <code>videos</code> table, 
+using any paging state provided.<ul>
+<li>Recommendation: use the <code>name</code>, <code>description</code>, and <code>tags</code> columns as sources of suggestions, use regular 
+expressions to isolate complete words as candidate terms, and try to eliminate stop words such as &quot;and&quot;, &quot;or&quot;, etc.</li>
+<li>For details of the paging algorithm see this <a href="https://academy.datastax.com/content/paging-killrvideo" target="_blank">blog post</a></li>
+</ul>
+</li>
+</ol>
+<h4 id="output">Output</h4>
+<p>This method returns a list of <code>suggestions</code> - strings that could be used in future queries to SearchVideos</p>
+<h2 id="statistics-service">Statistics Service</h2>
+<h3 id="recordplaybackstarted-operation">RecordPlaybackStarted operation</h3>
+<p>This operation records that playback started for a given video</p>
+<h4 id="inputs">Inputs</h4>
+<ul>
+<li><code>video_id</code> - unique identifier for the video (required)</li>
+</ul>
+<h4 id="behavior">Behavior</h4>
+<ol>
+<li>Validate input</li>
+<li>Increment the playback counter for this video in the <code>video_playback_stats</code> table.<ul>
+<li>Remember that updating a counter column increments the counter by the provided value.</li>
+</ul>
+</li>
+</ol>
+<h4 id="output">Output</h4>
+<p>This method returns no results.</p>
+<h3 id="getnumberofplays-operation">GetNumberOfPlays operation</h3>
+<p>This operation returns the number of plays for a given video or set of videos</p>
+<h4 id="inputs">Inputs</h4>
+<ul>
+<li><code>video_ids</code> - a list of unique IDs representing the videos for which statistics are requested (required)</li>
+</ul>
+<h4 id="behavior">Behavior</h4>
+<ol>
+<li>Validate input</li>
+<li>Retrieve the statistics for each video from the <code>video_playback_stats</code> table by ID</li>
+</ol>
+<h4 id="output">Output</h4>
+<p>This method returns a <code>response</code> object containing <code>stats</code> for each video: </p>
+<ul>
+<li><code>video_id</code> - unique identifier for the video</li>
+<li><code>views</code> - number of times the video has been viewed</li>
+</ul>
+<h2 id="suggested-videos-service">Suggested Videos Service</h2>
+<p>TODO</p>
 <h2 id="user-management-service">User Management Service</h2>
 <p>This service supports adding user profiles, verifying user credentials against a profile, and retrieving
 one or more profiles.</p>
@@ -193,7 +340,7 @@ from the YouTube video ID according to the pattern: <code>//img.youtube.com/vi/&
 <li>Retrieve the video preview details from the <code>videos</code> table by ID</li>
 </ol>
 <h4 id="output">Output</h4>
-<p>This method returns the following details for each video it was able to load successfully:</p>
+<p>This method returns the following details for each <code>video</code> it was able to load successfully:</p>
 <ul>
 <li><code>video_id</code> - unique identifier for the video </li>
 <li><code>user_id</code> - unique identifier of the user who uploaded the video </li>
@@ -213,12 +360,12 @@ from the YouTube video ID according to the pattern: <code>//img.youtube.com/vi/&
 <h4 id="behavior">Behavior</h4>
 <ol>
 <li>Retrieve the video preview details from the <code>latest_videos</code> table, using any paging state provided.<ul>
-<li>For details of the algorithm see this <a href="https://academy.datastax.com/content/paging-killrvideo" target="_blank">blog post</a></li>
+<li>For details of the paging algorithm see this <a href="https://academy.datastax.com/content/paging-killrvideo" target="_blank">blog post</a></li>
 </ul>
 </li>
 </ol>
 <h4 id="output">Output</h4>
-<p>This method returns an optional paging state, and the following details for each video it was able to load successfully:</p>
+<p>This method returns an optional <code>paging_state</code>, and the following details for each <code>video</code> it was able to load successfully:</p>
 <ul>
 <li><code>video_id</code> - unique identifier for the video </li>
 <li><code>user_id</code> - unique identifier of the user who uploaded the video </li>
@@ -239,12 +386,12 @@ from the YouTube video ID according to the pattern: <code>//img.youtube.com/vi/&
 <h4 id="behavior">Behavior</h4>
 <ol>
 <li>Retrieve the video preview details from the <code>user_videos</code> table, using the provided user ID and any paging state provided.<ul>
-<li>For details of the algorithm see this <a href="https://academy.datastax.com/content/paging-killrvideo" target="_blank">blog post</a></li>
+<li>For details of the paging algorithm see this <a href="https://academy.datastax.com/content/paging-killrvideo" target="_blank">blog post</a></li>
 </ul>
 </li>
 </ol>
 <h4 id="output">Output</h4>
-<p>This method returns an optional paging state, and the following details for each video it was able to load successfully:</p>
+<p>This method returns an optional <code>paging_state</code>, and the following details for each <code>video</code> it was able to load successfully:</p>
 <ul>
 <li><code>video_id</code> - unique identifier for the video </li>
 <li><code>user_id</code> - unique identifier of the user who uploaded the video </li>
@@ -370,6 +517,26 @@ from the YouTube video ID according to the pattern: <code>//img.youtube.com/vi/&
             <ul class="headings-list links-list">
             
               <li>
+                <a href="/docs/development/functional-specs/#comment-service">Comment Service</a>
+              </li>
+            
+              <li>
+                <a href="/docs/development/functional-specs/#ratings-service">Ratings Service</a>
+              </li>
+            
+              <li>
+                <a href="/docs/development/functional-specs/#search-service">Search Service</a>
+              </li>
+            
+              <li>
+                <a href="/docs/development/functional-specs/#statistics-service">Statistics Service</a>
+              </li>
+            
+              <li>
+                <a href="/docs/development/functional-specs/#suggested-videos-service">Suggested Videos Service</a>
+              </li>
+            
+              <li>
                 <a href="/docs/development/functional-specs/#user-management-service">User Management Service</a>
               </li>
             
@@ -439,7 +606,7 @@ from the YouTube video ID according to the pattern: <code>//img.youtube.com/vi/&
             <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> license.
           <p>
           <p>
-            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/9af6111d2765f5f06d5f5cdbe98d9d5f4729105f" target="_blank">9af6111</a></small>
+            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/210053ec643ec84f6352829c1692d678b8133da3" target="_blank">210053e</a></small>
           </p>
         </div>
       </div>
