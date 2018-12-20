@@ -9,6 +9,147 @@ specifications for each service.
 
 _Note: This page is a work in progress._
 
+## Comment Service
+
+TODO
+
+## Ratings Service
+
+### RateVideo operation
+This operation allows a user to rate a video
+
+#### Inputs
+- `user_id` - unique identifier for the user (required)
+- `video_id` - unique identifier for the video (required)
+- `rating` - integer rating provided by the user for this video (required)
+
+#### Behavior
+1. Validate input
+1. Insert records representing the rating into the `video_ratings` and `video_ratings_by_user` tables.
+    - These inserts should be grouped in a logged batch to ensure they succeed or fail together. 
+    - The `video_ratings` table uses counters to accumulate the number of reviews for each video
+    and the total value of the ratings (thus enabling the client to calculate an average review value). 
+    Remember that updating a counter column increments the counter by the provided value.
+1. Publish a `UserRatedVideo` event.
+
+#### Output
+This method returns no results.
+
+### GetRating operation
+This operation returns the rating statistics for a video
+
+#### Inputs
+- `video_id` - unique identifier for the video (required)
+
+#### Behavior
+1. Validate input
+1. Retrieve the rating from the `video_ratings` table by ID
+
+#### Output
+This method returns a `response` object containing: 
+- `video_id` - unique identifier for the video
+- `ratings_count` - number of times the video has been rated
+- `ratings_total` - sum of all of the ratings
+
+### GetUserRating operation
+This operation returns a user's rating of a specific video 
+ 
+#### Inputs
+- `video_id` - unique identifier for the video (required)
+- `user_id` - unique identifier for the user (required)
+ 
+#### Behavior
+ 1. Validate input
+ 1. Retrieve the user's rating from the `video_ratings_by_user` table using the provided IDs
+ 
+ #### Output
+ This method returns a `response` object containing: 
+ - `video_id` - unique identifier for the video
+ - `user_id` - unique identifier for the user
+ - `rating` - the user's rating for the video, or 0 if the user hasn't rated the video
+
+## Search Service
+
+### SearchVideos operation
+This operation returns videos matching a given query term
+
+#### Inputs
+- `query` - the term to match (required)
+- `page_size` - max number of videos to be returned in a single response (required)
+- `paging_state` - paging state returned from the previous request (optional)
+
+#### Behavior
+1. Validate input
+1. Use DSE Search via CQL syntax to obtain videos matching the query term from the `videos` table, 
+using any paging state provided.
+    - Recommendation: use the `name`, `description`, and `tags` columns for matching
+    - For details of the paging algorithm see this [blog post][paging-blog]
+1. Create a video preview object for each matching video.
+
+#### Output
+This method returns a `response` object containing the original `query`, an optional `paging_state` if additional 
+results are available, and a preview for each `video` including: 
+- `video_id` - unique identifier for the video 
+- `user_id` - unique identifier of the user who uploaded the video 
+- `name` - name or title of the video 
+- `preview_image_location` - string representing URL of the preview image
+- `added_date` - Date / time the video was added to the system
+
+
+### GetQuerySuggestions operation
+This operation returns search query suggestions, for example, as could be used for typeahead support
+
+#### Inputs
+- `query` - the string to use to find matching terms (required)
+- `page_size` - max number of terms to be returned in a single response (required)
+
+#### Behavior
+1. Validate input
+1. Use DSE Search via CQL syntax to obtain possible terms matching the query term from the `videos` table, 
+using any paging state provided.
+    - Recommendation: use the `name`, `description`, and `tags` columns as sources of suggestions, use regular 
+    expressions to isolate complete words as candidate terms, and try to eliminate stop words such as "and", "or", etc.
+    - For details of the paging algorithm see this [blog post][paging-blog]
+
+#### Output
+This method returns a list of `suggestions` - strings that could be used in future queries to SearchVideos
+
+
+## Statistics Service
+
+### RecordPlaybackStarted operation
+This operation records that playback started for a given video
+
+#### Inputs
+- `video_id` - unique identifier for the video (required)
+
+#### Behavior
+1. Validate input
+1. Increment the playback counter for this video in the `video_playback_stats` table.
+    - Remember that updating a counter column increments the counter by the provided value.
+
+#### Output
+This method returns no results.
+
+### GetNumberOfPlays operation
+This operation returns the number of plays for a given video or set of videos
+
+#### Inputs
+- `video_ids` - a list of unique IDs representing the videos for which statistics are requested (required)
+
+#### Behavior
+1. Validate input
+1. Retrieve the statistics for each video from the `video_playback_stats` table by ID
+
+#### Output
+This method returns a `response` object containing `stats` for each video: 
+- `video_id` - unique identifier for the video
+- `views` - number of times the video has been viewed
+
+## Suggested Videos Service
+
+TODO
+
 ## User Management Service
 This service supports adding user profiles, verifying user credentials against a profile, and retrieving
 one or more profiles.
@@ -135,7 +276,7 @@ This operation gets video previews for a limited number of videos from the catal
 1. Retrieve the video preview details from the `videos` table by ID
 
 #### Output
-This method returns the following details for each video it was able to load successfully:
+This method returns the following details for each `video` it was able to load successfully:
 - `video_id` - unique identifier for the video 
 - `user_id` - unique identifier of the user who uploaded the video 
 - `name` - name or title of the video 
@@ -153,10 +294,10 @@ This operation gets video previews for the latest (i.e. newest) videos from the 
 
 #### Behavior
 1. Retrieve the video preview details from the `latest_videos` table, using any paging state provided.
-    - For details of the algorithm see this [blog post][paging-blog]
+    - For details of the paging algorithm see this [blog post][paging-blog]
 
 #### Output
-This method returns an optional paging state, and the following details for each video it was able to load successfully:
+This method returns an optional `paging_state`, and the following details for each `video` it was able to load successfully:
 - `video_id` - unique identifier for the video 
 - `user_id` - unique identifier of the user who uploaded the video 
 - `name` - name or title of the video 
@@ -175,10 +316,10 @@ This operation gets video previews for videos added to the site by a particular 
 
 #### Behavior
 1. Retrieve the video preview details from the `user_videos` table, using the provided user ID and any paging state provided.
-    - For details of the algorithm see this [blog post][paging-blog]
+    - For details of the paging algorithm see this [blog post][paging-blog]
 
 #### Output
-This method returns an optional paging state, and the following details for each video it was able to load successfully:
+This method returns an optional `paging_state`, and the following details for each `video` it was able to load successfully:
 - `video_id` - unique identifier for the video 
 - `user_id` - unique identifier of the user who uploaded the video 
 - `name` - name or title of the video 
