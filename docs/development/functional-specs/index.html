@@ -58,7 +58,35 @@ However, the GRPC contracts don&#39;t specify the behavior supported by each ope
 specifications for each service.</p>
 <p><em>Note: This page is a work in progress.</em></p>
 <h2 id="comment-service">Comment Service</h2>
-<p>TODO</p>
+<h3 id="commentonvideo-operation">CommentOnVideo Operation</h3>
+<h4 id="inputs">Inputs</h4>
+<ul>
+<li><code>user_id</code> - unique identifier of the user that has written the comment (required)</li>
+<li><code>video_id</code> - unique identifier of the video the comment is about (required)</li>
+<li><code>comment_id</code> - unique identifier for the comment id (required)</li>
+<li><code>comment</code> - text of comment given on video (required) </li>
+</ul>
+<h4 id="behavior">Behavior</h4>
+<h4 id="outputs">Outputs</h4>
+<h3 id="getusercomments-operation">GetUserComments Operation</h3>
+<h4 id="inputs">Inputs</h4>
+<ul>
+<li><code>user_id</code> - unique identifier of the user whose comments will be displayed</li>
+<li><code>page_size</code> - max number of comments to be returned in a single response (required)</li>
+<li><code>starting_comment_id</code> - starting comment id for the search (optional)</li>
+<li><code>paging_state</code> - paging state returned from the previous request (optional)</li>
+</ul>
+<h4 id="behavior">Behavior</h4>
+<h4 id="outputs">Outputs</h4>
+<h3 id="getvideocomments-operation">GetVideoComments Operation</h3>
+<h4 id="inputs">Inputs</h4>
+<ul>
+<li><code>video_id</code> - unique identifier of the video whose comments will be returned</li>
+<li><code>page_size</code> - max number of comments to be returned in a single response (required)</li>
+<li><code>starting_comment_id</code> - starting comment id for the search (optional)</li>
+<li><code>paging_state</code> - paging state returned from the previous request (optional) </li>
+</ul>
+<h4 id="outputs">Outputs</h4>
 <h2 id="ratings-service">Ratings Service</h2>
 <h3 id="ratevideo-operation">RateVideo operation</h3>
 <p>This operation allows a user to rate a video</p>
@@ -606,7 +634,7 @@ from the YouTube video ID according to the pattern: <code>//img.youtube.com/vi/&
             <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> license.
           <p>
           <p>
-            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/210053ec643ec84f6352829c1692d678b8133da3" target="_blank">210053e</a></small>
+            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/f5011f098a3bd0574c09c4a40323110571240bfb" target="_blank">f5011f0</a></small>
           </p>
         </div>
       </div>
