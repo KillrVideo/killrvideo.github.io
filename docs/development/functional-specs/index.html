@@ -59,6 +59,7 @@ specifications for each service.</p>
 <p><em>Note: This page is a work in progress.</em></p>
 <h2 id="comment-service">Comment Service</h2>
 <h3 id="commentonvideo-operation">CommentOnVideo Operation</h3>
+<p>This operation allows a user to comment on a video</p>
 <h4 id="inputs">Inputs</h4>
 <ul>
 <li><code>user_id</code> - unique identifier of the user that has written the comment (required)</li>
@@ -67,8 +68,16 @@ specifications for each service.</p>
 <li><code>comment</code> - text of comment given on video (required) </li>
 </ul>
 <h4 id="behavior">Behavior</h4>
+<ol>
+<li>Validate input for all required values</li>
+<li>Insert records representing the comment into the <code>comments_by_user</code> and <code>comments_by_video</code> tables</li>
+<li>These inserts should be grouped in a logged batch to ensure they succeed or fail together</li>
+<li>Publish a <code>CommentOnVideo</code> event</li>
+</ol>
 <h4 id="outputs">Outputs</h4>
+<p>This method returns no results</p>
 <h3 id="getusercomments-operation">GetUserComments Operation</h3>
+<p>This operation gets comments on any videos added by a paritular user</p>
 <h4 id="inputs">Inputs</h4>
 <ul>
 <li><code>user_id</code> - unique identifier of the user whose comments will be displayed</li>
@@ -77,8 +86,15 @@ specifications for each service.</p>
 <li><code>paging_state</code> - paging state returned from the previous request (optional)</li>
 </ul>
 <h4 id="behavior">Behavior</h4>
-<h4 id="outputs">Outputs</h4>
+<ol>
+<li>Retrieve comments from the <code>comments_by_user</code> table, using the provided user ID and any paging state<h4 id="outputs">Outputs</h4>
+This method returns an optional <code>paging_state</code>, and the following details for each <code>comment</code></li>
+<li><code>comment_id</code> - unique identifier for the comment</li>
+<li><code>video_id</code> -  unique identifier for the video</li>
+<li><code>comment</code> - comment that was made on the video by this user</li>
+</ol>
 <h3 id="getvideocomments-operation">GetVideoComments Operation</h3>
+<p>This operation gets comments added by any user on a partitular video</p>
 <h4 id="inputs">Inputs</h4>
 <ul>
 <li><code>video_id</code> - unique identifier of the video whose comments will be returned</li>
@@ -86,7 +102,17 @@ specifications for each service.</p>
 <li><code>starting_comment_id</code> - starting comment id for the search (optional)</li>
 <li><code>paging_state</code> - paging state returned from the previous request (optional) </li>
 </ul>
+<h4 id="behavior">Behavior</h4>
+<ol>
+<li>Retrieve comments from the <code>comments_by_video</code> table, using the provided video ID and any paging state</li>
+</ol>
 <h4 id="outputs">Outputs</h4>
+<p>This method returns an optional <code>paging_state</code>, and the following details for each <code>comment</code></p>
+<ul>
+<li><code>comment_id</code> = unique identifier for the comment</li>
+<li><code>user_id</code> = unique identifier for the user that created this comment</li>
+<li><code>comment</code> = comment that was made on this video by any user</li>
+</ul>
 <h2 id="ratings-service">Ratings Service</h2>
 <h3 id="ratevideo-operation">RateVideo operation</h3>
 <p>This operation allows a user to rate a video</p>
@@ -634,7 +660,7 @@ from the YouTube video ID according to the pattern: <code>//img.youtube.com/vi/&
             <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> license.
           <p>
           <p>
-            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/f5011f098a3bd0574c09c4a40323110571240bfb" target="_blank">f5011f0</a></small>
+            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/352523e0d43c757d2f712c5bd1d37f6e92266ace" target="_blank">352523e</a></small>
           </p>
         </div>
       </div>
