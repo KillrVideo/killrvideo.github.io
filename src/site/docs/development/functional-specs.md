@@ -11,7 +11,41 @@ _Note: This page is a work in progress._
 
 ## Comment Service
 
-TODO
+### CommentOnVideo Operation
+
+#### Inputs
+- `user_id` - unique identifier of the user that has written the comment (required)
+- `video_id` - unique identifier of the video the comment is about (required)
+- `comment_id` - unique identifier for the comment id (required)
+- `comment` - text of comment given on video (required) 
+
+
+#### Behavior
+
+#### Outputs
+
+### GetUserComments Operation
+
+#### Inputs
+- `user_id` - unique identifier of the user whose comments will be displayed
+- `page_size` - max number of comments to be returned in a single response (required)
+- `starting_comment_id` - starting comment id for the search (optional)
+- `paging_state` - paging state returned from the previous request (optional)
+
+#### Behavior
+
+#### Outputs
+
+
+### GetVideoComments Operation
+
+#### Inputs
+- `video_id` - unique identifier of the video whose comments will be returned
+- `page_size` - max number of comments to be returned in a single response (required)
+- `starting_comment_id` - starting comment id for the search (optional)
+- `paging_state` - paging state returned from the previous request (optional) 
+
+#### Outputs
 
 ## Ratings Service
 
