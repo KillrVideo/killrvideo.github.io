@@ -11,7 +11,59 @@ _Note: This page is a work in progress._
 
 ## Comment Service
 
-TODO
+### CommentOnVideo Operation
+This operation allows a user to comment on a video
+
+#### Inputs
+- `user_id` - unique identifier of the user that has written the comment (required)
+- `video_id` - unique identifier of the video the comment is about (required)
+- `comment_id` - unique identifier for the comment id (required)
+- `comment` - text of comment given on video (required) 
+
+
+#### Behavior
+1. Validate input for all required values
+1. Insert records representing the comment into the `comments_by_user` and `comments_by_video` tables
+- These inserts should be grouped in a logged batch to ensure they succeed or fail together
+1. Publish a `CommentOnVideo` event
+
+#### Outputs
+This method returns no results
+
+### GetUserComments Operation
+This operation gets comments on any videos added by a paritular user
+
+#### Inputs
+- `user_id` - unique identifier of the user whose comments will be displayed
+- `page_size` - max number of comments to be returned in a single response (required)
+- `starting_comment_id` - starting comment id for the search (optional)
+- `paging_state` - paging state returned from the previous request (optional)
+
+#### Behavior
+1. Retrieve comments from the `comments_by_user` table, using the provided user ID and any paging state
+#### Outputs
+This method returns an optional `paging_state`, and the following details for each `comment`
+- `comment_id` - unique identifier for the comment
+- `video_id` -  unique identifier for the video
+- `comment` - comment that was made on the video by this user
+
+
+### GetVideoComments Operation
+This operation gets comments added by any user on a partitular video
+#### Inputs
+- `video_id` - unique identifier of the video whose comments will be returned
+- `page_size` - max number of comments to be returned in a single response (required)
+- `starting_comment_id` - starting comment id for the search (optional)
+- `paging_state` - paging state returned from the previous request (optional) 
+
+#### Behavior
+1. Retrieve comments from the `comments_by_video` table, using the provided video ID and any paging state
+
+#### Outputs
+This method returns an optional `paging_state`, and the following details for each `comment`
+- `comment_id` = unique identifier for the comment
+- `user_id` = unique identifier for the user that created this comment
+- `comment` = comment that was made on this video by any user
 
 ## Ratings Service
 
