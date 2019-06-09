@@ -8,11 +8,11 @@ The table below provides a mapping of DataStax Enterprise features to the locati
 [microservices tier][services] where each is implemented:
 
 
-| Product | Feature | Service | Java | Node.JS | C# (.NET) |
-| ------- |---------| ------- |:----:|:-------:|:---------:|
-| **DSE DB** <br> (Apache Cassandra) | Read / write using DataStax client drivers<ul><li>Statements (Prepared, Batch, etc.)</li><li>Asynchronous Execution</li></ul> | All services | ![X](/assets/images/checkbox-icon.png) | ![X](/assets/images/checkbox-icon.png) | ![X](/assets/images/checkbox-icon.png)
-| **DSE Search** <br> (Apache Solr) | Searching for videos by tag and title <ul><li>Suggester</li><li>Text Search</li></ul> | Search Service | ![X](/assets/images/checkbox-icon.png) | ![X](/assets/images/checkbox-icon.png) |  |
-| **DSE Graph** | Recommendation Engine <ul><li>Domain-specific language</li><li>OLTP graph traversals</li></ul> | Suggested Videos Service | ![X](/assets/images/checkbox-icon.png) | |
+| Product | Feature | Service | Java | Node.JS | C# (.NET) | Python |
+| ------- |---------| ------- |:----:|:-------:|:---------:|:------:|
+| **DSE DB** <br> (Apache Cassandra) | Read / write using DataStax client drivers<ul><li>Statements (Prepared, Batch, etc.)</li><li>Asynchronous Execution (optional)</li></ul> | All services | ![X](/assets/images/checkbox-icon.png) | ![X](/assets/images/checkbox-icon.png) | ![X](/assets/images/checkbox-icon.png) | ![X](/assets/images/checkbox-icon.png) |
+| **DSE Search** <br> (Apache Solr) | Searching for videos by tag and title <ul><li>Text Search</li></ul> | Search Service | ![X](/assets/images/checkbox-icon.png) | ![X](/assets/images/checkbox-icon.png) |  | ![X](/assets/images/checkbox-icon.png) |
+| **DSE Graph** | Recommendation Engine <ul><li>Domain-specific language</li><li>OLTP graph traversals</li></ul> | Suggested Videos Service | ![X](/assets/images/checkbox-icon.png) | | | coming soon |
 | **DSE Analytics** <br> (Apache Spark) | Calculation of platform metrics <ul><li>Views</li><li>User activities</li></ul> | (Currently available in Studio Notebooks only) | | |
 
 

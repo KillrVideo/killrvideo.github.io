@@ -15,6 +15,7 @@ for the language you're working in. Here are some other implementations to use a
 - [Node.js][killrvideo-nodejs]
 - [C\# / .NET][killrvideo-csharp]
 - [Java][killrvideo-java]
+- [Python][killrvideo-python]
 
 ## Create Idiomatic Examples
 
@@ -95,6 +96,7 @@ relevant API.
 [killrvideo-nodejs]: https://github.com/KillrVideo/killrvideo-nodejs
 [killrvideo-csharp]: https://github.com/KillrVideo/killrvideo-csharp
 [killrvideo-java]: https://github.com/KillrVideo/killrvideo-java
+[killrvideo-python]: https://github.com/KillrVideo/killrvideo-python
 [well-known-types]: https://developers.google.com/protocol-buffers/docs/reference/google.protobuf
 [timestamp-def]: https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.Timestamp
 [common-types-proto]: https://github.com/KillrVideo/killrvideo-service-protos/blob/master/src/common/common_types.proto

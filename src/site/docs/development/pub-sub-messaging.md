@@ -21,14 +21,12 @@ Another option is to use a real piece of messaging infrastructure like Kafka or 
 Since KillrVideo uses Docker Compose for spinning up all the dependencies needed by a user in
 their development environment, it's possible to piggyback on that and spin up a container
 using messaging infrastructure of your choice. You would go about doing this by adding it to
-the `docker-compose.yaml` file as another service.
+the `docker-compose.yaml` file as another service. 
 
-While we don't want to give a hard rule on how to accomplish pub-sub messaging, it's 
-**strongly recommended** that you go down the easy route of doing things in-memory. Try and
-hide the implementation details from your consumer code and provide a generic API for 
-publishing and subscribing to events. That way you could switch the implementation out (or
-provide multiple available implementations as further examples) for real messaging 
-infrastructure.
+We recommend you hide the implementation details from your consumer code as much as possible
+and provide a generic API for publishing and subscribing to events. That way you could switch 
+the implementation out (or provide multiple available implementations as further examples) 
+for real messaging infrastructure.
 
 ## What services should subscribe to what events?
 

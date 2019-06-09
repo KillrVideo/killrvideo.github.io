@@ -13,7 +13,8 @@ There are multiple implementations of the KillrVideo microservices tier in vario
 
 - The Java implementation is found in the [killrvideo-java][killrvideo-java] repository.
 - The Node.js implementation is found in the [killrvideo-nodejs][killrvideo-nodejs] repository.
-- The C# implementation is found in Luke Tillman's [killrvideo-csharp][killrvideo-csharp] repository.
+- The C# implementation is found in the [killrvideo-csharp][killrvideo-csharp] repository.
+- The Python implementation is found in the [killrvideo-python][killrvideo-python] repository.
 
 Each of these implementations has dependencies on the following common repositories which are implemented as 
 [Git subtree][git-subtree]:
@@ -59,7 +60,8 @@ Killrvideo with an external cluster.
 [killrvideo-web]: https://github.com/KillrVideo/killrvideo-web
 [killrvideo-java]: https://github.com/KillrVideo/killrvideo-java
 [killrvideo-nodejs]: https://github.com/KillrVideo/killrvideo-nodejs
-[killrvideo-csharp]: https://github.com/LukeTillman/killrvideo-csharp
+[killrvideo-csharp]: https://github.com/KillrVideo/killrvideo-csharp
+[killrvideo-python]: https://github.com/KillrVideo/killrvideo-python
 [git-subtree]: https://www.atlassian.com/blog/git/alternatives-to-git-submodule-git-subtree
 [killrvideo-data]: https://github.com/KillrVideo/killrvideo-data
 [killrvideo-service-protos]: https://github.com/KillrVideo/killrvideo-service-protos

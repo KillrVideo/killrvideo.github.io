@@ -33,7 +33,9 @@ links below to get started with the language you're most comfortable with.
 - **[C\# (.NET)][c-sharp]**: A C\# implementation you can explore from Visual Studio. 
 - **[Node.js][nodejs]**: A JavaScript implementation running on Node.js.
 - **[Java][java]**: A Java implementation you can run via Spring boot
-for accessing data in DataStax Enterprise. Coming soon.
+for accessing data in DataStax Enterprise.
+- **[Python][python]**: A Python implementation.
+
 
 Check back as we'll be adding more programming languages soon.
 
@@ -53,3 +55,4 @@ self-paced online courses on Cassandra's architecture, data modeling, and more.
 [academy]: https://academy.datastax.com/courses
 [nodejs]: /docs/languages/nodejs/
 [java]: /docs/languages/java/
+[python]: /docs/languages/python/
