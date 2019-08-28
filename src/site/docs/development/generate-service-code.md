@@ -40,4 +40,4 @@ definitions are updated in the [killrvideo-service-protos][service-protos] proje
 [grpc-docs]: http://www.grpc.io/docs/
 [grpc-install]: http://www.grpc.io/docs/#install-grpc
 [grpc-generate]: http://www.grpc.io/docs/#generating-grpc-code
-[csharp]: https://github.com/luketillman/killrvideo-csharp
+[csharp]: https://github.com/KillrVideo/killrvideo-csharp

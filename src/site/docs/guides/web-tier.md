@@ -10,7 +10,7 @@ in the microservices.
 One of the goals of this project is to create a standalone Web Tier than can be reused by
 the various Microservices Tier implementations. As a result, the [killrvideo-web][killrvideo-web]
 project was created. That project contains a standalone Web Server and Web Client (all 
-written in JavaScript) and is packaged as a [Docker container](https://hub.docker.com/r/luketillman/killrvideo-web/)
+written in JavaScript) and is packaged as a [Docker container](https://hub.docker.com/r/killrvideo/killrvideo-web)
 which can be run to provide a common UI for KillrVideo, regardless of what programming
 language the Microservices Tier is using. 
 

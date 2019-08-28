@@ -18,7 +18,7 @@ have Docker up and running, follow these steps:
 
 1. Clone the C\# project's [GitHub repository][repo]:
     ```
-    > git clone https://github.com/LukeTillman/killrvideo-csharp.git
+    > git clone https://github.com/KillrVideo/killrvideo-csharp.git
     ```
 1. From inside the repository you just cloned, setup the Docker environment for the first
 time by running:
@@ -78,7 +78,7 @@ KillrVideo and how the Web Tier interacts with the microservices running on your
 [grpc]: http://www.grpc.io/
 [docker]: https://www.docker.com/
 [getting-started]: /getting-started/
-[repo]: https://github.com/LukeTillman/killrvideo-csharp
+[repo]: https://github.com/KillrVideo/killrvideo-csharp
 [docker-guide]: /docs/guides/docker/
 [docs]: /docs/
 [studio]: https://www.datastax.com/products/datastax-studio-and-development-tools
