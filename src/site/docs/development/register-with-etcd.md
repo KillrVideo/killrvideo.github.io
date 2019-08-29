@@ -1,5 +1,7 @@
 # Registering Services with etcd
 
+TODO: this should probably be removed
+
 You already know from the [Connecting to DataStax Enterprise][connect-to-dse] section that
 KillrVideo uses [etcd][etcd] for service discovery. While [Registrator][registrator] takes
 care of registering our infrastructure services (running in Docker) with etcd so they can be 

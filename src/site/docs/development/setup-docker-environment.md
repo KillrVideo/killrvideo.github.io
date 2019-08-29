@@ -1,5 +1,7 @@
 # Setting up the Docker Environment
 
+TODO: this needs to be rewritten to reflect both all-in-one and the new killrvideo-docker-common and remove etcd/registrator. We are no longer requiring an .env file or providing a script to generate it.
+
 KillrVideo uses Docker for running all our dependencies on other projects and infrastructure.
 The [killrvideo-docker-common][docker-common] project that you added as a Git Subtree in the
 [previous step][previous] contains some of the common setup that you'll need. Remember that

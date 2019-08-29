@@ -18,15 +18,16 @@ stubs with the gRPC plugin for the Protobuf compiler.
 1. [Connect to DataStax Enterprise][4]: Use etcd service discovery to find the DSE node's
 address and connect to it.
 1. [Implement the Services][5]: Write the interesting code that implements the services.
+1. [Expose GRPC endpoints][7]: You'll want to start a GRPC server using the appropriate library 
+for your language and register your service endpoints (the default port we use is 50101).
 1. [Add Pub-Sub-Messaging][6]: We use events for service collaboration in KillrVideo so you're
 going to need to implement some pub-sub messaging.
-1. [Register Services with etcd][7]: When you (or a developer learning from your code) starts 
-up the services locally, your services should register with etcd for service discovery.
 1. [Use the Web Tier][8]: The web tier has the UI for KillrVideo and makes calls to your
 services. You'll need to use it (and its logs) to try out your service implementations.
 1. [Generate Sample Data][9]: It's a lot easier to use the UI when you have some sample data
 in the system. Luckily, there's an app for that and it's probably already running.
 
+TODO fix reference
 
 [docs]: /docs/
 [1]: /docs/development/setup-git-repo/

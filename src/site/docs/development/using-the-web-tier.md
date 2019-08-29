@@ -1,5 +1,7 @@
 # Using the Web Tier
 
+TODO:  the service discovery references need rework. Update version info
+
 When you [Setup the Docker Environment][setup-docker-environment] earlier, you probably
 remember that you added a service called `web` to the `docker-compose.yaml` file that you
 created. Here's the relevant part of the file you created:

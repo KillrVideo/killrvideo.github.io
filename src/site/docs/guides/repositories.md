@@ -1,5 +1,7 @@
 # Repositories Overview
 
+TODO: change description of killrvideo-docker-common, remove references to killrvideo-dse-docker / killrvideo-studio-docker. At some place we should describe how we override configurtation for these images
+
 The KillrVideo application consists of multiple repositories which implement the various architecture 
 layers (see the [architecture][architecture] page for a review of the layers).
 

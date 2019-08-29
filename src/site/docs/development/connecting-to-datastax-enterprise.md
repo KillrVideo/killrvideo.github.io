@@ -1,10 +1,13 @@
 # Connecting to DataStax Enterprise
 
+TODO this page needs a complete rewrite
+
 These microservices are part of a reference application for Cassandra and DSE, so you'll 
 obviously be connecting to a DSE node. You should already have your Docker environment setup
 and running after completeing the [Setup Docker Environment][docker-setup] step. Part of that
 environment includes a running DSE node. So how do you get the IP address and port that you
 need to connect?
+
 
 ## Understanding Registrator
 

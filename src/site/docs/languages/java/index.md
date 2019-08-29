@@ -1,5 +1,7 @@
 # Getting Started with Java
 
+TODO: need to rerun instructions to see if they are current
+
 The Java version of KillrVideo is a reference application for Java developers looking to
 learn more about using [Apache Cassandra][cassandra] and [DataStax Enterprise][dse] in their
 applications and services. It contains sample code that uses:

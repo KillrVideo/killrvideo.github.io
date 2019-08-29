@@ -1,5 +1,7 @@
 # Getting Started with C\# (.NET)
 
+TODO: need to run these instructions to see if they are current
+
 The .NET version of KillrVideo is a reference application for .NET developers looking to
 learn more about using [Apache Cassandra][cassandra] and [DataStax Enterprise][dse] in their
 applications and services. It contains sample code that uses:

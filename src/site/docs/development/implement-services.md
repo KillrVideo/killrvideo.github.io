@@ -26,7 +26,7 @@ for use in their own programs. As a result, you want to make sure you're creatin
 shows off best practices and follows the idioms of your programming language.
 
 The way you see things being done in the JavaScript and C\# examples above may not translate
-well to your lanauge or may not be the best way to go about things in your language and that's
+well to your language or may not be the best way to go about things in your language and that's
 OK. In fact, it's probably to be expected. Here are some questions you should ask yourself
 when writing the service code:
 

@@ -1,5 +1,7 @@
 # High Level Architecture Overview
 
+TODO: remove ETCD/registrator, add Kafka and Zookeeper
+
 KillrVideo is a video sharing web application. As such, it's got a tiered setup that's
 pretty common for web applications:
 - **Web :** The web UI that runs in a browser and is interacted with by the user and

@@ -1,5 +1,7 @@
 # Setting up the Git Repo
 
+TODO: you no longer want to include killrvideo-docker-common
+
 We're sure you can handle creating a new empty Git repository. But once you have your initial
 commit with a `README.md`, `.gitignore`, etc., you'll want to pull in the common KillrVideo 
 dependencies that live in other Git repositories. The repositories you'll want to pull in 

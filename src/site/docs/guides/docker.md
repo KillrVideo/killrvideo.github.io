@@ -1,5 +1,7 @@
 # Docker and Infrastructure Dependencies
 
+TODO: remove etcd references, change description of killrvideo-docker-common. We have a different list of environment variables now
+
 In KillrVideo, we offer microservice implementations in multiple programming languages, but
 each of these implementations have a base common set of dependencies they need in order
 to be a functional reference application. Those base dependencies are:

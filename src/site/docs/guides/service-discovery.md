@@ -1,5 +1,7 @@
 # Service Discovery with etcd
 
+TODO: this needs to be rewritten or removed
+
 One problem all microservices architectures face is how to do service discovery. How does
 the Video Catalog service know where to go to talk to Cassandra? How does the Web Tier know
 where to talk to the Video Catalog service? There are really two parts to the common way of 

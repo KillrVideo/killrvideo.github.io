@@ -1,5 +1,7 @@
 # Microservices Tier Implementation
 
+TODO: update guidance on pub-sub to include Kafka
+
 The Microservices Tier is where all the interesting code that interacts with DataStax 
 Enterprise and Cassandra lives. As a reference application, one of the goals of this project
 is to have microservice implementations available in most major programming languages. But 
