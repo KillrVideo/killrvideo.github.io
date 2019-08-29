@@ -7,8 +7,6 @@ However, the GRPC contracts don't specify the behavior supported by each operati
 To facilitate the creation of implementations in additional languages, we provide here the functional
 specifications for each service.
 
-_Note: This page is a work in progress._
-
 ## Comment Service
 
 ### CommentOnVideo Operation
@@ -200,7 +198,43 @@ This method returns a `response` object containing `stats` for each video:
 
 ## Suggested Videos Service
 
-TODO
+_Note: Implementations of service frequently subscribe to events published by other services in order to 
+ maintain awareness of the relationships between users, videos, ratings, and so on._
+
+### GetRelatedVideos operation
+This operation returns a list of videos that are recommended based on a given video 
+
+#### Inputs
+- `video_id` - unique identifier for the video (required)
+- `page_size` - max number of videos to be returned in a single response (optional)
+- `paging_state` - paging state returned from the previous request (optional)
+
+#### Behavior
+1. Validate input
+1. Generate recommended videos based on the provided video.
+    - Consider how to identify videos that are related to the provided video, for example videos that have 
+    similar tags or user ratings.
+
+#### Output
+This method returns a list of recommended videos.
+
+### GetSuggestedForUser operation
+This operation returns a list of videos that are recommended for a given user
+
+#### Inputs
+- `user_id` - unique identifier for the user (required)
+- `page_size` - max number of videos to be returned in a single response (optional)
+- `paging_state` - paging state returned from the previous request (optional)
+
+#### Behavior
+1. Generate recommended videos based on the provided user.
+    - Consider how to identify videos that were highly rated by similar users, where similarity might be measured
+    in terms of viewing habits and preferences.
+
+#### Output
+This method returns a `response` object containing the original `user_id` as well as an object for each video 
+and an optional `paging_state`: 
+
 
 ## User Management Service
 This service supports adding user profiles, verifying user credentials against a profile, and retrieving
