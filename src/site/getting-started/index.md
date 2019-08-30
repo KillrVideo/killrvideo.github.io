@@ -3,7 +3,7 @@
 So you're ready to dig into some reference application code? Great! Here's how to get started
 exploring KillrVideo.
 
-## 1. Install Docker
+## Install Docker
 
 KillrVideo uses [Docker][docker] to run all the infrastructure you'll need in your local
 development environment. (If you want to learn more about how KillrVideo uses Docker, check
@@ -12,12 +12,6 @@ installed, you'll need to do so. You can download and install the appropriate to
 
 - [Docker for Windows or Mac][docker-install]
 
-> #### Note on Docker
-> The native Docker tools for Windows and Mac are currently pretty new and are constantly
-> evolving. We've seen issues (particularly around networking in the Mac version) crop up 
-> when trying to run KillrVideo with those tools. If you encounter issues, please open an
-> issue on GitHub so we can try and solve the problem for everyone.
-
 Once you've got Docker for Windows or Mac installed, it's also really helpful to increase
 the amount of RAM allocated to the Docker VM that's running. We recommend allocating **at
 least 3 GB** of RAM since DataStax Enterprise and Cassandra are memory-intensive apps:
@@ -25,19 +19,40 @@ least 3 GB** of RAM since DataStax Enterprise and Cassandra are memory-intensive
 - Changing [Docker for Mac Preferences][mac-preferences]
 - Changing [Docker for Windows Preferences][win-preferences]
 
-## 2. Choose your Programming Language
+## Run the Application
 
-The KillrVideo reference application is available in multiple programming languages. Use the 
-links below to get started with the language you're most comfortable with.
+The simplest way to run the KillrVideo Application is to run the 
+[KillrVideo All-in-one][all-in-one] Docker configuration:
 
-- **[C\# (.NET)][c-sharp]**: A C\# implementation you can explore from Visual Studio. 
-- **[Node.js][nodejs]**: A JavaScript implementation running on Node.js.
+```
+git clone https://github.com/KillrVideo/killrvideo-all-in-one.git killrvideo-all-in-one
+cd killrvideo-all-in-one
+docker-compose up -d
+```
+
+This configuration uses `docker-compose` to start KillrVideo, including the web 
+application, Java microservice implementations, DataStax Enterprise, and other supporting
+infrastructure. As the application initializes, you'll be able to view the web interface at
+`http://localhost:3000/`.
+
+Why not take the Tour? This will give you a quick overview of the functionality of the application
+as well as some of the details of how it uses Apache Cassandra and DataStax Enterprise.
+
+You can also view a live version of the application at `http://killrvideo.com`. 
+
+## Choose a Programming Language to Dive Deeper
+
+Of course you want to look at some source code to see how this is all put together, and especially
+the details of how we implement the database interactions!
+
+The KillrVideo reference application provides service implementations in multiple programming 
+languages. Use the links below to get started with the language you're most comfortable with.
+
 - **[Java][java]**: A Java implementation you can run via Spring boot
 for accessing data in DataStax Enterprise.
-- **[Python][python]**: A Python implementation.
-
-
-Check back as we'll be adding more programming languages soon.
+- **[Node.js][nodejs]**: A JavaScript implementation running on Node.js.
+- **[C\# (.NET)][c-sharp]**: A C\# implementation you can explore from Visual Studio. 
+- **[Python][python]**: A Python implementation - the simplest version!
 
 ## Next Steps
 
@@ -48,11 +63,12 @@ self-paced online courses on Cassandra's architecture, data modeling, and more.
 
 [docker]: https://www.docker.com/
 [docker-guide]: /docs/guides/docker/
-[docker-install]: https://www.docker.com/products/docker
-[mac-preferences]: https://docs.docker.com/docker-for-mac/#/preferences
-[win-preferences]: https://docs.docker.com/docker-for-windows/#/advanced
+[docker-install]: https://hub.docker.com/?overlay=onboarding
+[mac-preferences]: https://docs.docker.com/docker-for-mac/
+[win-preferences]: https://docs.docker.com/docker-for-windows/
 [c-sharp]: /docs/languages/c-sharp/
 [academy]: https://academy.datastax.com/courses
 [nodejs]: /docs/languages/nodejs/
 [java]: /docs/languages/java/
 [python]: /docs/languages/python/
+[all-in-one]: https://github.com/KillrVideo/killrvideo-all-in-one

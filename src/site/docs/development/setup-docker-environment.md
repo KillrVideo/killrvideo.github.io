@@ -1,121 +1,56 @@
 # Setting up the Docker Environment
 
 KillrVideo uses Docker for running all our dependencies on other projects and infrastructure.
-The [killrvideo-docker-common][docker-common] project that you added as a Git Subtree in the
-[previous step][previous] contains some of the common setup that you'll need. Remember that
-you're not only going to be setting up Docker for yourself here, but you're also setting up
-a process for KillrVideo users who want to try your microservices code.
-
 We've chosen to use the [Docker Compose][docker-compose] for defining and spinning up our
 dependencies. This tool is nice because it allows us to define all our infrastructure in a
 `.yaml` file and then it takes care of pulling the required images and spinning up the
 instances. If you haven't yet, you can get a high level overview of how we use Docker in our
 [Docker guide][docker-guide] documentation.
 
-## Generate the Environment File
+To create the Docker Compose configuration for a new service implementation, the simplest approach
+is to copy the `docker-compose.yaml` file from one of the other service implementations as a 
+starting point. You may also want to reference the [killrvideo-docker-common][docker-common] 
+project to make sure that your configuration is up to date in terms of the required components
+and versions. At a minimum you will need to start a DSE node and the web application.
 
-The first thing you need to do is create a Docker Compose [Environment file][env-file] at the
-root of your project. This file, named `.env`, simply contains key-value pairs of environment
-variables with information about your local Docker setup that KillrVideo needs in order to 
-run. The [killrvideo-docker-common][docker-common] project contains shell scripts that can
-generate the bulk of this file for you.
+The `docker-compose.yaml` you create  should be checked-in to Git. Remember that you're not 
+only going to be setting up Docker for yourself here, but you're also setting up a process for 
+KillrVideo users who want to try your microservices code. Developers who are trying out your 
+code will want to run those same dependencies.
 
-So for example in Windows, I can use a Powershell command prompt to run:
+
+## Building a Docker Container
+
+It will be helpful to package your services in a Docker image in order to run them as part of 
+the KillrVideo application and specify the implementation as the `backend` service in your
+`docker-compose.yaml` file.
+
+To do this you will need to provide a `Dockerfile` that describes the instructions for building
+your image. You'll want to start with a base image that is appropriate for the language that 
+your services are implemented in. See these [Dockerfile best practices][dockerfile-best-practices]
+for more information.
+
+In order to build your image using the dockerfile, you'll use a command such as this:
 
 ```
-PS> .\lib\killrvideo-docker-common\create-environment.ps1
+> docker build -t <organization>/<repo>:<version>
 ```
 
-Or on a Mac/Linux, I can run:
+Where `organization` is your organization (i.e. "killrvideo"), `repo` is the name of the implementation
+(i.e. "killrvideo-java", and `version` is the version number you wish to apply to the image.
+[Semantic versioning][semver] is recommended, i.e. "3.0.1", "3.0.1-rc1", etc. We recommend using Git
+tags to convey the version number as part of pull request rather than hardcoding the version in files.
 
-```
-> ./lib/killrvideo-docker-common/create-environment.sh
-```
-
-You should end up with a file that looks something like this:
-
-```bash
-COMPOSE_PROJECT_NAME=killrvideo
-COMPOSE_FILE=.\lib\killrvideo-docker-common\docker-compose.yaml;.\docker-compose.yaml
-KILLRVIDEO_DOCKER_TOOLBOX=false
-KILLRVIDEO_HOST_IP=10.0.75.1
-KILLRVIDEO_DOCKER_IP=10.0.75.1
-```
-
-You should make sure that the `.env` file is added to the `.gitignore` for the repo since 
-its contents will vary from system to system depending on that user's Docker setup. The IP
-addresses contained in the file are the ones we'll use to communicate between the components
-running in Docker (i.e. DataStax Enterprise, the Web UI, etc.) and the ones running on a
-local development machine (i.e. the microservices code you're writing).
-
-## Creating the Docker Compose YAML
-
-You'll notice that the `.env` file that you generated has a key called `COMPOSE_FILE` and
-that it points to two `docker-compose.yaml` files. These YAML files are where we define the
-services we want Docker to run for us. One of those files is included in the [killrvideo-docker-common][docker-common]
-project and it contains all the basic services that KillrVideo projects need. If you open it,
-you'll see it contains definitions for spinning up:
-- **DataStax Enterprise**: The microservices you're writing will interact with this node to store
-data and provide the functionality of the site. Our DSE image also bootstraps the schema and
-DSE search config needed by your microservices.
-- **[etcd][etcd]**: This key-value store is used as our service registry (i.e. so that the
-various applications and services know what IP addresses to use to talk to other services)
-- **[Registrator][registrator]**: An application that listens to the internal Docker API for
-containers starting and stopping, and registers them with our service registry (i.e. etcd).
-
-The second `docker-compose.yaml` file you will create in the root of your project (right next
-to the `.env` file that you generated). This file will contain some additional dependencies
-that your microservices implementation will need, including the [KillrVideo Web UI][killrvideo-web]
-and the [KillrVideo Sample Data Generator][killrvideo-generator] application.
-
-Typically, that file will look something like this:
-
-```yaml
-version: '3'
-  
-# Other services are specified in .\lib\killrvideo-docker-common\docker-compose.yaml
-services:
-  # Start the KillrVideo web UI on port 3000
-  web:
-    image: killrvideo/killrvideo-web:1.2.7
-    ports:
-    - "3000:3000"
-    depends_on:
-    - dse
-    - etcd
-    environment:
-      SERVICE_3000_NAME: web
-      KILLRVIDEO_ETCD: "etcd:2379"
-      KILLRVIDEO_DSE_USERNAME: $KILLRVIDEO_DSE_USERNAME
-      KILLRVIDEO_DSE_PASSWORD: $KILLRVIDEO_DSE_PASSWORD
-      KILLRVIDEO_CASSANDRA_REPLICATION: $KILLRVIDEO_CASSANDRA_REPLICATION
-      KILLRVIDEO_LOGGING_LEVEL: $KILLRVIDEO_LOGGING_LEVEL
-
-  # The sample data generator
-  generator:
-    image: killrvideo/killrvideo-generator:1.2.5
-    depends_on:
-    - dse
-    - etcd
-    environment:
-      KILLRVIDEO_ETCD: "etcd:2379"
-      KILLRVIDEO_DSE_USERNAME: $KILLRVIDEO_DSE_USERNAME
-      KILLRVIDEO_DSE_PASSWORD: $KILLRVIDEO_DSE_PASSWORD
-      NODE_ENV: $NODE_ENV
-      KILLRVIDEO_CASSANDRA_REPLICATION: $KILLRVIDEO_CASSANDRA_REPLICATION
-      KILLRVIDEO_LOGGING_LEVEL: $KILLRVIDEO_LOGGING_LEVEL
-```
-
-The tags (i.e. version numbers) you use for the images may be different as newer versions of 
-those applications are developed and released to the [KillrVideo Docker Hub][docker-hub].
-This file should be checked-in to Git since developers who are trying out your code will want
-to run those same dependencies.
+It's also helpful to release the images you build to the [KillrVideo Docker Hub][docker-hub].
+The service implementations provided under the KillrVideo project use [Travis CI][travis-ci]
+to perform automated builds of Docker images and push these images to Docker Hub. To emulate this,
+it will be helpful to look at the `.travis.yml` file from one of the other service implementations.
 
 ## Running with Docker Compose
 
-Once you have the `.env` and the `docker-compose.yaml` files in place, you can now use the
-`docker-compose` command line tool to manage those dependencies. For example, to start all of
-them up, do:
+Once you have the `docker-compose.yaml` file in place and have built an image using `docker build`,
+you can now use the `docker-compose` command line tool to run your application. For example, 
+to start all of them up, do:
 
 ```
 > docker-compose up -d
@@ -149,23 +84,18 @@ implementation for, we won't tell you specifically what that should look like. I
 for example, some orchestration that happens as part of your project's initial build. Or it
 could be a separate script that a developer is told to run in your project's documentation.
 
-For example, in the [Java Implementation][killrvideo-java] we've included a `setup-docker.sh`
-file in the root of the project that runs the [killrvideo-docker-common][docker-common]
-script to create the `.env` file for the user and then runs a `docker-compose pull`
-to download all the Docker images. In the [Getting Started][getting-started-java] docs, we
-tell the user to run that `.bat` file, followed by running `docker-compose up -d` to start
-the environment before running the Java code. 
+For example, the [Node.js implementation][killrvideo-nodejs] and [Python implementation][killrvideo-python]
+each include files listing dependencies - the required libraries which need to be downloaded
+in order to run the services in each language.
 
 
 [docker-common]: https://github.com/KillrVideo/killrvideo-docker-common
 [previous]: /docs/development/setup-git-repo/
 [docker-compose]: https://docs.docker.com/compose/overview/
 [docker-guide]: /docs/guides/docker/
-[env-file]: https://docs.docker.com/compose/env-file/
-[etcd]: https://github.com/coreos/etcd
-[registrator]: https://github.com/gliderlabs/registrator
-[killrvideo-web]: https://github.com/KillrVideo/killrvideo-web
-[killrvideo-generator]: https://github.com/KillrVideo/killrvideo-generator
 [docker-hub]: https://hub.docker.com/u/killrvideo/
-[killrvideo-java]: https://github.com/KillrVideo/killrvideo-java
-[getting-started-java]: /docs/languages/java/
+[killrvideo-nodejs]: https://github.com/KillrVideo/killrvideo-nodejs
+[killrvideo-python]: https://github.com/KillrVideo/killrvideo-python
+[dockerfile-best-practices]: https://docs.docker.com/develop/develop-images/dockerfile_best-practices/
+[semver]: https://semver.org
+[travis-ci]: https://travis-ci.org/

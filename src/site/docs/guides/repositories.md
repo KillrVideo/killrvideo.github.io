@@ -11,19 +11,22 @@ layers (see the [architecture][architecture] page for a review of the layers).
 
 There are multiple implementations of the KillrVideo microservices tier in various languages:
 
-- The Java implementation is found in the [killrvideo-java][killrvideo-java] repository.
-- The Node.js implementation is found in the [killrvideo-nodejs][killrvideo-nodejs] repository.
-- The C# implementation is found in the [killrvideo-csharp][killrvideo-csharp] repository.
-- The Python implementation is found in the [killrvideo-python][killrvideo-python] repository.
+- The [Java implementation][java] is found in the [killrvideo-java][killrvideo-java] repository.
+- The [Node.js implementation][nodejs] is found in the [killrvideo-nodejs][killrvideo-nodejs] repository.
+- The [C# implementation][c-sharp] is found in the [killrvideo-csharp][killrvideo-csharp] repository.
+- The [Python implementation][python] is found in the [killrvideo-python][killrvideo-python] repository.
 
-Each of these implementations has dependencies on the following common repositories which are implemented as 
+These repositories contain `Dockerfile` definitions to build Docker images for the various service 
+implementations for the KillrVideo application. These repos are linked to [Travis CI][travis], which builds the 
+Docker images and publishes them to [DockerHub][DockerHub]. 
+
+Each of these implementations has dependencies on the following common repository which is implemented as a
 [Git subtree][git-subtree]:
 
-- The [killrvideo-docker-common][killrvideo-docker-common] contains a Docker compose file that describes how to spin
-up common infrastructure elements required by the microservices tier, including DataStax Enterprise and [etcd][etcd].
 - The [killrvideo-service-protos][killrvideo-service-protos] contains the [gRPC][grpc] service definitions. 
 
-The [killrvideo-generator][killrvideo-generator] repository contains a test data generator which exercises
+
+The [killrvideo-generator][killrvideo-generator] repository contains a test data [generator][generator] which exercises
 the microservices to insert data into the KillrVideo database. This repository has the same dependencies as the 
 various microservice tier implementations. This would only require changes in cases where there are changes to the 
 [killrvideo-service-protos][killrvideo-service-protos].
@@ -40,20 +43,22 @@ which can be used with the KillrVideo application.
 The following repositories are used to build up infrastructure elements such as Docker images
 which are used in the deployed KillrVideo application. 
 
+- The [killrvideo-all-in-one][killrvideo-all-in-one] repository provides the simplest possible configuration for 
+starting the KillrVideo application in Docker on your desktop.
 
-- The [killrvideo-dse-docker][killrvideo-dse-docker] and [killrvideo-studio-docker][killrvideo-studio-docker]
-repositories contain scripts to build Docker images for DataStax Enterprise and DataStax Studio 
-specifically initialized for the KillrVideo application. These repos are linked to [Travis CI][travis], which builds the 
-Docker images and publishes them to [DockerHub][DockerHub]. 
+- The [killrvideo-docker-common][killrvideo-docker-common] repository provides composable set of Docker Compose 
+scripts for running KillrVideo in various configurations useful for development and testing, including adding
+[OpsCenter][opscenter], metrics collection, security, and swapping between the various microservice tier 
+implementations.
 
-- The [killrvideo-dse-external][killrvideo-dse-external] repository provides Docker compose configuration for running 
-Killrvideo with an external cluster.
+- The [killrvideo-dse-config][killrvideo-dse-config] provides scripts for loading the schema defined in 
+[killrvideo-data][killrvideo-data] into a DataStax Enterprise node running in Docker, or a remote cluster, as
+described in [Setting up the Docker Environment][setup-docker-environment]
 
  
  ## Documentation Repositories
  
 - The [killrvideo.github.io][killrvideo.github.io] repository creates this documentation site.  
-
 
 
 [architecture]: /docs/guides/architecture
@@ -66,6 +71,7 @@ Killrvideo with an external cluster.
 [killrvideo-data]: https://github.com/KillrVideo/killrvideo-data
 [killrvideo-service-protos]: https://github.com/KillrVideo/killrvideo-service-protos
 [killrvideo-docker-common]: https://github.com/KillrVideo/killrvideo-docker-common
+[killrvideo-all-in-one]: https://github.com/KillrVideo/killrvideo-all-in-one
 [killrvideo-cdm]: https://github.com/KillrVideo/killrvideo-cdm
 [killrvideo-generator]: https://github.com/KillrVideo/killrvideo-generator
 [killrvideo.github.io]: https://github.com/KillrVideo/killrvideo.github.io
@@ -73,6 +79,10 @@ Killrvideo with an external cluster.
 [DockerHub]: https://hub.docker.com/
 [cdm]: http://cdm.readthedocs.io/en/latest/
 [grpc]: http://www.grpc.io/
-[killrvideo-dse-external]: https://github.com/KillrVideo/killrvideo-dse-external
-[killrvideo-dse-docker]: https://github.com/KillrVideo/killrvideo-dse-docker
-[killrvideo-studio-docker]: https://github.com/KillrVideo/killrvideo-studio-docker
+[killrvideo-dse-config]: https://github.com/KillrVideo/killrvideo-dse-config
+[setup-docker-environment]: /docs/development/setup-docker-environment/
+[c-sharp]: /docs/languages/c-sharp/
+[nodejs]: /docs/languages/nodejs/
+[java]: /docs/languages/java/
+[python]: /docs/languages/python/
+[generator]: /docs/development/generating-sample-data/
