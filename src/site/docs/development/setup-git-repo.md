@@ -1,6 +1,5 @@
 # Setting up the Git Repo
 
-TODO: you no longer want to include killrvideo-docker-common
 
 We're sure you can handle creating a new empty Git repository. But once you have your initial
 commit with a `README.md`, `.gitignore`, etc., you'll want to pull in the common KillrVideo 
@@ -10,9 +9,6 @@ are:
 - [killrvideo-service-protos][service-protos]: This is where the [gRPC][grpc] service 
 definitions that you'll be implementing are kept, defined in `.proto` files. You'll be using
 the Protobufs from here to generate code.
-- [killrvideo-docker-common][docker-common]: This is where common Docker setup scripts live,
-including a Docker Compose `.yaml` file for the base infrastructure dependencies needed to
-run KillrVideo.
 
 ## Using Git Subtrees for Dependencies
 
@@ -24,9 +20,6 @@ repository under the `/lib` folder:
 ```bash
 # Add killrvideo-service-protos under lib/killrvideo-service-protos
 git subtree add --prefix lib/killrvideo-service-protos git@github.com:KillrVideo/killrvideo-service-protos.git master --squash
-
-# Add killrvideo-docker-common under lib/killrvideo-docker-common
-git subtree add --prefix lib/killrvideo-docker-common git@github.com:KillrVideo/killrvideo-docker-common.git master --squash
 ```
 
 Later if you need to update those dependencies you can just use the same commands as above,
@@ -43,6 +36,5 @@ only doing a `git subtree pull` instead of `git subtree add`.
 </div>
 
 [service-protos]: https://github.com/KillrVideo/killrvideo-service-protos
-[docker-common]: https://github.com/KillrVideo/killrvideo-docker-common
 [grpc]: http://www.grpc.io/
 [subtree]: http://blogs.atlassian.com/2013/05/alternatives-to-git-submodule-git-subtree/

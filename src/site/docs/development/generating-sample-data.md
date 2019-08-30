@@ -11,17 +11,14 @@ services to add sample data to the application already built. Back when you
 
   # The sample data generator
   generator:
-    image: killrvideo/killrvideo-generator:1.2.1
+    image: killrvideo/killrvideo-generator:3.0.1
     depends_on:
-    - dse
-    - etcd
-    environment:
-      KILLRVIDEO_ETCD: "etcd:2379"
+    - backend
 ```
 
 This creates and starts an instance of the [KillrVideo Sample Data Generator][killrvideo-generator]
-application in Docker. This application listens for your services to become available and when
-they do, it calls your services to add sample users, videos, comments, and more to the site.
+application in Docker. This application listens for your services to become available (as `backend`)
+and when they do, it calls your services to add sample users, videos, comments, and more to the site.
 
 ## Starting and Stopping the Generator
 

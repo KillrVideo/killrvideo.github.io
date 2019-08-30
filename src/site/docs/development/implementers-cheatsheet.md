@@ -15,11 +15,10 @@ the common KillrVideo project dependencies as Git subtrees.
 infrastructure and projects it needs (for example, one node of DSE) using Docker Compose.
 1. [Generate Service Code][3]: Use the `.proto` files to generate client and server code
 stubs with the gRPC plugin for the Protobuf compiler.
-1. [Connect to DataStax Enterprise][4]: Use etcd service discovery to find the DSE node's
-address and connect to it.
+1. [Connect to DataStax Enterprise][4]: Use the `KILLRVIDEO_DSE_CONTACT_POINTS` environment variable
+ to locate the address of one or more DSE nodes in the cluster and connect to it. In the default Docker 
+ configuration provided, the single node will be resolvable as `dse`.
 1. [Implement the Services][5]: Write the interesting code that implements the services.
-1. [Expose GRPC endpoints][7]: You'll want to start a GRPC server using the appropriate library 
-for your language and register your service endpoints (the default port we use is 50101).
 1. [Add Pub-Sub-Messaging][6]: We use events for service collaboration in KillrVideo so you're
 going to need to implement some pub-sub messaging.
 1. [Use the Web Tier][8]: The web tier has the UI for KillrVideo and makes calls to your
@@ -27,7 +26,6 @@ services. You'll need to use it (and its logs) to try out your service implement
 1. [Generate Sample Data][9]: It's a lot easier to use the UI when you have some sample data
 in the system. Luckily, there's an app for that and it's probably already running.
 
-TODO fix reference
 
 [docs]: /docs/
 [1]: /docs/development/setup-git-repo/
@@ -36,6 +34,5 @@ TODO fix reference
 [4]: /docs/development/connecting-to-datastax-enterprise/
 [5]: /docs/development/implement-services/
 [6]: /docs/development/pub-sub-messaging/
-[7]: /docs/development/register-with-etcd/
 [8]: /docs/development/using-the-web-tier/
 [9]: /docs/development/generating-sample-data/

@@ -1,7 +1,5 @@
 # Microservices Tier Implementation
 
-TODO: update guidance on pub-sub to include Kafka
-
 The Microservices Tier is where all the interesting code that interacts with DataStax 
 Enterprise and Cassandra lives. As a reference application, one of the goals of this project
 is to have microservice implementations available in most major programming languages. But 
@@ -105,12 +103,13 @@ objects created at runtime (e.g. NodeJS). The service's logic can then be "plugg
 to these stubs. This is where all the code that talks to DataStax Enterprise and Cassandra
 lives (and if you're an end user, this is the code you're interested in looking at).
 
-In a real world application, each of the microservices defined in the [killrvideo-service-protos][service-protos]
-project would probably have its own Git repo and be deployed in its own process running its
-own HTTP/2 endpoint. This is one area where KillrVideo, because it's meant to be a reference
-application for developers, is different. In KillrVideo, the microservice implementations 
-are grouped together in Git repos by programming language to make it easy for a developer to
-get all the interesting code for their programming language of choice.
+In a real world application, each of the microservices defined in the 
+[killrvideo-service-protos][service-protos] project would probably have its own Git repo and 
+be deployed in its own process running its own HTTP/2 endpoint. This is one area where 
+KillrVideo, because it's meant to be a reference application for developers, is different. 
+In KillrVideo, the microservice implementations are grouped together in Git repos by 
+programming language to make it easy for a developer to get all the interesting code for 
+their programming language of choice.
 
 Since gRPC supports binding multiple service implementations to a single HTTP/2 server 
 endpoint, it also means that we can run all our microservice implementations in a single
@@ -131,9 +130,9 @@ using.
 Since developers exploring the code locally will be running all the service implementations
 in process together, it's possible to just do all the messaging using an in-process message 
 bus (for example, in Java using [Guava's EventBus](https://github.com/google/guava/wiki/EventBusExplained)).
-It's also possible, since we're using a Docker container to package and run the Web Tier 
-that an implementation might choose to use some other external piece of infrastructure 
-running in a Docker container. Again, this is left up to the individual implementation.
+Some service implementations choose to use some other external piece of infrastructure 
+running in a Docker container such as Kafka (currently available for the [Python][python] 
+and [Java][java] implementations). Again, this is left up to the individual implementation.
 
 Next, let's take a look at how the microservices tier demonstrates various features of 
 Apache Cassandra and DataStax Enterprise.
@@ -145,3 +144,5 @@ Apache Cassandra and DataStax Enterprise.
 [service-protos]: https://github.com/KillrVideo/killrvideo-service-protos
 [architecture]: ./architecture.md
 [next]: /docs/guides/feature-matrix/
+[java]: /docs/languages/java/
+[python]: /docs/languages/python/
