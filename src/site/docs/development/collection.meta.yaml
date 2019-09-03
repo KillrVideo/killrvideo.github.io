@@ -9,6 +9,5 @@ sort_by:
 - implement-services.md
 - pub-sub-messaging.md
 - functional-specs.md
-- register-with-etcd.md
 - using-the-web-tier.md
 - generating-sample-data.md

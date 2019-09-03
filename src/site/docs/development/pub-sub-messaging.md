@@ -18,6 +18,9 @@ available). If you don't have an in-memory implementation available, it's usuall
 straightforward to create a simple one of your own.
 
 Another option is to use a real piece of messaging infrastructure like Kafka or RabbitMQ.
+Kafka is currently used by the [Python implementation][python] and as an option for the 
+[Java implementation][java].
+
 Since KillrVideo uses Docker Compose for spinning up all the dependencies needed by a user in
 their development environment, it's possible to piggyback on that and spin up a container
 using messaging infrastructure of your choice. You would go about doing this by adding it to
@@ -50,3 +53,5 @@ the other language implementations for what events to publish and when to publis
 [generate-service-code]: /docs/development/generate-service-code/
 [guava-event-bus]: https://github.com/google/guava/wiki/EventBusExplained
 [implement-services]: /docs/development/implement-services/
+[java]: /docs/languages/java/
+[python]: /docs/languages/python/

@@ -110,18 +110,13 @@ you can execute the following:`mvn spring-boot:run -D=KILLRVIDEO_HOST_IP=10.0.75
 
 ## Opening the Web UI
 
-The Web UI will be started on the IP identified by the `KILLRVIDEO_HOST_IP` defined in the `.env` file above at
-port 3000. For example, this is typically something like [http://10.0.75.1:3000](http://10.0.75.1:3000).
- 
-If you have trouble finding the web UI, it should be registered with etcd. You can discover it by using a query 
-such as [http://10.0.75.1:2379/v2/keys/killrvideo/services/web](http://10.0.75.1:2379/v2/keys/killrvideo/services/web),
-which will produce output like this:
+When the Java services start, you may see repeated attempts in the output to connect to DataStax Enterprise
+ (DSE). This behavior is expected, especially the first time you run the application and the database is being
+ initialized. The services should connect within a couple of minutes. Once the application has initialized you can
+ open the web application at `http://localhost:3000`.
 
-`
-{"action":"get","node":{"key":"/killrvideo/services/web","dir":true,
- "nodes":[{"key":"/killrvideo/services/web/7546aded6d2c:killrvideo_web_1:3000","value":"10.0.75.1:3000",
- "modifiedIndex":8,"createdIndex":8}],"modifiedIndex":8,"createdIndex":8}}
-`
+The services are exercised by your actions on the Web UI, as well as the KillrVideo Generator which runs as part
+of the default configuration.
 
 ## Using DataStax Studio
 
