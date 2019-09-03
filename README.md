@@ -4,6 +4,7 @@
 The source for generating the static site content at killrvideo.github.io. Like any 
 GitHub Pages org site, the published content can be found in the `master` branch.
 
+
 ## Contributing
 
 The static site is generated using Node and `npm` tasks, so you'll need to have both
