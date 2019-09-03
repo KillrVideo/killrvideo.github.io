@@ -59,8 +59,6 @@ to be a functional reference application. Those base dependencies are:</p>
 the microservices implementations can use to store data. </li>
 <li><a href="https://github.com/killrvideo/killrvideo-web" target="_blank"><strong>KillrVideo Web Tier</strong></a>: we need the Web Tier in order to provide a
 working UI and application that drives calls to the microservices.</li>
-<li><a href="https://github.com/coreos/etcd" target="_blank"><strong>etcd</strong></a>: we use etcd as our service registry for service discovery so that our
-microservices know where to find DSE and our Web Tier knows where to find our microservices.</li>
 </ul>
 <p>For a developer looking to learn about Cassandra and DSE it would be impractical (and kind
 of ridiculous) to ask them to install all of these things locally in addition to the code
@@ -71,51 +69,16 @@ developer needs to install is Docker for Mac or Windows in order to try out Kill
 chances are they may already have it installed).</p>
 <h2 id="docker-compose-for-starting-dependencies">Docker Compose for Starting Dependencies</h2>
 <p>The <a href="https://www.docker.com/" target="_blank">Docker</a> project offers a nice tool called <a href="https://docs.docker.com/compose/overview/" target="_blank">Docker Compose</a> which
-allows you to run multiple Docker containers that are defined in a <code>.yaml</code> file. We created
-the <a href="https://github.com/KillrVideo/killrvideo-docker-common" target="_blank">killrvideo-docker-common</a> project to house the configuration that is the
-same across many of our projects. This project includes the following:</p>
-<ul>
-<li>A base <code>docker-compose.yaml</code> configuration that includes a single DSE node using the official 
-DSE image, which is available in the <a href="https://hub.docker.com/u/datastax/" target="_blank">Docker Hub</a>. It also includes etcd and 
-<a href="http://gliderlabs.com/registrator/latest/" target="_blank">Registrator</a>, a program that automatically registers and deregisters Docker 
-containers with the etcd service registry when they are started and stopped.</li>
-<li>Additional <code>docker-compose</code> files that show how to use Docker 
-images for DataStax tools including Studio and OpsCenter available in <a href="https://hub.docker.com/u/datastax/" target="_blank">Docker Hub</a>.</li>
-<li>Helper scripts (for Windows and Mac) that can be used to determine the Docker network
-setup on a developer&#39;s machine so we know what IP addresses the components can use to
-communicate with each other.</li>
-</ul>
-<p>You might notice that the Web Tier is not listed as one of the dependencies specified in the
-base <code>docker-compose.yaml</code> file. This is because the <a href="https://github.com/killrvideo/killrvideo-web" target="_blank">killrvideo-web</a>
-project also depends on the <a href="https://github.com/KillrVideo/killrvideo-docker-common" target="_blank">killrvideo-docker-common</a> project to spin up 
-dependencies when it&#39;s being developed. In the microservice implementations, we take 
-advantage of a feature of Docker Compose that lets us define a <code>.yaml</code> file that inherits
-from our base <code>.yaml</code> file and then provide overrides and additions. In this way, each
-programming language&#39;s microservice project can specify the Web Tier as a dependency (along
-with any other infrastructure they might need, for example, messaging infrastructure, or 
-<a href="https://www.datastax.com/products/datastax-studio-and-development-tools" target="_blank">DataStax Studio</a>.</p>
-<h2 id="docker-environment-scripts">Docker Environment Scripts</h2>
-<p>As mentioned above, the <a href="https://github.com/KillrVideo/killrvideo-docker-common" target="_blank">killrvideo-docker-common</a> project also contains some
-scripts that are useful for determining a developer&#39;s Docker setup. These scripts can be
-used to create a <code>.env</code> file which is used by <a href="https://docs.docker.com/compose/overview/" target="_blank">Docker Compose</a> when it runs to set
-environment variables needed by KillrVideo. That <code>.env</code> file can also be used by the various
-microservice implementations to make sure that they register themselves with the appropriate
-IP address in <a href="https://github.com/coreos/etcd" target="_blank">etcd</a> for service discovery. The contents of the <code>.env</code> file include:</p>
-<ul>
-<li><code>COMPOSE_PROJECT_NAME</code>: the name that will prefix each container name (i.e. <code>killrvideo_dse_1</code>).</li>
-<li><code>COMPOSE_FILE</code>: the list of compose files to use, for example: a compose file from
-<a href="https://github.com/KillrVideo/killrvideo-docker-common" target="_blank">killrvideo-docker-common</a> as well as a local compose file. </li>
-<li><code>KILLRVIDEO_DOCKER_IP</code>: the Docker VM&#39;s IP where the containers are hosted. This is where
-the Web UI, DSE node, and etcd are available.</li>
-<li><code>KILLRVIDEO_HOST_IP</code>: the IP address of the user&#39;s local dev machine. This is the IP
-address that the microservices should use to listen on and to register themselves with etcd.</li>
-<li><code>KILLRVIDEO_DOCKER_TOOLBOX</code>: set to either <code>true</code> or <code>false</code> depending on whether the
-local docker environment is a Docker Toolbox setup.</li>
-</ul>
-<p>Once we have the <code>docker-compose.yaml</code> files described above, as well as a <code>.env</code> file from
-running the helper scripts, it&#39;s easy to start all our infrastructure dependencies by simply
-running:</p>
-<pre><code>> docker-compose up</code></pre><h2 id="other-docker-compose-examples">Other Docker Compose Examples</h2>
+allows you to run multiple Docker containers that are defined in a <code>.yaml</code> file. </p>
+<p>For a very simple way to get the application running using Docker Compose, see the 
+<a href="/docs/getting-started/">Getting Started</a> page.</p>
+<p>We created the <a href="https://github.com/KillrVideo/killrvideo-docker-common" target="_blank">killrvideo-docker-common</a> repository to house a flexible 
+configuration that can be used to swap between the various microservice tier implementations and 
+enable additional configurations.</p>
+<p>To accomplish this flexible configuration, we take advantage of a feature of Docker Compose 
+that lets us define additional <code>.yaml</code> files that we layer on top of the base
+<code>docker-compose.yaml</code> file and provide overrides and additions.</p>
+<h3 id="other-docker-compose-examples">Other Docker Compose Examples</h3>
 <p>You may be interested in other configuration options for running KillrVideo in Docker, such as:</p>
 <ul>
 <li>Starting a copy of <a href="https://www.datastax.com/products/datastax-opscenter" target="_blank">OpsCenter</a>, the web-based visual management and monitoring tool,
@@ -126,13 +89,14 @@ with Cassandra data using CQL and Graph data using Gremlin.</li>
 can survive beyond the lifespan of a single container.</li>
 </ul>
 <p>These alternate configurations are available as part of the <a href="https://github.com/KillrVideo/killrvideo-docker-common" target="_blank">killrvideo-docker-common</a> 
-repository, which is included as part of the service implemementation repositories.  </p>
-<p>To use one of these alternate configurations, you&#39;ll want to edit the <code>COMPOSE_FILE</code> variable in the
-<code>.env</code> file described above to include the <code>docker-compose</code> of your choice instead of the 
-basic <code>docker-compose.yaml</code> file.</p>
-<p>For example, you might change the default configuration of: </p>
-<pre><code>COMPOSE_FILE=./lib/killrvideo-docker-common/docker-compose.yaml:./docker-compose.yaml</code></pre><p>to:</p>
-<pre><code>COMPOSE_FILE=./lib/killrvideo-docker-common/docker-compose-volumes.yaml:./docker-compose.yaml</code></pre><p>in order to use the <code>docker-compose-volumes.yaml</code> file which starts a DSE instance 
+repository. See the <code>README.md</code> file for a detailed description of how to use these configurations; we
+provide a quick summary here.</p>
+<p>To use one of these alternate configurations, you&#39;ll want to concatenate additional <code>.yaml</code> files
+when calling <code>docker-compose</code>, for example:</p>
+<pre><code>> docker-compose -f docker-compose.yaml -f docker-compose-volumes.yaml up -d</code></pre><p>Alternatively, you can create a <code>.env</code> file in the directory where you want to run <code>docker-compose</code> and
+provide a value for the <code>COMPOSE_FILE</code> variable:</p>
+<p>For example, you might change the default configuration to: </p>
+<pre><code>COMPOSE_FILE=./docker-compose.yaml:./docker-compose-volumes.yaml:</code></pre><p>in order to use the <code>docker-compose-volumes.yaml</code> file which starts a DSE instance 
 with the data drive mounted from the host machine.</p>
 <h2 id="running-killrvideo-with-an-external-dse-cluster">Running KillrVideo with an external DSE cluster</h2>
 <p>While the default configuration we provide for running KillrVideo in Docker includes running a single
@@ -147,9 +111,9 @@ in the directory where you run <code>docker-compose</code> to configure:</p>
 <li>any desired security roles that you have set in the cluster for administrative and application roles</li>
 <li>replication strategies to use for Cassandra and Graph data</li>
 </ul>
-<p>See the <a href="https://github.com/killrvideo/killrvideo-dse-config" target="_blank">killrvideo-dse-config</a> repo for more information on the environment variables you can set in order to
-configure these options.</p>
-<p><a href="/docs/guides/service-discovery/">Next: Service Discovery with etcd</a></p>
+<p>See the <a href="/docs/guides/service-discovery/">Service Discovery</a> page for more information. for more information on the environment 
+variables you can set in order to configure these options.</p>
+<p><a href="/docs/guides/service-discovery/">Next: Service Discovery</a></p>
 
       </article>
       <div class="column is-4-tablet is-3-widescreen">
@@ -233,14 +197,6 @@ configure these options.</p>
               </li>
             
               <li>
-                <a href="/docs/guides/docker/#docker-environment-scripts">Docker Environment Scripts</a>
-              </li>
-            
-              <li>
-                <a href="/docs/guides/docker/#other-docker-compose-examples">Other Docker Compose Examples</a>
-              </li>
-            
-              <li>
                 <a href="/docs/guides/docker/#running-killrvideo-with-an-external-dse-cluster">Running KillrVideo with an external DSE cluster</a>
               </li>
             
@@ -255,7 +211,7 @@ configure these options.</p>
           
 
           <div class="panel-block">
-            <a href="/docs/guides/service-discovery/">Service Discovery with etcd</a>
+            <a href="/docs/guides/service-discovery/">Service Discovery</a>
 
             
             
@@ -306,7 +262,7 @@ configure these options.</p>
             <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> license.
           <p>
           <p>
-            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/352523e0d43c757d2f712c5bd1d37f6e92266ace" target="_blank">352523e</a></small>
+            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/19ff6888088d32e22e6045ba6433955802f561cc" target="_blank">19ff688</a></small>
           </p>
         </div>
       </div>

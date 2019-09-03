@@ -137,14 +137,12 @@ script. Select <code>Environment</code> tag and add the variables as shown in th
 we expect you to import the source code in a IDE to manipulate and understand the code. To simply execute the application
 you can execute the following:<code>mvn spring-boot:run -D=KILLRVIDEO_HOST_IP=10.0.75.1 -D=KILLRVIDEO_DOCKER_IP=10.0.75.1</code></p>
 <h2 id="opening-the-web-ui">Opening the Web UI</h2>
-<p>The Web UI will be started on the IP identified by the <code>KILLRVIDEO_HOST_IP</code> defined in the <code>.env</code> file above at
-port 3000. For example, this is typically something like <a href="http://10.0.75.1:3000" target="_blank">http://10.0.75.1:3000</a>.</p>
-<p>If you have trouble finding the web UI, it should be registered with etcd. You can discover it by using a query 
-such as <a href="http://10.0.75.1:2379/v2/keys/killrvideo/services/web" target="_blank">http://10.0.75.1:2379/v2/keys/killrvideo/services/web</a>,
-which will produce output like this:</p>
-<p><code>{&quot;action&quot;:&quot;get&quot;,&quot;node&quot;:{&quot;key&quot;:&quot;/killrvideo/services/web&quot;,&quot;dir&quot;:true,
- &quot;nodes&quot;:[{&quot;key&quot;:&quot;/killrvideo/services/web/7546aded6d2c:killrvideo_web_1:3000&quot;,&quot;value&quot;:&quot;10.0.75.1:3000&quot;,
- &quot;modifiedIndex&quot;:8,&quot;createdIndex&quot;:8}],&quot;modifiedIndex&quot;:8,&quot;createdIndex&quot;:8}}</code></p>
+<p>When the Java services start, you may see repeated attempts in the output to connect to DataStax Enterprise
+ (DSE). This behavior is expected, especially the first time you run the application and the database is being
+ initialized. The services should connect within a couple of minutes. Once the application has initialized you can
+ open the web application at <code>http://localhost:3000</code>.</p>
+<p>The services are exercised by your actions on the Web UI, as well as the KillrVideo Generator which runs as part
+of the default configuration.</p>
 <h2 id="using-datastax-studio">Using DataStax Studio</h2>
 <p>The <code>docker-compose</code> file that you ran above started an instance of <a href="https://www.datastax.com/products/datastax-studio-and-development-tools" target="_blank">DataStax Studio</a>, 
 an interactive tool for querying, exploring, analyzing, and visualizing both graph and tabular data. 
@@ -229,6 +227,19 @@ KillrVideo and how the Web Tier interacts with the microservices running on your
           </div>
 
           
+
+          
+          
+          
+
+          <div class="panel-block">
+            <a href="/docs/languages/python/">Getting Started with Python</a>
+
+            
+            
+          </div>
+
+          
         
         </nav>
       </div>
@@ -247,7 +258,7 @@ KillrVideo and how the Web Tier interacts with the microservices running on your
             <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> license.
           <p>
           <p>
-            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/352523e0d43c757d2f712c5bd1d37f6e92266ace" target="_blank">352523e</a></small>
+            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/19ff6888088d32e22e6045ba6433955802f561cc" target="_blank">19ff688</a></small>
           </p>
         </div>
       </div>

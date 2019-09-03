@@ -60,18 +60,20 @@ layers (see the <a href="/docs/guides/architecture">architecture</a> page for a 
 <h2 id="microservices-tier-repositories">Microservices Tier Repositories</h2>
 <p>There are multiple implementations of the KillrVideo microservices tier in various languages:</p>
 <ul>
-<li>The Java implementation is found in the <a href="https://github.com/KillrVideo/killrvideo-java" target="_blank">killrvideo-java</a> repository.</li>
-<li>The Node.js implementation is found in the <a href="https://github.com/KillrVideo/killrvideo-nodejs" target="_blank">killrvideo-nodejs</a> repository.</li>
-<li>The C# implementation is found in Luke Tillman&#39;s <a href="https://github.com/LukeTillman/killrvideo-csharp" target="_blank">killrvideo-csharp</a> repository.</li>
+<li>The <a href="/docs/languages/java/">Java implementation</a> is found in the <a href="https://github.com/KillrVideo/killrvideo-java" target="_blank">killrvideo-java</a> repository.</li>
+<li>The <a href="/docs/languages/nodejs/">Node.js implementation</a> is found in the <a href="https://github.com/KillrVideo/killrvideo-nodejs" target="_blank">killrvideo-nodejs</a> repository.</li>
+<li>The <a href="/docs/languages/c-sharp/">C# implementation</a> is found in the <a href="https://github.com/KillrVideo/killrvideo-csharp" target="_blank">killrvideo-csharp</a> repository.</li>
+<li>The <a href="/docs/languages/python/">Python implementation</a> is found in the <a href="https://github.com/KillrVideo/killrvideo-python" target="_blank">killrvideo-python</a> repository.</li>
 </ul>
-<p>Each of these implementations has dependencies on the following common repositories which are implemented as 
+<p>These repositories contain <code>Dockerfile</code> definitions to build Docker images for the various service 
+implementations for the KillrVideo application. These repos are linked to <a href="https://travis-ci.org/KillrVideo" target="_blank">Travis CI</a>, which builds the 
+Docker images and publishes them to <a href="https://hub.docker.com/" target="_blank">DockerHub</a>. </p>
+<p>Each of these implementations has dependencies on the following common repository which is implemented as a
 <a href="https://www.atlassian.com/blog/git/alternatives-to-git-submodule-git-subtree" target="_blank">Git subtree</a>:</p>
 <ul>
-<li>The <a href="https://github.com/KillrVideo/killrvideo-docker-common" target="_blank">killrvideo-docker-common</a> contains a Docker compose file that describes how to spin
-up common infrastructure elements required by the microservices tier, including DataStax Enterprise and [etcd][etcd].</li>
 <li>The <a href="https://github.com/KillrVideo/killrvideo-service-protos" target="_blank">killrvideo-service-protos</a> contains the <a href="http://www.grpc.io/" target="_blank">gRPC</a> service definitions. </li>
 </ul>
-<p>The <a href="https://github.com/KillrVideo/killrvideo-generator" target="_blank">killrvideo-generator</a> repository contains a test data generator which exercises
+<p>The <a href="https://github.com/KillrVideo/killrvideo-generator" target="_blank">killrvideo-generator</a> repository contains a test data <a href="/docs/development/generating-sample-data/">generator</a> which exercises
 the microservices to insert data into the KillrVideo database. This repository has the same dependencies as the 
 various microservice tier implementations. This would only require changes in cases where there are changes to the 
 <a href="https://github.com/KillrVideo/killrvideo-service-protos" target="_blank">killrvideo-service-protos</a>.</p>
@@ -86,13 +88,17 @@ which can be used with the KillrVideo application.</li>
 <p>The following repositories are used to build up infrastructure elements such as Docker images
 which are used in the deployed KillrVideo application. </p>
 <ul>
-<li><p>The <a href="https://github.com/KillrVideo/killrvideo-dse-docker" target="_blank">killrvideo-dse-docker</a> and <a href="https://github.com/KillrVideo/killrvideo-studio-docker" target="_blank">killrvideo-studio-docker</a>
-repositories contain scripts to build Docker images for DataStax Enterprise and DataStax Studio 
-specifically initialized for the KillrVideo application. These repos are linked to <a href="https://travis-ci.org/KillrVideo" target="_blank">Travis CI</a>, which builds the 
-Docker images and publishes them to <a href="https://hub.docker.com/" target="_blank">DockerHub</a>. </p>
+<li><p>The <a href="https://github.com/KillrVideo/killrvideo-all-in-one" target="_blank">killrvideo-all-in-one</a> repository provides the simplest possible configuration for 
+starting the KillrVideo application in Docker on your desktop.</p>
 </li>
-<li><p>The <a href="https://github.com/KillrVideo/killrvideo-dse-external" target="_blank">killrvideo-dse-external</a> repository provides Docker compose configuration for running 
-Killrvideo with an external cluster.</p>
+<li><p>The <a href="https://github.com/KillrVideo/killrvideo-docker-common" target="_blank">killrvideo-docker-common</a> repository provides composable set of Docker Compose 
+scripts for running KillrVideo in various configurations useful for development and testing, including adding
+[OpsCenter][opscenter], metrics collection, security, and swapping between the various microservice tier 
+implementations.</p>
+</li>
+<li><p>The <a href="https://github.com/KillrVideo/killrvideo-dse-config" target="_blank">killrvideo-dse-config</a> provides scripts for loading the schema defined in 
+<a href="https://github.com/KillrVideo/killrvideo-data" target="_blank">killrvideo-data</a> into a DataStax Enterprise node running in Docker, or a remote cluster, as
+described in <a href="/docs/development/setup-docker-environment/">Setting up the Docker Environment</a></p>
 </li>
 </ul>
 <h2 id="documentation-repositories">Documentation Repositories</h2>
@@ -182,7 +188,7 @@ Killrvideo with an external cluster.</p>
           
 
           <div class="panel-block">
-            <a href="/docs/guides/service-discovery/">Service Discovery with etcd</a>
+            <a href="/docs/guides/service-discovery/">Service Discovery</a>
 
             
             
@@ -259,7 +265,7 @@ Killrvideo with an external cluster.</p>
             <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> license.
           <p>
           <p>
-            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/352523e0d43c757d2f712c5bd1d37f6e92266ace" target="_blank">352523e</a></small>
+            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/19ff6888088d32e22e6045ba6433955802f561cc" target="_blank">19ff688</a></small>
           </p>
         </div>
       </div>

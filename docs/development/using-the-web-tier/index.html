@@ -56,38 +56,19 @@ remember that you added a service called <code>web</code> to the <code>docker-co
 created. Here&#39;s the relevant part of the file you created:</p>
 <pre><code class="hljs">  <span class="hljs-comment"># ... snipped other parts of file ...</span>
 
-  <span class="hljs-comment"># Start the KillrVideo web UI on port 3000</span>
+  <span class="hljs-comment"># Web interface</span>
 <span class="hljs-attr">  web:</span>
-<span class="hljs-attr">    image:</span> <span class="hljs-string">killrvideo/killrvideo-web:1.2.0</span>
+<span class="hljs-attr">    image:</span> <span class="hljs-string">killrvideo/killrvideo-web</span>
 <span class="hljs-attr">    ports:</span>
 <span class="hljs-bullet">    -</span> <span class="hljs-string">"3000:3000"</span>
 <span class="hljs-attr">    depends_on:</span>
-<span class="hljs-bullet">    -</span> <span class="hljs-string">dse</span>
-<span class="hljs-bullet">    -</span> <span class="hljs-string">etcd</span>
-<span class="hljs-attr">    environment:</span>
-<span class="hljs-attr">      SERVICE_3000_NAME:</span> <span class="hljs-string">web</span>
-<span class="hljs-attr">      KILLRVIDEO_ETCD:</span> <span class="hljs-string">"etcd:2379"</span></pre></code><p>That container contains the web server and front-end web UI that runs in a browser for 
+<span class="hljs-bullet">      -</span> <span class="hljs-string">backend</span></pre></code><p>That container contains the web server and front-end web UI that runs in a browser for 
 KillrVideo. If you&#39;re curious and want to take a look at that application&#39;s code, you can find
 it in the <a href="https://github.com/KillrVideo/killrvideo-web" target="_blank">killrvideo-web</a> project on GitHub.</p>
 <h2 id="accessing-the-web-ui">Accessing the Web UI</h2>
 <p>When you started up the Docker dependencies with Compose, you ran a command like this:</p>
-<pre><code>> docker-compose up -d</code></pre><p>By default, this started a web server listening on port <code>3000</code>. To access the web UI, you can
-use the IP address from the <code>KILLRVIDEO_DOCKER_IP</code> variable in your Docker <code>.env</code> file. 
-Because the web tier runs as a Docker container, <a href="https://github.com/gliderlabs/registrator" target="_blank">Registrator</a> also registered a
-service called <code>web</code> (based on the <code>SERVICE_3000_NAME</code> variable value) with etcd for service
-discovery.</p>
-<div class="message is-info">
-  <div class="message-header">
-    <span class="icon"><i class="fa fa-info-circle"></i></span> Service Discovery Tip
-  </div>
-  <div class="message-body">
-    Use the service discovery code that you wrote to lookup the <code>cassandra</code> service
-    earlier to also lookup the <code>web</code> service. Then log a message to the console when your
-    service implementations start with the URL to that service so users will know what IP
-    address to open in a browser for the UI. 
-  </div>
-</div>
-
+<pre><code>> docker-compose up -d</code></pre><p>By default, this started a web server listening on port <code>3000</code>. You can access the web UI at: 
+<code>http://localhost:3000</code>. </p>
 <h2 id="viewing-the-web-tier-logs">Viewing the Web Tier Logs</h2>
 <p>While you&#39;re doing development it can be helpful to see what&#39;s happening in the web tier as it
 makes calls to your backend services. You can use the command:</p>
@@ -217,19 +198,6 @@ those by using the web UI with the Chrome debugger open and running.</p>
           
           
           
-
-          <div class="panel-block">
-            <a href="/docs/development/register-with-etcd/">Registering Services with etcd</a>
-
-            
-            
-          </div>
-
-          
-
-          
-          
-          
             
           
 
@@ -284,7 +252,7 @@ those by using the web UI with the Chrome debugger open and running.</p>
             <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> license.
           <p>
           <p>
-            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/352523e0d43c757d2f712c5bd1d37f6e92266ace" target="_blank">352523e</a></small>
+            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/19ff6888088d32e22e6045ba6433955802f561cc" target="_blank">19ff688</a></small>
           </p>
         </div>
       </div>

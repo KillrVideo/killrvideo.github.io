@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-  <title>KillrVideo - Getting Started with C# (.NET)</title>
+  <title>KillrVideo - Getting Started with Python</title>
   <link href="/assets/css/bundle.css" rel="stylesheet">
   <link rel="icon" type="image/png" href="/assets/images/killrvideo-icon.png"/>
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -50,51 +50,65 @@
   <div class="container">
     <div class="columns">
       <article class="column is-8-tablet is-9-widescreen content">
-        <h1 id="getting-started-with-c-net-">Getting Started with C# (.NET)</h1>
-<p>The .NET version of KillrVideo is a reference application for .NET developers looking to
+        <h1 id="getting-started-with-python">Getting Started with Python</h1>
+<p>The Python version of KillrVideo is a reference application for Python developers looking to
 learn more about using <a href="http://cassandra.apache.org/" target="_blank">Apache Cassandra</a> and <a href="http://www.datastax.com/products/datastax-enterprise" target="_blank">DataStax Enterprise</a> in their
 applications and services. It contains sample code that uses:</p>
 <ul>
-<li>The <a href="https://github.com/datastax/csharp-driver" target="_blank">DataStax .NET Driver</a> for Cassandra</li>
+<li>The <a href="https://github.com/datastax/python-driver" target="_blank">DataStax Python Driver</a> for Cassandra</li>
 <li>Google&#39;s <a href="http://www.grpc.io/" target="_blank">gRPC</a></li>
 </ul>
-<p>These instructions assume you already have Visual Studio installed on your local machine.</p>
-<h2 id="cloning-and-running-locally">Cloning and Running Locally</h2>
-<p>Like all KillrVideo implementations, the .NET version uses <a href="https://www.docker.com/" target="_blank">Docker</a> to run all its
+<p>These instructions assume you already have <a href="https://www.python.org/downloads/" target="_blank">Python 3</a> installed, as well as an 
+IDE that supports debugging with source maps like <a href="https://www.jetbrains.com/pycharm/" target="_blank">PyCharm</a> or 
+<a href="https://www.jetbrains.com/idea/" target="_blank">IntelliJ IDEA</a> on your local machine.</p>
+<p>We recommend creating a virtual environment for this configuration, using the provided <code>requirements.txt</code> file.</p>
+<h2 id="cloning-and-setup">Cloning and Setup</h2>
+<p>Like all KillrVideo implementations, the Python version uses <a href="https://www.docker.com/" target="_blank">Docker</a> to run all its
 dependencies in your local development environment. If you haven&#39;t already, please read and
 follow the instructions in <a href="/getting-started/">Getting Started</a> to install Docker. Once you
 have Docker up and running, follow these steps:</p>
 <ol>
-<li>Clone the C# project&#39;s <a href="https://github.com/KillrVideo/killrvideo-csharp" target="_blank">GitHub repository</a>:<pre><code> > git clone https://github.com/KillrVideo/killrvideo-csharp.git</code></pre></li>
-<li><p>From inside the repository you just cloned, setup the Docker environment for the first
-time by running:</p>
-<pre><code> > .\setup-docker.bat</code></pre><p> This should create a <code>.env</code> file with some environment variables, as well as pull all the
- Docker images that the application needs to run.</p>
-<p> If you are on MAC you can generate the same file by doing :</p>
-<pre><code> > ./setup-docker.sh</code></pre></li>
-<li><p>Start the docker dependencies that you just pulled down via <code>docker-compose</code>:</p>
+<li><p>Clone the Python project&#39;s <a href="https://github.com/KillrVideo/killrvideo-python" target="_blank">GitHub repository</a>:</p>
+<pre><code> > git clone https://github.com/KillrVideo/killrvideo-python.git</code></pre></li>
+<li><p>From the root of the repository, create and activate a Python virtual environment to use with this project. This 
+will cause the Python libraries referenced in the <code>requirements.txt</code> to be installed:</p>
+<pre><code> > python3 -m venv venv
+ > source venv/bin/activate</code></pre></li>
+<li><p>To run the entire KillrVideo application including the Python services in Docker, use  <code>docker-compose</code>:</p>
 <pre><code> > docker-compose up -d</code></pre><p> This starts up things like a DataStax Enterprise node, the Web UI, etc. You can learn
  more about how we use Docker in our <a href="/docs/guides/docker/">Docker Guide</a> documentation.</p>
 </li>
-<li><p>Open the main solution (<strong><code>/src/KillrVideo.sln</code></strong>) in Visual Studio.</p>
+<li><p>To bring down the KillrVideo application, run:</p>
+<pre><code> > docker-compose down</code></pre></li>
+</ol>
+<h2 id="running-the-python-services-outside-of-docker">Running the Python services outside of Docker</h2>
+<p>The configuration above runs the Python services in Docker. If you&#39;d like to run the Python services
+outside of Docker, for example to do development and debugging work, an alternate configuration is available.</p>
+<ol>
+<li><p>To run the KillrVideo application minus the Python services in Docker, use the provided script:</p>
+<pre><code> > scripts/run-docker-backend-external.sh</code></pre></li>
+<li><p>To run the KillrVideo services in Python use the command:</p>
+<pre><code> > python killrvideo/__init__.py</code></pre></li>
+</ol>
+<h3 id="running-in-pycharm-or-intellij-idea">Running in PyCharm or IntelliJ IDEA</h3>
+<p>To debug in <a href="https://www.jetbrains.com/pycharm/" target="_blank">PyCharm</a> or <a href="https://www.jetbrains.com/idea/" target="_blank">IntelliJ IDEA</a>, you&#39;ll first need to create a Run/Debug configuration.</p>
+<ol>
+<li><p>Loading the application code as a project in the IDE.</p>
 </li>
-<li>Set the <strong>KillrVideo</strong> project as the Startup Project.<ul>
-<li>Right-click on the KillrVideo project node in Visual Studio&#39;s Solution Explorer window 
-and choose <strong>Set as Startup Project</strong> from the context menu.</li>
-</ul>
+<li><p>Select <code>File-&gt;Project Structure</code> from the menu and select the virtual environment created above as the 
+Project SDK.</p>
 </li>
-<li>Locate the (<strong><code>src/KillrVideo/Configuration/HostConfigurationFactory.cs</code></strong>) class within the project and edit the <code>ConfigEnvFilePath</code> to match tne <code>.env</code> file location.</li>
-<li>Press <strong><code>F5</code></strong> to build the solution and run with debugging.</li>
+<li><p>Find the KillrVideo module main file <code>killrvideo/__init__.py</code>, right click and select <code>Run</code> or <code>Debug</code> as
+desired.</p>
+</li>
 </ol>
 <h2 id="opening-the-web-ui">Opening the Web UI</h2>
-<p>When KillrVideo starts, you&#39;ll see a bunch of log output to the console telling you about the
-various things it&#39;s doing. You should see output that looks something like this:</p>
-<p><img src="/assets/images/csharp-startup.png" alt="Console Startup Output"></p>
-<p>One of the last lines in the log output will tell you where to open a web browser in order to
-see the web application. The web UI makes calls to the C# microservices running on your
-local machine in Visual Studio. Look under the <code>Services</code> folder in Visual Studio&#39;s Solution
-Explorer window to explore that code and add breakpoints. As you interact with the web UI,
-you&#39;ll trigger those breakpoints in the C# code.</p>
+<p>When the Python services start, you may see repeated attempts in the output to connect to DataStax Enterprise
+ (DSE). This behavior is expected, especially the first time you run the application and the database is being
+ initialized. The services should connect within a couple of minutes. Once the application has initialized you can
+ open the web application at <code>http://localhost:3000</code>.</p>
+<p>The services are exercised by your actions on the Web UI, as well as the KillrVideo Generator which runs as part
+of the default configuration.</p>
 <h2 id="using-datastax-studio">Using DataStax Studio</h2>
 <p>The <code>docker-compose</code> file that you ran above started an instance of <a href="https://www.datastax.com/products/datastax-studio-and-development-tools" target="_blank">DataStax Studio</a>, 
 an interactive tool for querying, exploring, analyzing, and visualizing both graph and tabular data. 
@@ -118,33 +132,11 @@ KillrVideo and how the Web Tier interacts with the microservices running on your
           
           
           
-            
-          
 
-          <div class="panel-block is-active">
+          <div class="panel-block">
             <a href="/docs/languages/c-sharp/">Getting Started with C# (.NET)</a>
 
             
-            
-            <ul class="headings-list links-list">
-            
-              <li>
-                <a href="/docs/languages/c-sharp/#cloning-and-running-locally">Cloning and Running Locally</a>
-              </li>
-            
-              <li>
-                <a href="/docs/languages/c-sharp/#opening-the-web-ui">Opening the Web UI</a>
-              </li>
-            
-              <li>
-                <a href="/docs/languages/c-sharp/#using-datastax-studio">Using DataStax Studio</a>
-              </li>
-            
-              <li>
-                <a href="/docs/languages/c-sharp/#learn-more">Learn More</a>
-              </li>
-            
-            </ul>
             
           </div>
 
@@ -179,11 +171,37 @@ KillrVideo and how the Web Tier interacts with the microservices running on your
           
           
           
+            
+          
 
-          <div class="panel-block">
+          <div class="panel-block is-active">
             <a href="/docs/languages/python/">Getting Started with Python</a>
 
             
+            
+            <ul class="headings-list links-list">
+            
+              <li>
+                <a href="/docs/languages/python/#cloning-and-setup">Cloning and Setup</a>
+              </li>
+            
+              <li>
+                <a href="/docs/languages/python/#running-the-python-services-outside-of-docker">Running the Python services outside of Docker</a>
+              </li>
+            
+              <li>
+                <a href="/docs/languages/python/#opening-the-web-ui">Opening the Web UI</a>
+              </li>
+            
+              <li>
+                <a href="/docs/languages/python/#using-datastax-studio">Using DataStax Studio</a>
+              </li>
+            
+              <li>
+                <a href="/docs/languages/python/#learn-more">Learn More</a>
+              </li>
+            
+            </ul>
             
           </div>
 
@@ -212,7 +230,7 @@ KillrVideo and how the Web Tier interacts with the microservices running on your
       </div>
       <div class="level-right">
         <div class="level-right">
-          <a class="button level-item" href="https://github.com/KillrVideo/killrvideo.github.io/tree/source/src/site/docs/languages/c-sharp/index.md" target="_blank">
+          <a class="button level-item" href="https://github.com/KillrVideo/killrvideo.github.io/tree/source/src/site/docs/languages/python/index.md" target="_blank">
             <i class="fa fa-github fa-fw"></i>Improve this page
           </a>
         </div>

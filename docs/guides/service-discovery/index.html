@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-  <title>KillrVideo - Service Discovery with etcd</title>
+  <title>KillrVideo - Service Discovery</title>
   <link href="/assets/css/bundle.css" rel="stylesheet">
   <link rel="icon" type="image/png" href="/assets/images/killrvideo-icon.png"/>
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -50,7 +50,7 @@
   <div class="container">
     <div class="columns">
       <article class="column is-8-tablet is-9-widescreen content">
-        <h1 id="service-discovery-with-etcd">Service Discovery with etcd</h1>
+        <h1 id="service-discovery">Service Discovery</h1>
 <p>One problem all microservices architectures face is how to do service discovery. How does
 the Video Catalog service know where to go to talk to Cassandra? How does the Web Tier know
 where to talk to the Video Catalog service? There are really two parts to the common way of 
@@ -60,39 +60,27 @@ solving this problem:</p>
 location of services.</li>
 <li>Service Discovery: We need some way to query the location of services.</li>
 </ol>
-<p>In KillrVideo, we decided to use <a href="https://github.com/coreos/etcd" target="_blank">etcd</a> as our service registry. At its most basic, 
-etcd is just a distributed, consistent, key-value store. The <a href="https://github.com/coreos/etcd/blob/master/Documentation/v2/README.md" target="_blank">v2 API</a> which we currently
-use to interact with etcd is just simple curlable HTTP API (funny enough, the 
-<a href="https://github.com/coreos/etcd/blob/master/Documentation/dev-guide/api_reference_v3.md" target="_blank">v3 API</a>
-for etcd is all based on Protocol Buffers and gRPC just like KillrVideo).</p>
-<p>As mentioned in the <a href="/docs/guides/docker/">previous section on Docker</a>, we use a program called 
-<a href="http://gliderlabs.com/registrator/latest/" target="_blank">Registrator</a> to take care of automatically registering our services running in
-containers with etcd. This means that our DataStax Enterprise node, for example, will
-automatically be registered with etcd whenever its container is started.</p>
-<h2 id="querying-etcd">Querying etcd</h2>
-<p>All KillrVideo data is stored under <code>/killrvideo</code> in etcd. This means that the base URL for
-queries to the v2 API in <a href="https://github.com/coreos/etcd" target="_blank">etcd</a> is:</p>
-<pre><code>http://${SOME_IP_ADDRESS}:2379/v2/keys/killrvideo
-</code></pre><p>For service registrations, we put that data under <code>/services/${SERVICE_NAME}</code>. So, for
-example, when trying to find the location of the <em>cassandra</em> service we&#39;d make a <code>GET</code> 
-request to:</p>
-<pre><code>http://${SOME_IP_ADDRESS}:2379/v2/keys/killrvideo/services/cassandra</code></pre><p>For more details on the response returned from this call, check out the <a href="https://github.com/coreos/etcd/blob/master/Documentation/v2/README.md" target="_blank">v2 API documentation</a>.</p>
-<h2 id="registering-services-in-etcd">Registering services in etcd</h2>
-<p>While <a href="http://gliderlabs.com/registrator/latest/" target="_blank">Registrator</a> takes care of registering the things running in containers
-for us, what about the microservice code running on a local developer machine? The Web Tier,
-for example, is going to need to know where to call the various microservices. For the
-microservice implementations, we leave service registration with <a href="https://github.com/coreos/etcd" target="_blank">etcd</a> up to each
-implementation&#39;s code. This isn&#39;t terribly complicated code though. Usually it just means
-that when the microservices start, they make a <code>PUT</code> request to the same URL we would use to
-lookup a service with the IP address they&#39;re listening on. For example, the Video Catalog 
-service would use:</p>
-<pre><code>http://${SOME_IP_ADDRESS}:2379/v2/keys/killrvideo/services/VideoCatalogService</code></pre><blockquote>
-<h4 id="note-on-grpc-service-naming-conventions">Note on gRPC Service Naming Conventions</h4>
-<p>All of the services defined in Protocol Buffers for use with gRPC use the service&#39;s &quot;short
-name&quot; when registering with etcd. The short name for a service is the same name used in
-<code>.proto</code> file and <strong>excludes the namespace</strong>.</p>
-</blockquote>
-<p>Again, for more details on the exact API request and response, see the <a href="https://github.com/coreos/etcd/blob/master/Documentation/v2/README.md" target="_blank">v2 API documentation</a>.</p>
+<p>In KillrVideo, we&#39;ve used a simplified approach for these functions, relying on two approaches.</p>
+<ol>
+<li><p>Since the components of KillrVideo are primarily deployed in Docker, the primary approach used is to
+use the service aliases defined in the <code>docker-compose</code> files: <code>dse</code> for DataStax Enterprise, <code>backend</code> for the
+microservice implementation, <code>generator</code> for the KillrVideo Data Generator, <code>web</code> for the KillrVideo Web Application,
+<code>kafka</code> for the Kafka broker, and so on.</p>
+</li>
+<li><p>In certain configurations, we may be running components outside of Docker, in which case the aliases are not 
+available. For example, we might be running the backend services in our IDE, or leveraging a database cluster
+running in DataStax Constellation. To account for these cases, we use the environment variables that, when set,
+should be used to override the aliases:</p>
+<ul>
+<li><code>KILLRVIDEO_DSE_CONTACT_POINTS</code> - comma separated list of hostnames or IP addresses that represent contact points 
+for the cluster. Default value is <code>dse</code>.</li>
+<li><code>KILLRVIDEO_KAFKA_BOOTSTRAP_SERVERS</code> - comma separated list of hostnames or IP addresses that represent bootstrap
+servers for the Kafka cluster. Default value is <code>kafka</code>.</li>
+<li><code>KILLRVIDEO_BACKEND</code> - hostnames or IP addresses that represent the location of the backend GRPC services 
+Default value is <code>backend</code>.</li>
+</ul>
+</li>
+</ol>
 <p>Next, let&#39;s take a look at how we can use DataStax Studio to examine and analyze the data
 in our KillrVideo instance.</p>
 <p><a href="/docs/guides/datastax-studio/">Next: Using DataStax Studio</a></p>
@@ -181,21 +169,9 @@ in our KillrVideo instance.</p>
           
 
           <div class="panel-block is-active">
-            <a href="/docs/guides/service-discovery/">Service Discovery with etcd</a>
+            <a href="/docs/guides/service-discovery/">Service Discovery</a>
 
             
-            
-            <ul class="headings-list links-list">
-            
-              <li>
-                <a href="/docs/guides/service-discovery/#querying-etcd">Querying etcd</a>
-              </li>
-            
-              <li>
-                <a href="/docs/guides/service-discovery/#registering-services-in-etcd">Registering services in etcd</a>
-              </li>
-            
-            </ul>
             
           </div>
 
@@ -244,7 +220,7 @@ in our KillrVideo instance.</p>
             <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> license.
           <p>
           <p>
-            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/352523e0d43c757d2f712c5bd1d37f6e92266ace" target="_blank">352523e</a></small>
+            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/19ff6888088d32e22e6045ba6433955802f561cc" target="_blank">19ff688</a></small>
           </p>
         </div>
       </div>

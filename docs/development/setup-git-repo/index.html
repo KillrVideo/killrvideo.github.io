@@ -59,9 +59,6 @@ are:</p>
 <li><a href="https://github.com/KillrVideo/killrvideo-service-protos" target="_blank">killrvideo-service-protos</a>: This is where the <a href="http://www.grpc.io/" target="_blank">gRPC</a> service 
 definitions that you&#39;ll be implementing are kept, defined in <code>.proto</code> files. You&#39;ll be using
 the Protobufs from here to generate code.</li>
-<li><a href="https://github.com/KillrVideo/killrvideo-docker-common" target="_blank">killrvideo-docker-common</a>: This is where common Docker setup scripts live,
-including a Docker Compose <code>.yaml</code> file for the base infrastructure dependencies needed to
-run KillrVideo.</li>
 </ul>
 <h2 id="using-git-subtrees-for-dependencies">Using Git Subtrees for Dependencies</h2>
 <p>In other microservice implementations, we&#39;ve decided to use <code>git subtree</code> to pull in these
@@ -69,10 +66,7 @@ dependencies rather than submodules. Here&#39;s a <a href="http://blogs.atlassia
 you&#39;re not familiar. Here&#39;s an example of the commands to add those subtrees to your 
 repository under the <code>/lib</code> folder:</p>
 <pre><code class="hljs"><span class="hljs-comment"># Add killrvideo-service-protos under lib/killrvideo-service-protos</span>
-git subtree add --prefix lib/killrvideo-service-protos git@github.com:KillrVideo/killrvideo-service-protos.git master --squash
-
-<span class="hljs-comment"># Add killrvideo-docker-common under lib/killrvideo-docker-common</span>
-git subtree add --prefix lib/killrvideo-docker-common git@github.com:KillrVideo/killrvideo-docker-common.git master --squash</pre></code><p>Later if you need to update those dependencies you can just use the same commands as above,
+git subtree add --prefix lib/killrvideo-service-protos git@github.com:KillrVideo/killrvideo-service-protos.git master --squash</pre></code><p>Later if you need to update those dependencies you can just use the same commands as above,
 only doing a <code>git subtree pull</code> instead of <code>git subtree add</code>.</p>
 <div class="message is-info">
   <div class="message-header">
@@ -216,19 +210,6 @@ only doing a <code>git subtree pull</code> instead of <code>git subtree add</cod
           
 
           <div class="panel-block">
-            <a href="/docs/development/register-with-etcd/">Registering Services with etcd</a>
-
-            
-            
-          </div>
-
-          
-
-          
-          
-          
-
-          <div class="panel-block">
             <a href="/docs/development/using-the-web-tier/">Using the Web Tier</a>
 
             
@@ -267,7 +248,7 @@ only doing a <code>git subtree pull</code> instead of <code>git subtree add</cod
             <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> license.
           <p>
           <p>
-            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/352523e0d43c757d2f712c5bd1d37f6e92266ace" target="_blank">352523e</a></small>
+            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/19ff6888088d32e22e6045ba6433955802f561cc" target="_blank">19ff688</a></small>
           </p>
         </div>
       </div>

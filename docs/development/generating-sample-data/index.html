@@ -60,14 +60,11 @@ services to add sample data to the application already built. Back when you
 
   <span class="hljs-comment"># The sample data generator</span>
 <span class="hljs-attr">  generator:</span>
-<span class="hljs-attr">    image:</span> <span class="hljs-string">killrvideo/killrvideo-generator:1.2.1</span>
+<span class="hljs-attr">    image:</span> <span class="hljs-string">killrvideo/killrvideo-generator:3.0.1</span>
 <span class="hljs-attr">    depends_on:</span>
-<span class="hljs-bullet">    -</span> <span class="hljs-string">dse</span>
-<span class="hljs-bullet">    -</span> <span class="hljs-string">etcd</span>
-<span class="hljs-attr">    environment:</span>
-<span class="hljs-attr">      KILLRVIDEO_ETCD:</span> <span class="hljs-string">"etcd:2379"</span></pre></code><p>This creates and starts an instance of the <a href="https://github.com/KillrVideo/killrvideo-generator" target="_blank">KillrVideo Sample Data Generator</a>
-application in Docker. This application listens for your services to become available and when
-they do, it calls your services to add sample users, videos, comments, and more to the site.</p>
+<span class="hljs-bullet">    -</span> <span class="hljs-string">backend</span></pre></code><p>This creates and starts an instance of the <a href="https://github.com/KillrVideo/killrvideo-generator" target="_blank">KillrVideo Sample Data Generator</a>
+application in Docker. This application listens for your services to become available (as <code>backend</code>)
+and when they do, it calls your services to add sample users, videos, comments, and more to the site.</p>
 <h2 id="starting-and-stopping-the-generator">Starting and Stopping the Generator</h2>
 <p>The generator will try to listen for the gRPC services to become available and when they do,
 to start running jobs that insert sample data on a regular schedule. Sometimes when you&#39;re 
@@ -204,19 +201,6 @@ services.</p>
           
 
           <div class="panel-block">
-            <a href="/docs/development/register-with-etcd/">Registering Services with etcd</a>
-
-            
-            
-          </div>
-
-          
-
-          
-          
-          
-
-          <div class="panel-block">
             <a href="/docs/development/using-the-web-tier/">Using the Web Tier</a>
 
             
@@ -269,7 +253,7 @@ services.</p>
             <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> license.
           <p>
           <p>
-            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/352523e0d43c757d2f712c5bd1d37f6e92266ace" target="_blank">352523e</a></small>
+            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/19ff6888088d32e22e6045ba6433955802f561cc" target="_blank">19ff688</a></small>
           </p>
         </div>
       </div>

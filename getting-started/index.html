@@ -51,38 +51,45 @@
       <h1 id="getting-started-with-killrvideo">Getting Started with KillrVideo</h1>
 <p>So you&#39;re ready to dig into some reference application code? Great! Here&#39;s how to get started
 exploring KillrVideo.</p>
-<h2 id="1-install-docker">1. Install Docker</h2>
+<h2 id="install-docker">Install Docker</h2>
 <p>KillrVideo uses <a href="https://www.docker.com/" target="_blank">Docker</a> to run all the infrastructure you&#39;ll need in your local
 development environment. (If you want to learn more about how KillrVideo uses Docker, check
 out the <a href="/docs/guides/docker/">Docker Guide</a> in our documentation.) If you don&#39;t already have Docker
 installed, you&#39;ll need to do so. You can download and install the appropriate tools here:</p>
 <ul>
-<li><a href="https://www.docker.com/products/docker" target="_blank">Docker for Windows or Mac</a></li>
+<li><a href="https://hub.docker.com/?overlay=onboarding" target="_blank">Docker for Windows or Mac</a></li>
 </ul>
-<blockquote>
-<h4 id="note-on-docker">Note on Docker</h4>
-<p>The native Docker tools for Windows and Mac are currently pretty new and are constantly
-evolving. We&#39;ve seen issues (particularly around networking in the Mac version) crop up 
-when trying to run KillrVideo with those tools. If you encounter issues, please open an
-issue on GitHub so we can try and solve the problem for everyone.</p>
-</blockquote>
 <p>Once you&#39;ve got Docker for Windows or Mac installed, it&#39;s also really helpful to increase
 the amount of RAM allocated to the Docker VM that&#39;s running. We recommend allocating <strong>at
 least 3 GB</strong> of RAM since DataStax Enterprise and Cassandra are memory-intensive apps:</p>
 <ul>
-<li>Changing <a href="https://docs.docker.com/docker-for-mac/#/preferences" target="_blank">Docker for Mac Preferences</a></li>
-<li>Changing <a href="https://docs.docker.com/docker-for-windows/#/advanced" target="_blank">Docker for Windows Preferences</a></li>
+<li>Changing <a href="https://docs.docker.com/docker-for-mac/" target="_blank">Docker for Mac Preferences</a></li>
+<li>Changing <a href="https://docs.docker.com/docker-for-windows/" target="_blank">Docker for Windows Preferences</a></li>
 </ul>
-<h2 id="2-choose-your-programming-language">2. Choose your Programming Language</h2>
-<p>The KillrVideo reference application is available in multiple programming languages. Use the 
-links below to get started with the language you&#39;re most comfortable with.</p>
+<h2 id="run-the-application">Run the Application</h2>
+<p>The simplest way to run the KillrVideo Application is to run the 
+<a href="https://github.com/KillrVideo/killrvideo-all-in-one" target="_blank">KillrVideo All-in-one</a> Docker configuration:</p>
+<pre><code>git clone https://github.com/KillrVideo/killrvideo-all-in-one.git killrvideo-all-in-one
+cd killrvideo-all-in-one
+docker-compose up -d</code></pre><p>This configuration uses <code>docker-compose</code> to start KillrVideo, including the web 
+application, Java microservice implementations, DataStax Enterprise, and other supporting
+infrastructure. As the application initializes, you&#39;ll be able to view the web interface at
+<code>http://localhost:3000/</code>.</p>
+<p>Why not take the Tour? This will give you a quick overview of the functionality of the application
+as well as some of the details of how it uses Apache Cassandra and DataStax Enterprise.</p>
+<p>You can also view a live version of the application at <code>http://killrvideo.com</code>. </p>
+<h2 id="choose-a-programming-language-to-dive-deeper">Choose a Programming Language to Dive Deeper</h2>
+<p>Of course you want to look at some source code to see how this is all put together, and especially
+the details of how we implement the database interactions!</p>
+<p>The KillrVideo reference application provides service implementations in multiple programming 
+languages. Use the links below to get started with the language you&#39;re most comfortable with.</p>
 <ul>
-<li><strong><a href="/docs/languages/c-sharp/">C# (.NET)</a></strong>: A C# implementation you can explore from Visual Studio. </li>
-<li><strong><a href="/docs/languages/nodejs/">Node.js</a></strong>: A JavaScript implementation running on Node.js.</li>
 <li><strong><a href="/docs/languages/java/">Java</a></strong>: A Java implementation you can run via Spring boot
-for accessing data in DataStax Enterprise. Coming soon.</li>
+for accessing data in DataStax Enterprise.</li>
+<li><strong><a href="/docs/languages/nodejs/">Node.js</a></strong>: A JavaScript implementation running on Node.js.</li>
+<li><strong><a href="/docs/languages/c-sharp/">C# (.NET)</a></strong>: A C# implementation you can explore from Visual Studio. </li>
+<li><strong><a href="/docs/languages/python/">Python</a></strong>: A Python implementation - the simplest version!</li>
 </ul>
-<p>Check back as we&#39;ll be adding more programming languages soon.</p>
 <h2 id="next-steps">Next Steps</h2>
 <p>DataStax Enterprise and Cassandra are easy to get started with, but it would be impossible to
 show you everything you need to know inside a single reference application like KillrVideo.
@@ -103,7 +110,7 @@ self-paced online courses on Cassandra&#39;s architecture, data modeling, and mo
             <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> license.
           <p>
           <p>
-            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/352523e0d43c757d2f712c5bd1d37f6e92266ace" target="_blank">352523e</a></small>
+            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/19ff6888088d32e22e6045ba6433955802f561cc" target="_blank">19ff688</a></small>
           </p>
         </div>
       </div>

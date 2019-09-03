@@ -52,93 +52,41 @@
       <article class="column is-8-tablet is-9-widescreen content">
         <h1 id="setting-up-the-docker-environment">Setting up the Docker Environment</h1>
 <p>KillrVideo uses Docker for running all our dependencies on other projects and infrastructure.
-The <a href="https://github.com/KillrVideo/killrvideo-docker-common" target="_blank">killrvideo-docker-common</a> project that you added as a Git Subtree in the
-<a href="/docs/development/setup-git-repo/">previous step</a> contains some of the common setup that you&#39;ll need. Remember that
-you&#39;re not only going to be setting up Docker for yourself here, but you&#39;re also setting up
-a process for KillrVideo users who want to try your microservices code.</p>
-<p>We&#39;ve chosen to use the <a href="https://docs.docker.com/compose/overview/" target="_blank">Docker Compose</a> for defining and spinning up our
+We&#39;ve chosen to use the <a href="https://docs.docker.com/compose/overview/" target="_blank">Docker Compose</a> for defining and spinning up our
 dependencies. This tool is nice because it allows us to define all our infrastructure in a
 <code>.yaml</code> file and then it takes care of pulling the required images and spinning up the
 instances. If you haven&#39;t yet, you can get a high level overview of how we use Docker in our
 <a href="/docs/guides/docker/">Docker guide</a> documentation.</p>
-<h2 id="generate-the-environment-file">Generate the Environment File</h2>
-<p>The first thing you need to do is create a Docker Compose <a href="https://docs.docker.com/compose/env-file/" target="_blank">Environment file</a> at the
-root of your project. This file, named <code>.env</code>, simply contains key-value pairs of environment
-variables with information about your local Docker setup that KillrVideo needs in order to 
-run. The <a href="https://github.com/KillrVideo/killrvideo-docker-common" target="_blank">killrvideo-docker-common</a> project contains shell scripts that can
-generate the bulk of this file for you.</p>
-<p>So for example in Windows, I can use a Powershell command prompt to run:</p>
-<pre><code>PS> .\lib\killrvideo-docker-common\create-environment.ps1</code></pre><p>Or on a Mac/Linux, I can run:</p>
-<pre><code>> ./lib/killrvideo-docker-common/create-environment.sh</code></pre><p>You should end up with a file that looks something like this:</p>
-<pre><code class="hljs">COMPOSE_PROJECT_NAME=killrvideo
-COMPOSE_FILE=.\lib\killrvideo-docker-common\docker-compose.yaml;.\docker-compose.yaml
-KILLRVIDEO_DOCKER_TOOLBOX=<span class="hljs-literal">false</span>
-KILLRVIDEO_HOST_IP=10.0.75.1
-KILLRVIDEO_DOCKER_IP=10.0.75.1</pre></code><p>You should make sure that the <code>.env</code> file is added to the <code>.gitignore</code> for the repo since 
-its contents will vary from system to system depending on that user&#39;s Docker setup. The IP
-addresses contained in the file are the ones we&#39;ll use to communicate between the components
-running in Docker (i.e. DataStax Enterprise, the Web UI, etc.) and the ones running on a
-local development machine (i.e. the microservices code you&#39;re writing).</p>
-<h2 id="creating-the-docker-compose-yaml">Creating the Docker Compose YAML</h2>
-<p>You&#39;ll notice that the <code>.env</code> file that you generated has a key called <code>COMPOSE_FILE</code> and
-that it points to two <code>docker-compose.yaml</code> files. These YAML files are where we define the
-services we want Docker to run for us. One of those files is included in the <a href="https://github.com/KillrVideo/killrvideo-docker-common" target="_blank">killrvideo-docker-common</a>
-project and it contains all the basic services that KillrVideo projects need. If you open it,
-you&#39;ll see it contains definitions for spinning up:</p>
-<ul>
-<li><strong>DataStax Enterprise</strong>: The microservices you&#39;re writing will interact with this node to store
-data and provide the functionality of the site. Our DSE image also bootstraps the schema and
-DSE search config needed by your microservices.</li>
-<li><strong><a href="https://github.com/coreos/etcd" target="_blank">etcd</a></strong>: This key-value store is used as our service registry (i.e. so that the
-various applications and services know what IP addresses to use to talk to other services)</li>
-<li><strong><a href="https://github.com/gliderlabs/registrator" target="_blank">Registrator</a></strong>: An application that listens to the internal Docker API for
-containers starting and stopping, and registers them with our service registry (i.e. etcd).</li>
-</ul>
-<p>The second <code>docker-compose.yaml</code> file you will create in the root of your project (right next
-to the <code>.env</code> file that you generated). This file will contain some additional dependencies
-that your microservices implementation will need, including the <a href="https://github.com/KillrVideo/killrvideo-web" target="_blank">KillrVideo Web UI</a>
-and the <a href="https://github.com/KillrVideo/killrvideo-generator" target="_blank">KillrVideo Sample Data Generator</a> application.</p>
-<p>Typically, that file will look something like this:</p>
-<pre><code class="hljs"><span class="hljs-attr">version:</span> <span class="hljs-string">'3'</span>
-
-<span class="hljs-comment"># Other services are specified in .\lib\killrvideo-docker-common\docker-compose.yaml</span>
-<span class="hljs-attr">services:</span>
-  <span class="hljs-comment"># Start the KillrVideo web UI on port 3000</span>
-<span class="hljs-attr">  web:</span>
-<span class="hljs-attr">    image:</span> <span class="hljs-string">killrvideo/killrvideo-web:1.2.7</span>
-<span class="hljs-attr">    ports:</span>
-<span class="hljs-bullet">    -</span> <span class="hljs-string">"3000:3000"</span>
-<span class="hljs-attr">    depends_on:</span>
-<span class="hljs-bullet">    -</span> <span class="hljs-string">dse</span>
-<span class="hljs-bullet">    -</span> <span class="hljs-string">etcd</span>
-<span class="hljs-attr">    environment:</span>
-<span class="hljs-attr">      SERVICE_3000_NAME:</span> <span class="hljs-string">web</span>
-<span class="hljs-attr">      KILLRVIDEO_ETCD:</span> <span class="hljs-string">"etcd:2379"</span>
-<span class="hljs-attr">      KILLRVIDEO_DSE_USERNAME:</span> <span class="hljs-string">$KILLRVIDEO_DSE_USERNAME</span>
-<span class="hljs-attr">      KILLRVIDEO_DSE_PASSWORD:</span> <span class="hljs-string">$KILLRVIDEO_DSE_PASSWORD</span>
-<span class="hljs-attr">      KILLRVIDEO_CASSANDRA_REPLICATION:</span> <span class="hljs-string">$KILLRVIDEO_CASSANDRA_REPLICATION</span>
-<span class="hljs-attr">      KILLRVIDEO_LOGGING_LEVEL:</span> <span class="hljs-string">$KILLRVIDEO_LOGGING_LEVEL</span>
-
-  <span class="hljs-comment"># The sample data generator</span>
-<span class="hljs-attr">  generator:</span>
-<span class="hljs-attr">    image:</span> <span class="hljs-string">killrvideo/killrvideo-generator:1.2.5</span>
-<span class="hljs-attr">    depends_on:</span>
-<span class="hljs-bullet">    -</span> <span class="hljs-string">dse</span>
-<span class="hljs-bullet">    -</span> <span class="hljs-string">etcd</span>
-<span class="hljs-attr">    environment:</span>
-<span class="hljs-attr">      KILLRVIDEO_ETCD:</span> <span class="hljs-string">"etcd:2379"</span>
-<span class="hljs-attr">      KILLRVIDEO_DSE_USERNAME:</span> <span class="hljs-string">$KILLRVIDEO_DSE_USERNAME</span>
-<span class="hljs-attr">      KILLRVIDEO_DSE_PASSWORD:</span> <span class="hljs-string">$KILLRVIDEO_DSE_PASSWORD</span>
-<span class="hljs-attr">      NODE_ENV:</span> <span class="hljs-string">$NODE_ENV</span>
-<span class="hljs-attr">      KILLRVIDEO_CASSANDRA_REPLICATION:</span> <span class="hljs-string">$KILLRVIDEO_CASSANDRA_REPLICATION</span>
-<span class="hljs-attr">      KILLRVIDEO_LOGGING_LEVEL:</span> <span class="hljs-string">$KILLRVIDEO_LOGGING_LEVEL</span></pre></code><p>The tags (i.e. version numbers) you use for the images may be different as newer versions of 
-those applications are developed and released to the <a href="https://hub.docker.com/u/killrvideo/" target="_blank">KillrVideo Docker Hub</a>.
-This file should be checked-in to Git since developers who are trying out your code will want
-to run those same dependencies.</p>
+<p>To create the Docker Compose configuration for a new service implementation, the simplest approach
+is to copy the <code>docker-compose.yaml</code> file from one of the other service implementations as a 
+starting point. You may also want to reference the <a href="https://github.com/KillrVideo/killrvideo-docker-common" target="_blank">killrvideo-docker-common</a> 
+project to make sure that your configuration is up to date in terms of the required components
+and versions. At a minimum you will need to start a DSE node and the web application.</p>
+<p>The <code>docker-compose.yaml</code> you create  should be checked-in to Git. Remember that you&#39;re not 
+only going to be setting up Docker for yourself here, but you&#39;re also setting up a process for 
+KillrVideo users who want to try your microservices code. Developers who are trying out your 
+code will want to run those same dependencies.</p>
+<h2 id="building-a-docker-container">Building a Docker Container</h2>
+<p>It will be helpful to package your services in a Docker image in order to run them as part of 
+the KillrVideo application and specify the implementation as the <code>backend</code> service in your
+<code>docker-compose.yaml</code> file.</p>
+<p>To do this you will need to provide a <code>Dockerfile</code> that describes the instructions for building
+your image. You&#39;ll want to start with a base image that is appropriate for the language that 
+your services are implemented in. See these <a href="https://docs.docker.com/develop/develop-images/dockerfile_best-practices/" target="_blank">Dockerfile best practices</a>
+for more information.</p>
+<p>In order to build your image using the dockerfile, you&#39;ll use a command such as this:</p>
+<pre><code>> docker build -t <organization>/<repo>:<version></code></pre><p>Where <code>organization</code> is your organization (i.e. &quot;killrvideo&quot;), <code>repo</code> is the name of the implementation
+(i.e. &quot;killrvideo-java&quot;, and <code>version</code> is the version number you wish to apply to the image.
+<a href="https://semver.org" target="_blank">Semantic versioning</a> is recommended, i.e. &quot;3.0.1&quot;, &quot;3.0.1-rc1&quot;, etc. We recommend using Git
+tags to convey the version number as part of pull request rather than hardcoding the version in files.</p>
+<p>It&#39;s also helpful to release the images you build to the <a href="https://hub.docker.com/u/killrvideo/" target="_blank">KillrVideo Docker Hub</a>.
+The service implementations provided under the KillrVideo project use <a href="https://travis-ci.org/" target="_blank">Travis CI</a>
+to perform automated builds of Docker images and push these images to Docker Hub. To emulate this,
+it will be helpful to look at the <code>.travis.yml</code> file from one of the other service implementations.</p>
 <h2 id="running-with-docker-compose">Running with Docker Compose</h2>
-<p>Once you have the <code>.env</code> and the <code>docker-compose.yaml</code> files in place, you can now use the
-<code>docker-compose</code> command line tool to manage those dependencies. For example, to start all of
-them up, do:</p>
+<p>Once you have the <code>docker-compose.yaml</code> file in place and have built an image using <code>docker build</code>,
+you can now use the <code>docker-compose</code> command line tool to run your application. For example, 
+to start all of them up, do:</p>
 <pre><code>> docker-compose up -d</code></pre><p>The <code>-d</code> switch just tells Docker Compose to run the containers in the background. While the
 containers are running, you can see their log output by doing:</p>
 <pre><code>> docker-compose logs SERVICE_KEY</code></pre><p>Where the <code>SERVICE_KEY</code> is the name of the service node from the <code>docker-compose.yaml</code>
@@ -154,12 +102,9 @@ that &quot;easy path&quot; may be different depending on the programming languag
 implementation for, we won&#39;t tell you specifically what that should look like. It could be,
 for example, some orchestration that happens as part of your project&#39;s initial build. Or it
 could be a separate script that a developer is told to run in your project&#39;s documentation.</p>
-<p>For example, in the <a href="https://github.com/KillrVideo/killrvideo-java" target="_blank">Java Implementation</a> we&#39;ve included a <code>setup-docker.sh</code>
-file in the root of the project that runs the <a href="https://github.com/KillrVideo/killrvideo-docker-common" target="_blank">killrvideo-docker-common</a>
-script to create the <code>.env</code> file for the user and then runs a <code>docker-compose pull</code>
-to download all the Docker images. In the <a href="/docs/languages/java/">Getting Started</a> docs, we
-tell the user to run that <code>.bat</code> file, followed by running <code>docker-compose up -d</code> to start
-the environment before running the Java code. </p>
+<p>For example, the <a href="https://github.com/KillrVideo/killrvideo-nodejs" target="_blank">Node.js implementation</a> and <a href="https://github.com/KillrVideo/killrvideo-python" target="_blank">Python implementation</a>
+each include files listing dependencies - the required libraries which need to be downloaded
+in order to run the services in each language.</p>
 
       </article>
       <div class="column is-4-tablet is-3-widescreen">
@@ -213,11 +158,7 @@ the environment before running the Java code. </p>
             <ul class="headings-list links-list">
             
               <li>
-                <a href="/docs/development/setup-docker-environment/#generate-the-environment-file">Generate the Environment File</a>
-              </li>
-            
-              <li>
-                <a href="/docs/development/setup-docker-environment/#creating-the-docker-compose-yaml">Creating the Docker Compose YAML</a>
+                <a href="/docs/development/setup-docker-environment/#building-a-docker-container">Building a Docker Container</a>
               </li>
             
               <li>
@@ -304,19 +245,6 @@ the environment before running the Java code. </p>
           
 
           <div class="panel-block">
-            <a href="/docs/development/register-with-etcd/">Registering Services with etcd</a>
-
-            
-            
-          </div>
-
-          
-
-          
-          
-          
-
-          <div class="panel-block">
             <a href="/docs/development/using-the-web-tier/">Using the Web Tier</a>
 
             
@@ -355,7 +283,7 @@ the environment before running the Java code. </p>
             <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> license.
           <p>
           <p>
-            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/352523e0d43c757d2f712c5bd1d37f6e92266ace" target="_blank">352523e</a></small>
+            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/19ff6888088d32e22e6045ba6433955802f561cc" target="_blank">19ff688</a></small>
           </p>
         </div>
       </div>

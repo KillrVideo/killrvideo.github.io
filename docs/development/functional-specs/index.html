@@ -56,7 +56,6 @@ and JavaScript. The syntax of the operations supported by the services are defin
 However, the GRPC contracts don&#39;t specify the behavior supported by each operation.</p>
 <p>To facilitate the creation of implementations in additional languages, we provide here the functional
 specifications for each service.</p>
-<p><em>Note: This page is a work in progress.</em></p>
 <h2 id="comment-service">Comment Service</h2>
 <h3 id="commentonvideo-operation">CommentOnVideo Operation</h3>
 <p>This operation allows a user to comment on a video</p>
@@ -257,7 +256,46 @@ expressions to isolate complete words as candidate terms, and try to eliminate s
 <li><code>views</code> - number of times the video has been viewed</li>
 </ul>
 <h2 id="suggested-videos-service">Suggested Videos Service</h2>
-<p>TODO</p>
+<p><em>Note: Implementations of service frequently subscribe to events published by other services in order to 
+ maintain awareness of the relationships between users, videos, ratings, and so on.</em></p>
+<h3 id="getrelatedvideos-operation">GetRelatedVideos operation</h3>
+<p>This operation returns a list of videos that are recommended based on a given video </p>
+<h4 id="inputs">Inputs</h4>
+<ul>
+<li><code>video_id</code> - unique identifier for the video (required)</li>
+<li><code>page_size</code> - max number of videos to be returned in a single response (optional)</li>
+<li><code>paging_state</code> - paging state returned from the previous request (optional)</li>
+</ul>
+<h4 id="behavior">Behavior</h4>
+<ol>
+<li>Validate input</li>
+<li>Generate recommended videos based on the provided video.<ul>
+<li>Consider how to identify videos that are related to the provided video, for example videos that have 
+similar tags or user ratings.</li>
+</ul>
+</li>
+</ol>
+<h4 id="output">Output</h4>
+<p>This method returns a list of recommended videos.</p>
+<h3 id="getsuggestedforuser-operation">GetSuggestedForUser operation</h3>
+<p>This operation returns a list of videos that are recommended for a given user</p>
+<h4 id="inputs">Inputs</h4>
+<ul>
+<li><code>user_id</code> - unique identifier for the user (required)</li>
+<li><code>page_size</code> - max number of videos to be returned in a single response (optional)</li>
+<li><code>paging_state</code> - paging state returned from the previous request (optional)</li>
+</ul>
+<h4 id="behavior">Behavior</h4>
+<ol>
+<li>Generate recommended videos based on the provided user.<ul>
+<li>Consider how to identify videos that were highly rated by similar users, where similarity might be measured
+in terms of viewing habits and preferences.</li>
+</ul>
+</li>
+</ol>
+<h4 id="output">Output</h4>
+<p>This method returns a <code>response</code> object containing the original <code>user_id</code> as well as an object for each video 
+and an optional <code>paging_state</code>: </p>
 <h2 id="user-management-service">User Management Service</h2>
 <p>This service supports adding user profiles, verifying user credentials against a profile, and retrieving
 one or more profiles.</p>
@@ -609,19 +647,6 @@ from the YouTube video ID according to the pattern: <code>//img.youtube.com/vi/&
           
 
           <div class="panel-block">
-            <a href="/docs/development/register-with-etcd/">Registering Services with etcd</a>
-
-            
-            
-          </div>
-
-          
-
-          
-          
-          
-
-          <div class="panel-block">
             <a href="/docs/development/using-the-web-tier/">Using the Web Tier</a>
 
             
@@ -660,7 +685,7 @@ from the YouTube video ID according to the pattern: <code>//img.youtube.com/vi/&
             <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> license.
           <p>
           <p>
-            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/352523e0d43c757d2f712c5bd1d37f6e92266ace" target="_blank">352523e</a></small>
+            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/19ff6888088d32e22e6045ba6433955802f561cc" target="_blank">19ff688</a></small>
           </p>
         </div>
       </div>

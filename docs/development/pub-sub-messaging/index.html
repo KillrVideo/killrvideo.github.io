@@ -66,16 +66,16 @@ implementation available (for example, in Java we have the <a href="https://gith
 available). If you don&#39;t have an in-memory implementation available, it&#39;s usually pretty 
 straightforward to create a simple one of your own.</p>
 <p>Another option is to use a real piece of messaging infrastructure like Kafka or RabbitMQ.
-Since KillrVideo uses Docker Compose for spinning up all the dependencies needed by a user in
+Kafka is currently used by the <a href="/docs/languages/python/">Python implementation</a> and as an option for the 
+<a href="/docs/languages/java/">Java implementation</a>.</p>
+<p>Since KillrVideo uses Docker Compose for spinning up all the dependencies needed by a user in
 their development environment, it&#39;s possible to piggyback on that and spin up a container
 using messaging infrastructure of your choice. You would go about doing this by adding it to
-the <code>docker-compose.yaml</code> file as another service.</p>
-<p>While we don&#39;t want to give a hard rule on how to accomplish pub-sub messaging, it&#39;s 
-<strong>strongly recommended</strong> that you go down the easy route of doing things in-memory. Try and
-hide the implementation details from your consumer code and provide a generic API for 
-publishing and subscribing to events. That way you could switch the implementation out (or
-provide multiple available implementations as further examples) for real messaging 
-infrastructure.</p>
+the <code>docker-compose.yaml</code> file as another service. </p>
+<p>We recommend you hide the implementation details from your consumer code as much as possible
+and provide a generic API for publishing and subscribing to events. That way you could switch 
+the implementation out (or provide multiple available implementations as further examples) 
+for real messaging infrastructure.</p>
 <h2 id="what-services-should-subscribe-to-what-events-">What services should subscribe to what events?</h2>
 <p>As mentioned in the section on <a href="/docs/development/implement-services/">Implementing Services</a>, you should be 
 using the other programming language implementations as a reference. They will always contain
@@ -244,19 +244,6 @@ the other language implementations for what events to publish and when to publis
           
 
           <div class="panel-block">
-            <a href="/docs/development/register-with-etcd/">Registering Services with etcd</a>
-
-            
-            
-          </div>
-
-          
-
-          
-          
-          
-
-          <div class="panel-block">
             <a href="/docs/development/using-the-web-tier/">Using the Web Tier</a>
 
             
@@ -295,7 +282,7 @@ the other language implementations for what events to publish and when to publis
             <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> license.
           <p>
           <p>
-            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/352523e0d43c757d2f712c5bd1d37f6e92266ace" target="_blank">352523e</a></small>
+            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/19ff6888088d32e22e6045ba6433955802f561cc" target="_blank">19ff688</a></small>
           </p>
         </div>
       </div>

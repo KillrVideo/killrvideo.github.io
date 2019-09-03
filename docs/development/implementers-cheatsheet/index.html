@@ -65,13 +65,12 @@ the common KillrVideo project dependencies as Git subtrees.</li>
 infrastructure and projects it needs (for example, one node of DSE) using Docker Compose.</li>
 <li><a href="/docs/development/generate-service-code/">Generate Service Code</a>: Use the <code>.proto</code> files to generate client and server code
 stubs with the gRPC plugin for the Protobuf compiler.</li>
-<li><a href="/docs/development/connecting-to-datastax-enterprise/">Connect to DataStax Enterprise</a>: Use etcd service discovery to find the DSE node&#39;s
-address and connect to it.</li>
+<li><a href="/docs/development/connecting-to-datastax-enterprise/">Connect to DataStax Enterprise</a>: Use the <code>KILLRVIDEO_DSE_CONTACT_POINTS</code> environment variable
+to locate the address of one or more DSE nodes in the cluster and connect to it. In the default Docker 
+configuration provided, the single node will be resolvable as <code>dse</code>.</li>
 <li><a href="/docs/development/implement-services/">Implement the Services</a>: Write the interesting code that implements the services.</li>
 <li><a href="/docs/development/pub-sub-messaging/">Add Pub-Sub-Messaging</a>: We use events for service collaboration in KillrVideo so you&#39;re
 going to need to implement some pub-sub messaging.</li>
-<li><a href="/docs/development/register-with-etcd/">Register Services with etcd</a>: When you (or a developer learning from your code) starts 
-up the services locally, your services should register with etcd for service discovery.</li>
 <li><a href="/docs/development/using-the-web-tier/">Use the Web Tier</a>: The web tier has the UI for KillrVideo and makes calls to your
 services. You&#39;ll need to use it (and its logs) to try out your service implementations.</li>
 <li><a href="/docs/development/generating-sample-data/">Generate Sample Data</a>: It&#39;s a lot easier to use the UI when you have some sample data
@@ -201,19 +200,6 @@ in the system. Luckily, there&#39;s an app for that and it&#39;s probably alread
           
 
           <div class="panel-block">
-            <a href="/docs/development/register-with-etcd/">Registering Services with etcd</a>
-
-            
-            
-          </div>
-
-          
-
-          
-          
-          
-
-          <div class="panel-block">
             <a href="/docs/development/using-the-web-tier/">Using the Web Tier</a>
 
             
@@ -252,7 +238,7 @@ in the system. Luckily, there&#39;s an app for that and it&#39;s probably alread
             <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> license.
           <p>
           <p>
-            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/352523e0d43c757d2f712c5bd1d37f6e92266ace" target="_blank">352523e</a></small>
+            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/19ff6888088d32e22e6045ba6433955802f561cc" target="_blank">19ff688</a></small>
           </p>
         </div>
       </div>

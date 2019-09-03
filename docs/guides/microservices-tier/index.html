@@ -135,12 +135,13 @@ microservice implementation, this could be code files (e.g. in C# and Java) or d
 objects created at runtime (e.g. NodeJS). The service&#39;s logic can then be &quot;plugged in&quot;
 to these stubs. This is where all the code that talks to DataStax Enterprise and Cassandra
 lives (and if you&#39;re an end user, this is the code you&#39;re interested in looking at).</p>
-<p>In a real world application, each of the microservices defined in the <a href="https://github.com/KillrVideo/killrvideo-service-protos" target="_blank">killrvideo-service-protos</a>
-project would probably have its own Git repo and be deployed in its own process running its
-own HTTP/2 endpoint. This is one area where KillrVideo, because it&#39;s meant to be a reference
-application for developers, is different. In KillrVideo, the microservice implementations 
-are grouped together in Git repos by programming language to make it easy for a developer to
-get all the interesting code for their programming language of choice.</p>
+<p>In a real world application, each of the microservices defined in the 
+<a href="https://github.com/KillrVideo/killrvideo-service-protos" target="_blank">killrvideo-service-protos</a> project would probably have its own Git repo and 
+be deployed in its own process running its own HTTP/2 endpoint. This is one area where 
+KillrVideo, because it&#39;s meant to be a reference application for developers, is different. 
+In KillrVideo, the microservice implementations are grouped together in Git repos by 
+programming language to make it easy for a developer to get all the interesting code for 
+their programming language of choice.</p>
 <p>Since gRPC supports binding multiple service implementations to a single HTTP/2 server 
 endpoint, it also means that we can run all our microservice implementations in a single
 process together on a single endpoint. Again, this is different than how we&#39;d deploy the
@@ -157,9 +158,9 @@ using.</p>
 <p>Since developers exploring the code locally will be running all the service implementations
 in process together, it&#39;s possible to just do all the messaging using an in-process message 
 bus (for example, in Java using <a href="https://github.com/google/guava/wiki/EventBusExplained" target="_blank">Guava&#39;s EventBus</a>).
-It&#39;s also possible, since we&#39;re using a Docker container to package and run the Web Tier 
-that an implementation might choose to use some other external piece of infrastructure 
-running in a Docker container. Again, this is left up to the individual implementation.</p>
+Some service implementations choose to use some other external piece of infrastructure 
+running in a Docker container such as Kafka (currently available for the <a href="/docs/languages/python/">Python</a> 
+and <a href="/docs/languages/java/">Java</a> implementations). Again, this is left up to the individual implementation.</p>
 <p>Next, let&#39;s take a look at how the microservices tier demonstrates various features of 
 Apache Cassandra and DataStax Enterprise.</p>
 <p><a href="/docs/guides/feature-matrix/">Next: Feature Matrix</a></p>
@@ -268,7 +269,7 @@ Apache Cassandra and DataStax Enterprise.</p>
           
 
           <div class="panel-block">
-            <a href="/docs/guides/service-discovery/">Service Discovery with etcd</a>
+            <a href="/docs/guides/service-discovery/">Service Discovery</a>
 
             
             
@@ -319,7 +320,7 @@ Apache Cassandra and DataStax Enterprise.</p>
             <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> license.
           <p>
           <p>
-            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/352523e0d43c757d2f712c5bd1d37f6e92266ace" target="_blank">352523e</a></small>
+            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/19ff6888088d32e22e6045ba6433955802f561cc" target="_blank">19ff688</a></small>
           </p>
         </div>
       </div>

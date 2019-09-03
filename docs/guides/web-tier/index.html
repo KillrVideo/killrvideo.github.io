@@ -60,7 +60,7 @@ in the microservices.</p>
 <p>One of the goals of this project is to create a standalone Web Tier than can be reused by
 the various Microservices Tier implementations. As a result, the <a href="https://github.com/killrvideo/killrvideo-web" target="_blank">killrvideo-web</a>
 project was created. That project contains a standalone Web Server and Web Client (all 
-written in JavaScript) and is packaged as a <a href="https://hub.docker.com/r/luketillman/killrvideo-web/" target="_blank">Docker container</a>
+written in JavaScript) and is packaged as a <a href="https://hub.docker.com/r/killrvideo/killrvideo-web" target="_blank">Docker container</a>
 which can be run to provide a common UI for KillrVideo, regardless of what programming
 language the Microservices Tier is using. </p>
 <p>Let&#39;s take a look at how the Web Tier works before diving into the microservices in the
@@ -114,7 +114,7 @@ of our example paths and would be called by the Falcor Router to handle the requ
 <pre><code class="hljs"><span class="hljs-comment">// Get video details by id</span>
 {
     <span class="hljs-attr">route</span>: <span class="hljs-string">'videosById[{keys:videoIds}]["videoId", "addedDate", "description", "name", "author"]'</span>,
-    get(pathSet) {
+    <span class="hljs-keyword">get</span>(pathSet) {
         <span class="hljs-comment">// ... Handle request by making a call to the Video Catalog service via gRPC ...</span>
     }
 }</pre></code><p>You might notice that this route matches <code>author</code>, but doesn&#39;t provide the <code>firstName</code>,
@@ -143,7 +143,7 @@ another route definition that looks like this:</p>
 <pre><code class="hljs"><span class="hljs-comment">// Get user details by id</span>
 {
     <span class="hljs-attr">route</span>: <span class="hljs-string">'usersById[{keys:userIds}]["userId", "firstName", "lastName", "email"]'</span>,
-    get(pathSet) {
+    <span class="hljs-keyword">get</span>(pathSet) {
         <span class="hljs-comment">// ... Handle request by making a call to the User Management service via gRPC ...</span>
     }
 }</pre></code><p>That route will be called and asked for the <code>firstName</code>, <code>lastName</code>, and <code>email</code> of user
@@ -271,7 +271,7 @@ being called by the Web Server.</p>
           
 
           <div class="panel-block">
-            <a href="/docs/guides/service-discovery/">Service Discovery with etcd</a>
+            <a href="/docs/guides/service-discovery/">Service Discovery</a>
 
             
             
@@ -322,7 +322,7 @@ being called by the Web Server.</p>
             <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> license.
           <p>
           <p>
-            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/352523e0d43c757d2f712c5bd1d37f6e92266ace" target="_blank">352523e</a></small>
+            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/19ff6888088d32e22e6045ba6433955802f561cc" target="_blank">19ff688</a></small>
           </p>
         </div>
       </div>
