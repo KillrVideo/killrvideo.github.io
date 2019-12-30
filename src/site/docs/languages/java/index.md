@@ -132,7 +132,7 @@ KillrVideo and how the Web Tier interacts with the microservices running on your
 
 [cassandra]: http://cassandra.apache.org/
 [dse]: http://www.datastax.com/products/datastax-enterprise
-[driver]: https://github.com/datastax/java-dse-driver
+[driver]: https://docs.datastax.com/en/developer/java-driver-dse/1.8/
 [grpc]: http://www.grpc.io/
 [idea]: https://www.jetbrains.com/idea
 [eclipse]: https://www.eclipse.org/
