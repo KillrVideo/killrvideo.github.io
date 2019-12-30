@@ -59,10 +59,10 @@ services to add sample data to the application already built. Back when you
 <pre><code class="hljs">  <span class="hljs-comment"># ... other services snipped ...</span>
 
   <span class="hljs-comment"># The sample data generator</span>
-<span class="hljs-attr">  generator:</span>
-<span class="hljs-attr">    image:</span> <span class="hljs-string">killrvideo/killrvideo-generator:3.0.1</span>
-<span class="hljs-attr">    depends_on:</span>
-<span class="hljs-bullet">    -</span> <span class="hljs-string">backend</span></pre></code><p>This creates and starts an instance of the <a href="https://github.com/KillrVideo/killrvideo-generator" target="_blank">KillrVideo Sample Data Generator</a>
+  <span class="hljs-attr">generator:</span>
+    <span class="hljs-attr">image:</span> <span class="hljs-string">killrvideo/killrvideo-generator:3.0.1</span>
+    <span class="hljs-attr">depends_on:</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-string">backend</span></pre></code><p>This creates and starts an instance of the <a href="https://github.com/KillrVideo/killrvideo-generator" target="_blank">KillrVideo Sample Data Generator</a>
 application in Docker. This application listens for your services to become available (as <code>backend</code>)
 and when they do, it calls your services to add sample users, videos, comments, and more to the site.</p>
 <h2 id="starting-and-stopping-the-generator">Starting and Stopping the Generator</h2>
@@ -253,7 +253,7 @@ services.</p>
             <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> license.
           <p>
           <p>
-            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/19ff6888088d32e22e6045ba6433955802f561cc" target="_blank">19ff688</a></small>
+            <small>Site version <a href="https://github.com/KillrVideo/killrvideo.github.io/commit/8aec7fcc3caf06af52777ab959ca739feb65bf90" target="_blank">8aec7fc</a></small>
           </p>
         </div>
       </div>
