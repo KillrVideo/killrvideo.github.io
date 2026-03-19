@@ -1,0 +1,7 @@
+title: Search
+icon: search
+group: services
+sort_by:
+  - index.md
+  - get-search-videos.md
+  - get-tags-suggest.md

@@ -1,0 +1,126 @@
+{% extends "base.njk" %}
+
+{% block content %}
+{% set myCollection = docCollections[docCollectionName] %}
+
+{# Derive breadcrumb parts from page.url, e.g. /services/account-management/post-login/ #}
+{% set urlParts = page.url | replace("/services/", "") | replace("/", " ") | trim %}
+
+<section class="section">
+  <div class="container">
+
+    {# Breadcrumbs #}
+    <nav class="breadcrumb" aria-label="breadcrumbs">
+      <ul>
+        <li><a href="/services/">Services</a></li>
+        <li><a href="/services/{{ docCollectionName }}/">{{ myCollection.title }}</a></li>
+        {% if title %}
+        <li class="is-active"><a href="{{ page.url }}" aria-current="page">{{ title }}</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+
+    <div class="columns">
+      <article class="column is-8-tablet is-9-widescreen content">
+
+        {# Download Spec link if spec_artifact is set #}
+        {% if spec_artifact %}
+        <div class="notification is-info is-light">
+          <i class="fa fa-download fa-fw"></i>
+          <a href="{{ spec_artifact }}">Download Spec</a> &mdash; Machine-readable spec artifact for this endpoint.
+        </div>
+        {% endif %}
+
+        {# Concepts covered tags #}
+        {% if concepts and concepts.length > 0 %}
+        <div class="tags" style="margin-bottom: 1rem;">
+          <span class="tag is-dark"><i class="fa fa-lightbulb-o fa-fw"></i> Concepts covered:</span>
+          {% for concept in concepts %}
+          <span class="tag is-info">{{ concept }}</span>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        {{ content | safe }}
+
+        {# Previous / Next navigation #}
+        {% if myCollection.items %}
+        {% set prevItem = null %}
+        {% set nextItem = null %}
+        {% set foundCurrent = false %}
+        {% for item in myCollection.items %}
+          {% if foundCurrent and not nextItem %}
+            {% set nextItem = item %}
+          {% endif %}
+          {% if item.href == page.url %}
+            {% set foundCurrent = true %}
+          {% endif %}
+          {% if not foundCurrent %}
+            {% set prevItem = item %}
+          {% endif %}
+        {% endfor %}
+
+        <nav class="level" style="margin-top: 2rem; border-top: 1px solid #eee; padding-top: 1rem;">
+          <div class="level-left">
+            {% if prevItem %}
+            <div class="level-item">
+              <a href="{{ prevItem.href }}" class="button">
+                <i class="fa fa-arrow-left fa-fw"></i> {{ prevItem.title }}
+              </a>
+            </div>
+            {% endif %}
+          </div>
+          <div class="level-right">
+            {% if nextItem %}
+            <div class="level-item">
+              <a href="{{ nextItem.href }}" class="button">
+                {{ nextItem.title }} <i class="fa fa-arrow-right fa-fw" style="margin-left: 0.5rem;"></i>
+              </a>
+            </div>
+            {% endif %}
+          </div>
+        </nav>
+        {% endif %}
+
+      </article>
+
+      <div class="column is-4-tablet is-3-widescreen">
+        <nav class="docs panel">
+          <div class="panel-heading">
+            <span class="icon">
+              <i class="fa fa-{{ myCollection.icon }}"></i>
+            </span>
+            {{ myCollection.title }}
+          </div>
+
+          {% for doc in myCollection.items %}
+
+          {# Is the current page we're rendering this doc in the collection? #}
+          {% set selected = false %}
+          {% if page.url == doc.href %}
+            {% set selected = true %}
+          {% endif %}
+
+          <div class="panel-block{{" is-active" if selected else "" }}">
+            <a href="{{ doc.href }}">{{ doc.title }}</a>
+
+            {# Only render headings on the current doc #}
+            {% if selected and doc.headings.h2.length > 0 %}
+            <ul class="headings-list links-list">
+            {% for heading in doc.headings.h2 %}
+              <li>
+                <a href="{{ doc.href }}#{{ heading.id }}">{{ heading.text }}</a>
+              </li>
+            {% endfor %}
+            </ul>
+            {% endif %}
+          </div>
+
+          {% endfor %}
+
+        </nav>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

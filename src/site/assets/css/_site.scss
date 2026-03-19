@@ -1,0 +1,180 @@
+@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700");
+
+/**
+ * Site styles
+ */
+$light-green: #D1E0BA;
+
+/**
+ * Common styles
+ */
+.button > .fa,
+.title > .fa {
+  margin-right: 3px;
+}
+
+.hr {
+  width: 75%;
+  margin: 40px auto;
+}
+
+.flex-card {
+  display: flex;
+  flex-flow: column nowrap;
+  padding: 10px 10px 40px 10px;
+}
+
+.flex-card:last-child {
+  padding: 10px;
+}
+
+.flex-card > .flex-card-content {
+  flex: 1;
+}
+
+// Code highlighting in content blocks
+.content > pre {
+  margin-bottom: 1em;
+}
+
+.content > pre code.hljs {
+  padding: 16px 20px;
+  background-color: $grey-lighter;
+}
+
+.content strong > code {
+  font-weight: bold;
+}
+
+// List styling in content blocks
+.content > ol > li + li {
+  margin-top: 1em;
+}
+
+.content li > ul, 
+.content li > ol,
+.content li > pre {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+// Blockquote styling in content blocks
+.content blockquote > h1,
+.content blockquote > h2,
+.content blockquote > h3,
+.content blockquote > h4,
+.content blockquote > h5,
+.content blockquote > h6 {
+  margin-bottom: 5px;
+}
+
+// Table styling in content blocks
+table {
+  @extend .table
+}
+
+table th {
+  white-space: nowrap;
+}
+
+// Tablet and larger
+@include tablet {
+  html, .button {
+    font-size: 16px;
+  }
+
+  .flex-card {
+    padding: 10px;
+  }
+}
+
+// Desktop and larger
+@include desktop {
+  .hr {
+    width: 50%;
+    margin: 80px auto;
+  }
+}
+
+/**
+ * Header and Footer
+ */
+
+header {
+  padding: 5px 10px;
+}
+
+header, 
+header > nav.nav,
+.nav-menu.is-active,
+.nav-toggle:hover {
+  background-color: $black;
+}
+
+header > nav.nav .nav-item {
+  color: $grey-lighter;
+}
+
+header > nav.nav .nav-item:hover {
+  color: $green;
+}
+
+.nav-toggle:hover > span {
+  background-color: $green;
+}
+
+.hero.is-light-green {
+  background-color: $light-green;
+}
+
+/**
+ * Home page
+ */
+
+ .hero-image-home {
+   background-color: $light-green;
+ }
+
+.hero-image-home img {
+  height: 200px;
+  width: auto;
+  position: relative;
+  top: 25px;
+}
+
+.hero-home {
+  border-bottom: 1px solid $grey-light;
+}
+
+// Tablet and larger
+@include tablet {
+  .hero-image-home img {
+    height: 300px;
+    top: 40px;
+  }
+}
+
+/**
+ * Docs Navigation
+ */
+nav.docs {
+  position: sticky;
+  top: 20px;
+} 
+
+nav.docs .panel-block.is-active > a {
+  font-weight: bold;
+}
+
+.links-list > li {
+  margin-top: 0.25em;
+}
+
+.headings-list {
+  list-style: disc outside;
+  margin: 0.5em 2em 0;
+}
+
+.headings-list > li {
+  font-size: 85%;
+}

@@ -1,0 +1,6 @@
+title: Advanced Topics
+icon: graduation-cap
+sort_by:
+  - vector-search-deep-dive.md
+  - bm25-roadmap.md
+  - deployment-patterns.md

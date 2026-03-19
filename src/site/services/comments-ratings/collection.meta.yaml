@@ -1,0 +1,10 @@
+title: Comments & Ratings
+icon: comments
+group: services
+sort_by:
+  - index.md
+  - post-comment.md
+  - get-video-comments.md
+  - get-user-comments.md
+  - post-rating.md
+  - get-ratings.md
