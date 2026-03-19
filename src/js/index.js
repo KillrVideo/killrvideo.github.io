@@ -1,17 +1,7 @@
-import $ from 'cash-dom';
-import { sticky } from './sticky';
-
-// Include Google Analytics when in production
-if (process.env.NODE_ENV === 'production') {
-  const ga = require('./google-analytics');
-}
-
-// Add listeners for click on mobile menu
-let $mainNavMenu = $('header > nav.nav div.nav-menu');
-$('header > nav.nav span.nav-toggle').on('click', function toggleMenuActive(e) {
-  $mainNavMenu.toggleClass('is-active');
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelector('header > nav.nav span.nav-toggle')
+    .addEventListener('click', function() {
+      document.querySelector('header > nav.nav div.nav-menu')
+        .classList.toggle('is-active');
+    });
 });
-
-export {
-  sticky
-};

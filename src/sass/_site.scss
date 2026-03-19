@@ -158,7 +158,8 @@ header > nav.nav .nav-item:hover {
  * Docs Navigation
  */
 nav.docs {
-  position: relative;
+  position: sticky;
+  top: 20px;
 } 
 
 nav.docs .panel-block.is-active > a {
