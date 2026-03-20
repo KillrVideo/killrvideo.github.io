@@ -1,0 +1,46 @@
+---
+permalink: /llms.txt
+eleventyExcludeFromCollections: true
+---
+# {{ site.title | safe }} Documentation
+> {{ site.description | safe }}
+> {{ site.url | safe }}
+
+## Overview
+{% for doc in docCollections.overview.items %}- [{{ doc.title | safe }}]({{ doc.href }}): {{ doc.description | safe }}
+{% endfor %}
+## Getting Started
+{% for doc in docCollections['getting-started'].items %}- [{{ doc.title | safe }}]({{ doc.href }}): {{ doc.description | safe }}
+{% endfor %}
+## Concepts
+{% for doc in docCollections.concepts.items %}- [{{ doc.title | safe }}]({{ doc.href }}): {{ doc.description | safe }}
+{% endfor %}
+## Services
+
+### Account Management
+{% for doc in docCollections['account-management'].items %}- [{{ doc.title | safe }}]({{ doc.href }}): {{ doc.description | safe }}{% if doc.spec_artifact %}
+  - Spec: {{ doc.spec_artifact | safe }}{% endif %}
+{% endfor %}
+### Video Catalog
+{% for doc in docCollections['video-catalog'].items %}- [{{ doc.title | safe }}]({{ doc.href }}): {{ doc.description | safe }}{% if doc.spec_artifact %}
+  - Spec: {{ doc.spec_artifact | safe }}{% endif %}
+{% endfor %}
+### Search
+{% for doc in docCollections.search.items %}- [{{ doc.title | safe }}]({{ doc.href }}): {{ doc.description | safe }}{% if doc.spec_artifact %}
+  - Spec: {{ doc.spec_artifact | safe }}{% endif %}
+{% endfor %}
+### Comments & Ratings
+{% for doc in docCollections['comments-ratings'].items %}- [{{ doc.title | safe }}]({{ doc.href }}): {{ doc.description | safe }}{% if doc.spec_artifact %}
+  - Spec: {{ doc.spec_artifact | safe }}{% endif %}
+{% endfor %}
+### Recommendations
+{% for doc in docCollections.recommendations.items %}- [{{ doc.title | safe }}]({{ doc.href }}): {{ doc.description | safe }}{% if doc.spec_artifact %}
+  - Spec: {{ doc.spec_artifact | safe }}{% endif %}
+{% endfor %}
+### Moderation
+{% for doc in docCollections.moderation.items %}- [{{ doc.title | safe }}]({{ doc.href }}): {{ doc.description | safe }}{% if doc.spec_artifact %}
+  - Spec: {{ doc.spec_artifact | safe }}{% endif %}
+{% endfor %}
+## Advanced Topics
+{% for doc in docCollections.advanced.items %}- [{{ doc.title | safe }}]({{ doc.href }}): {{ doc.description | safe }}
+{% endfor %}

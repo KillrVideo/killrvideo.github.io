@@ -120,11 +120,6 @@ function buildCollection(collectionMetaPath) {
     const href = filePathToHref(relPath);
     const source_href = filePathToSourceHref(relPath);
 
-    // Draft pages are skipped
-    if (fmData.draft === true) {
-      return null;
-    }
-
     return {
       href,
       title: pageTitle,
@@ -138,7 +133,8 @@ function buildCollection(collectionMetaPath) {
       method: fmData.method || null,
       spec_artifact: fmData.spec_artifact || null,
       concepts: Array.isArray(fmData.concepts) ? fmData.concepts : [],
-      order: typeof fmData.order === 'number' ? fmData.order : null
+      order: typeof fmData.order === 'number' ? fmData.order : null,
+      draft: fmData.draft === true
     };
   }).filter(Boolean);
 
@@ -150,8 +146,6 @@ function buildCollection(collectionMetaPath) {
       const absFilePath = path.join(collectionDir, filename);
       const rawSource = fs.readFileSync(absFilePath, 'utf8');
       const { data: fmData, content: bodyContent } = parseFrontMatter(rawSource);
-
-      if (fmData.draft === true) return;
 
       const html = md.render(bodyContent);
       const headings = extractHeadings(html);
@@ -173,7 +167,8 @@ function buildCollection(collectionMetaPath) {
         method: fmData.method || null,
         spec_artifact: fmData.spec_artifact || null,
         concepts: Array.isArray(fmData.concepts) ? fmData.concepts : [],
-        order: typeof fmData.order === 'number' ? fmData.order : null
+        order: typeof fmData.order === 'number' ? fmData.order : null,
+        draft: fmData.draft === true
       });
     });
   }

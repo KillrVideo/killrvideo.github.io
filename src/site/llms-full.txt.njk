@@ -1,0 +1,16 @@
+---
+permalink: /llms-full.txt
+eleventyExcludeFromCollections: true
+---
+# {{ site.title | safe }} - Full Documentation with Spec Artifacts
+> {{ site.description | safe }}
+> {{ site.url | safe }}
+> This file contains all spec artifacts inlined for LLM consumption.
+
+{% for specPath, specContent in specArtifacts %}
+---
+
+## Spec: {{ specPath | safe }}
+
+{{ specContent | safe }}
+{% endfor %}

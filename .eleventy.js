@@ -34,6 +34,9 @@ module.exports = function(eleventyConfig) {
     }
   });
 
+  // Ignore spec artifacts from template processing (they're passthrough-copied)
+  eleventyConfig.ignores.add('src/site/services/**/_specs/**');
+
   // Passthrough copy
   eleventyConfig.addPassthroughCopy({ 'src/images': 'assets/images' });
   eleventyConfig.addPassthroughCopy({ 'src/js': 'assets/js' });
