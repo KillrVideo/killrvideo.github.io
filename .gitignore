@@ -20,6 +20,7 @@ node_modules
 /out
 /tmp
 /publish
+_site/
 
 # IntelliJ Idea
 .idea
