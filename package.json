@@ -21,7 +21,7 @@
   "private": true,
   "devDependencies": {
     "@11ty/eleventy": "^2.0",
-    "cheerio": "^0.20.0",
+    "cheerio": "^1.2.0",
     "eleventy-sass": "^2.0",
     "fast-glob": "^3.0",
     "highlight.js": "^11.0.0",
