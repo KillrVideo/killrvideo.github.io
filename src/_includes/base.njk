@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+<head>
+  <title>KillrVideo 2025 - {{ title }}</title>
+  <link href="/assets/css/bundle.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="/assets/images/killrvideo-icon.png"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  {# The site's header #}
+  <header>
+    <nav class="nav">
+      <div class="container">
+        <div class="nav-left">
+          <a href="/" class="nav-item">
+            <img src="/assets/images/killrvideo.png" alt="KillrVideo logo" />
+          </a>
+        </div>
+
+        <!-- Nav Toggle on mobile -->
+        <span class="nav-toggle">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+
+        <div class="nav-right nav-menu">
+          <span class="nav-item">
+            <a href="{{ nav.getting_started }}" class="button is-primary">
+              <i class="fa fa-code fa-fw"></i> Get Started
+            </a>
+          </span>
+          <a href="{{ nav.overview }}" class="nav-item">
+            Overview
+          </a>
+          <a href="{{ nav.services }}" class="nav-item">
+            Services
+          </a>
+          <a href="{{ nav.concepts }}" class="nav-item">
+            Concepts
+          </a>
+          <a href="{{ nav.advanced }}" class="nav-item">
+            Advanced
+          </a>
+          <a href="{{ github.org }}" target="_blank" class="nav-item">
+            <i class="fa fa-github fa-2x"></i>
+          </a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  {# The file's contents #}
+  {% block content %}
+  <section class="section">
+    <div class="container content">
+      {{ content | safe }}
+    </div>
+  </section>
+  {% endblock %}
+
+  {# The site's footer #}
+  <footer class="footer">
+    <div class="container level">
+      <div class="level-left">
+        <div class="level-item">
+          <p>
+            <strong>KillrVideo</strong> is open source and available under an
+            <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> license.
+          <p>
+          <p>
+            <small>Site version <a href="{{ github.commit }}/{{ version.long }}" target="_blank">{{ version.short }}</a></small>
+          </p>
+        </div>
+      </div>
+      <div class="level-right">
+        <div class="level-right">
+          <a class="button level-item" href="{{ github.source }}/{{ page.inputPath | replace('./','') }}" target="_blank">
+            <i class="fa fa-github fa-fw"></i>Improve this page
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  {# Main JavaScript bundle for site #}
+  <script type="text/javascript" src="/assets/js/index.js"></script>
+
+  {# Block for potentially running JavaScript #}
+  {% block scripts %}
+  {% endblock %}
+</body>
+</html>

@@ -1,0 +1,8 @@
+title: Recommendations
+icon: magic
+group: services
+sort_by:
+  - index.md
+  - get-for-you.md
+  - post-ingest.md
+  - get-related.md

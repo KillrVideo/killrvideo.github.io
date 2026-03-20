@@ -1,0 +1,14 @@
+title: Moderation
+icon: shield
+group: services
+sort_by:
+  - index.md
+  - post-flag.md
+  - get-flags.md
+  - post-flag-action.md
+  - get-flag-details.md
+  - get-users.md
+  - post-assign-moderator.md
+  - post-revoke-moderator.md
+  - post-restore-video.md
+  - post-restore-comment.md

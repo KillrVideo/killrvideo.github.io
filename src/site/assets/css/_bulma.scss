@@ -1,0 +1,25 @@
+/**
+ * Bulma overrides
+ */
+
+// Initial variables
+$family-sans-serif: "Source Sans Pro", Calibri, Candara, Arial, sans-serif;
+$blue: #03298D;
+$green: #7AB820;
+$red: #8D2F19;
+
+// Possible green tinged gray at some point
+/*
+$grey: #B2B5AE;
+
+$grey-light: #D8DBD3;
+$grey-lighter: #F8FAF5;
+
+$grey-dark: #737A69;
+$grey-darker: #232422;
+*/
+
+// Primary colors
+$primary: #1D43A7;
+
+@import "bulma.sass";

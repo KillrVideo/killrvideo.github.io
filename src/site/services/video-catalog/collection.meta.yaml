@@ -1,0 +1,18 @@
+title: Video Catalog
+icon: film
+group: services
+sort_by:
+  - index.md
+  - get-latest.md
+  - post-video.md
+  - get-by-tag.md
+  - post-view.md
+  - get-video-by-id.md
+  - put-video.md
+  - get-video-status.md
+  - get-by-uploader.md
+  - get-trending.md
+  - post-rating.md
+  - get-rating.md
+  - get-related.md
+  - post-preview.md

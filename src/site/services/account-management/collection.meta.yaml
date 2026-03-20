@@ -1,0 +1,10 @@
+title: Account Management
+icon: user
+group: services
+sort_by:
+  - index.md
+  - post-register.md
+  - post-login.md
+  - get-me.md
+  - put-me.md
+  - get-user-by-id.md

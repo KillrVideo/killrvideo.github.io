@@ -1,0 +1,35 @@
+---
+title: API Services
+layout: base.njk
+---
+<section class="hero is-light-green">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title is-1">API Services</h1>
+      <p class="subtitle">Explore the KillrVideo 2025 API organized by service domain</p>
+    </div>
+  </div>
+</section>
+<section class="section">
+  <div class="container">
+    <div class="columns is-multiline">
+      {% for collection in docCollections.all %}
+        {% if collection.group == "services" %}
+        <div class="column is-4">
+          <div class="card">
+            <div class="card-content">
+              <p class="title is-4">
+                <i class="fa fa-{{ collection.icon }}"></i> {{ collection.title }}
+              </p>
+              <p>{{ collection.items | length }} endpoints</p>
+            </div>
+            <footer class="card-footer">
+              <a href="/services/{{ collection.title | lower | replace(" ", "-") | replace("&", "") | replace("--", "-") }}/" class="card-footer-item">Explore</a>
+            </footer>
+          </div>
+        </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
