@@ -1,0 +1,79 @@
+- name: User Management
+  description: >
+    Registration, authentication, profile updates. Demonstrates user lookup
+    by email vs. UUID and when to use each.
+  badges:
+    - label: CQL
+      color: cyan
+    - label: Data API
+      color: green
+
+- name: Video Catalog
+  description: >
+    Submit, retrieve, and list videos. Core partition key and clustering
+    column design patterns shown end-to-end.
+  badges:
+    - label: Partition Keys
+      color: cyan
+    - label: SAI
+      color: violet
+
+- name: Comments
+  description: >
+    Paginated comment threads with author context. Shows how to model
+    time-ordered data at scale without hot partitions.
+  badges:
+    - label: Time-Series
+      color: orange
+    - label: Pagination
+      color: green
+
+- name: Ratings
+  description: >
+    Distributed counter pattern for likes and 5-star ratings. Lightweight
+    transactions for correctness under concurrent writes.
+  badges:
+    - label: Counters
+      color: cyan
+    - label: LWT
+      color: violet
+
+- name: Search
+  description: >
+    Full-text and semantic vector search using NVIDIA embeddings. AI-powered
+    recommendations included out of the box.
+  badges:
+    - label: Vector Search
+      color: violet
+    - label: NVIDIA NIM
+      color: cyan
+
+- name: Statistics
+  description: >
+    Play counts, view history, and engagement metrics. High-throughput write
+    patterns and read-time aggregation strategies.
+  badges:
+    - label: High Write
+      color: orange
+    - label: Analytics
+      color: green
+
+- name: Suggested Videos
+  description: >
+    Related video recommendations from tags, co-views, and vector similarity.
+    The canonical recommendation engine pattern on Cassandra.
+  badges:
+    - label: ANN
+      color: violet
+    - label: Denormalization
+      color: cyan
+
+- name: Uploads
+  description: >
+    Video ingest pipeline with status tracking. Eventual consistency and
+    lightweight transaction patterns for safe state machines.
+  badges:
+    - label: Pipeline
+      color: orange
+    - label: Events
+      color: green

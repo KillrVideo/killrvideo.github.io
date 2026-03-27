@@ -1,0 +1,95 @@
+// =============================================================================
+// _code.scss — Tabbed code examples block
+// =============================================================================
+
+.code-section {
+  background: var(--bg);
+}
+
+// Tab bar
+.code-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar { display: none; }
+}
+
+.code-tab {
+  padding: 10px 20px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-dim);
+  cursor: pointer;
+  border: none;
+  background: none;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: color 0.2s, border-color 0.2s;
+  letter-spacing: 0.04em;
+
+  &.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  &:hover:not(.active) { color: var(--text); }
+}
+
+// Code block wrapper
+.code-block-wrap {
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-top: none;
+  border-radius: 0 0 $border-radius-lg $border-radius-lg;
+  overflow: hidden;
+}
+
+.code-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: var(--bg3);
+  border-bottom: 1px solid var(--border);
+}
+
+.code-filename {
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+.code-copy {
+  font-size: 11px;
+  color: var(--text-muted);
+  background: none;
+  border: 1px solid var(--border);
+  padding: 3px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  transition: border-color 0.2s, color 0.2s;
+
+  &:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+}
+
+// Code block itself
+pre {
+  padding: $space-lg $space-xl;
+  font-size: 13px;
+  line-height: 1.85;
+  overflow-x: auto;
+  color: var(--text);
+
+  // Syntax token colours (shared across all code examples)
+  .kw  { color: var(--accent); }
+  .fn  { color: #c084fc; }
+  .str { color: var(--accent3); }
+  .cm  { color: var(--text-dim); font-style: italic; }
+  .num { color: var(--accent3); }
+  .cls { color: var(--green); }
+}

@@ -1,0 +1,10 @@
+<div class="stats-strip">
+  <div class="stats-inner">
+    {% for stat in site.data.stats %}
+    <div class="stat-item">
+      <div class="stat-num">{{ stat.number }}<span>{{ stat.suffix }}</span></div>
+      <div class="stat-label">{{ stat.label }}</div>
+    </div>
+    {% endfor %}
+  </div>
+</div>

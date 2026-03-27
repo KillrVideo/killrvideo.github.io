@@ -1,0 +1,84 @@
+// =============================================================================
+// _nav.scss — Fixed site navigation
+// =============================================================================
+
+.site-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 $space-xl;
+  height: $nav-height;
+  background: rgba(7, 9, 15, 0.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+
+// Logo
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.nav-logo-mark {
+  width: 28px;
+  height: 28px;
+  background: var(--accent);
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  flex-shrink: 0;
+  animation: pulse-hex 3s ease-in-out infinite;
+}
+
+.nav-logo-text {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.15rem;
+  color: #fff;
+  letter-spacing: -0.02em;
+
+  span { color: var(--accent); }
+}
+
+// Links
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: $space-xs;
+  list-style: none;
+
+  a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: $border-radius;
+    transition: color 0.2s, background 0.2s;
+
+    &:hover {
+      color: var(--accent);
+      background: rgba(0, 229, 255, 0.06);
+    }
+  }
+}
+
+// CTA button in nav
+.nav-cta {
+  background: var(--accent) !important;
+  color: var(--bg) !important;
+  font-weight: 700 !important;
+  padding: 6px 16px !important;
+  border-radius: $border-radius !important;
+
+  &:hover {
+    background: #33ecff !important;
+    color: var(--bg) !important;
+  }
+}

@@ -1,9 +1,8 @@
-name: Deploy to GitHub Pages
+name: Deploy Jekyll site to GitHub Pages
 
 on:
   push:
-    branches:
-      - source
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -16,37 +15,36 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
         with:
-          node-version: '22'
+          ruby-version: '3.3'
+          bundler-cache: true
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
 
-      - name: Build
-        run: npm run build
-
-      - name: Add .nojekyll
-        run: touch _site/.nojekyll
-
-      - name: Configure Pages
-        uses: actions/configure-pages@v5
+      - name: Build with Jekyll
+        run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
+        env:
+          JEKYLL_ENV: production
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
-        with:
-          path: _site
 
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

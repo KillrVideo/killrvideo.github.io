@@ -1,0 +1,17 @@
+<nav class="site-nav">
+  <a href="{{ '/' | relative_url }}" class="nav-logo" aria-label="{{ site.title }} home">
+    <div class="nav-logo-mark" aria-hidden="true"></div>
+    <span class="nav-logo-text">Killr<span>Video</span></span>
+  </a>
+
+  <ul class="nav-links" role="list">
+    {% for link in site.nav_links %}
+    <li>
+      <a href="{{ link.url }}">{{ link.title }}</a>
+    </li>
+    {% endfor %}
+    <li>
+      <a href="{{ '/getting-started/' | relative_url }}" class="nav-cta">Get Started →</a>
+    </li>
+  </ul>
+</nav>

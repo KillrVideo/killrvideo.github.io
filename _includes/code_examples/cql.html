@@ -1,0 +1,30 @@
+<span class="cm">-- schema.cql — KillrVideo Cassandra Schema</span>
+<span class="cm">-- Designed for query-first data modeling</span>
+
+<span class="kw">CREATE KEYSPACE</span> killrvideo
+  <span class="kw">WITH</span> replication = {
+    <span class="str">'class'</span>: <span class="str">'NetworkTopologyStrategy'</span>,
+    <span class="str">'datacenter1'</span>: <span class="num">3</span>
+  };
+
+<span class="cm">-- Videos by user (supports "my videos" feed)</span>
+<span class="kw">CREATE TABLE</span> killrvideo.videos_by_user (
+  user_id    <span class="cls">UUID</span>,
+  added_date <span class="cls">TIMESTAMP</span>,
+  video_id   <span class="cls">UUID</span>,
+  title      <span class="cls">TEXT</span>,
+  tags       <span class="cls">SET</span>&lt;<span class="cls">TEXT</span>&gt;,
+  <span class="kw">PRIMARY KEY</span> ((user_id), added_date, video_id)
+) <span class="kw">WITH CLUSTERING ORDER BY</span> (added_date <span class="kw">DESC</span>);
+
+<span class="cm">-- SAI index for tag-based search</span>
+<span class="kw">CREATE CUSTOM INDEX</span> videos_tags_idx
+  <span class="kw">ON</span> killrvideo.videos_by_user (tags)
+  <span class="kw">USING</span> <span class="str">'StorageAttachedIndex'</span>;
+
+<span class="cm">-- Distributed counter table for ratings</span>
+<span class="kw">CREATE TABLE</span> killrvideo.video_ratings (
+  video_id    <span class="cls">UUID</span>   <span class="kw">PRIMARY KEY</span>,
+  rating_one  <span class="cls">COUNTER</span>,
+  rating_five <span class="cls">COUNTER</span>
+);

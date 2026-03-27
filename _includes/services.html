@@ -1,0 +1,27 @@
+<section id="services" class="services-section">
+  <div class="section-inner">
+    <div class="section-tag">Services</div>
+    <h2 class="section-title reveal">Eight services.<br>One reference app.</h2>
+    <p class="section-lead reveal">
+      Each service implements a focused slice of functionality backed by Cassandra data models
+      tuned for that specific access pattern.
+    </p>
+
+    <div class="services-grid reveal">
+      {% for service in site.data.services %}
+      <div class="service-card">
+        <div class="service-num" aria-hidden="true">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</div>
+        <div class="service-body">
+          <h3 class="service-name">{{ service.name }}</h3>
+          <p class="service-desc">{{ service.description }}</p>
+          <div class="service-badges">
+            {% for badge in service.badges %}
+            <span class="badge badge-{{ badge.color }}">{{ badge.label }}</span>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>

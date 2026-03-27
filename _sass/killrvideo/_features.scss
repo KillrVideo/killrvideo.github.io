@@ -1,0 +1,85 @@
+// =============================================================================
+// _features.scss — Six-up feature card grid
+// =============================================================================
+
+.features-section {
+  background: var(--bg);
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: $border-radius-lg;
+  overflow: hidden;
+}
+
+.feature-card {
+  background: var(--bg2);
+  padding: $space-xl;
+  position: relative;
+  transition: background 0.3s;
+
+  &:hover {
+    background: var(--surface);
+  }
+
+  // Top accent line on hover
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  &:hover::before { opacity: 1; }
+}
+
+.feature-icon {
+  width: 40px;
+  height: 40px;
+  background: rgba(0, 229, 255, 0.08);
+  border: 1px solid rgba(0, 229, 255, 0.15);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  margin-bottom: $space-lg - $space-sm;
+}
+
+.feature-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #fff;
+  margin-bottom: $space-sm + $space-xs;
+  letter-spacing: -0.01em;
+}
+
+.feature-body {
+  color: var(--text-muted);
+  font-size: 13px;
+  line-height: 1.75;
+}
+
+.feature-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--accent);
+  font-size: 12px;
+  text-decoration: none;
+  margin-top: $space-md;
+  letter-spacing: 0.04em;
+  transition: gap 0.2s;
+
+  &:hover { gap: 8px; }
+}

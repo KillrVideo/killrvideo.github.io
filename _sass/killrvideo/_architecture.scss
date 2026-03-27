@@ -1,0 +1,110 @@
+// =============================================================================
+// _architecture.scss — Split layout with CSS topology diagram
+// =============================================================================
+
+.arch-section {
+  background: var(--bg2);
+}
+
+.arch-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: center;
+}
+
+.arch-copy {
+  // inherits section typography from _base
+}
+
+// Diagram container
+.arch-diagram {
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-radius: $border-radius-lg;
+  padding: $space-xl;
+  position: relative;
+  overflow: hidden;
+
+  // Subtle dot grid inside the diagram
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0, 229, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 229, 255, 0.03) 1px, transparent 1px);
+    background-size: 30px 30px;
+  }
+}
+
+.arch-nodes {
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+  position: relative;
+  z-index: 1;
+}
+
+.arch-row {
+  display: flex;
+  gap: $space-md;
+  justify-content: center;
+
+  // Extra top margin for second row of service nodes
+  & + & { margin-top: 0; }
+}
+
+.arch-node {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 6px;
+  padding: 10px 16px;
+  font-size: 12px;
+  color: var(--text);
+  text-align: center;
+  min-width: 110px;
+  transition: border-color 0.2s, color 0.2s;
+  cursor: default;
+
+  &:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  // Colour variants
+  &.primary {
+    border-color: rgba(0, 229, 255, 0.4);
+    color: var(--accent);
+    background: rgba(0, 229, 255, 0.06);
+  }
+
+  &.secondary {
+    border-color: rgba(124, 58, 237, 0.4);
+    color: #c084fc;
+    background: rgba(124, 58, 237, 0.06);
+  }
+
+  &.tertiary {
+    border-color: rgba(34, 211, 160, 0.4);
+    color: var(--green);
+    background: rgba(34, 211, 160, 0.06);
+  }
+}
+
+.arch-connector {
+  display: flex;
+  justify-content: center;
+  color: var(--text-dim);
+  font-size: 16px;
+  margin: -4px 0;
+}
+
+.arch-label {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  text-align: center;
+  margin-top: $space-lg;
+}

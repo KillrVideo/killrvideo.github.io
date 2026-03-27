@@ -1,0 +1,58 @@
+<section class="hero">
+  <div class="hero-glow" aria-hidden="true"></div>
+
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Reference Application for Apache Cassandra</div>
+
+    <h1 class="hero-title">
+      Build.<br>
+      <span class="dim">Ship.</span><br>
+      <span class="accent">Scale.</span>
+    </h1>
+
+    <p class="hero-sub">
+      KillrVideo is a production-grade reference application showing how to build
+      <strong>real-world apps</strong> with Apache Cassandra.
+      From data modeling to vector search — every pattern you need.
+    </p>
+
+    <div class="hero-actions">
+      <a href="{{ '/getting-started/' | relative_url }}" class="btn-primary">
+        <span>$ get-started</span>
+      </a>
+      <a href="https://github.com/{{ site.github_username }}" class="btn-secondary" rel="noopener noreferrer" target="_blank">
+        <span>⌥ View on GitHub</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="hero-terminal" aria-label="Code example" role="img">
+    <div class="terminal-bar">
+      <span class="t-dot" aria-hidden="true"></span>
+      <span class="t-dot" aria-hidden="true"></span>
+      <span class="t-dot" aria-hidden="true"></span>
+      <span class="terminal-title">killrvideo — data-api — 80×24</span>
+    </div>
+    <div class="terminal-body">
+<span class="t-comment"># Connect to Astra DB</span>
+<br><span class="t-prompt">$</span><span class="t-cmd">pip install astrapy</span>
+<br>
+<br><span class="t-comment"># Initialize client</span>
+<br><span class="t-kw">from</span> astrapy <span class="t-kw">import</span> <span class="t-cls">DataAPIClient</span>
+<br>
+<br>client = <span class="t-cls">DataAPIClient</span>(<span class="t-str">token</span>)
+<br>db = client.<span class="t-fn">get_database</span>(<span class="t-str">"$ASTRA_DB_URL"</span>)
+<br>
+<br><span class="t-comment"># Query videos by tag</span>
+<br>videos = db.<span class="t-fn">get_collection</span>(<span class="t-str">"videos"</span>)
+<br>results = videos.<span class="t-fn">find</span>({
+<br>&nbsp;&nbsp;<span class="t-str">"tags"</span>: { <span class="t-str">"$in"</span>: [<span class="t-str">"cassandra"</span>] },
+<br>&nbsp;&nbsp;<span class="t-str">"$vector"</span>: query_embedding,
+<br>&nbsp;&nbsp;<span class="t-kw">limit</span>: <span class="t-num">20</span>
+<br>})
+<br>
+<br><span class="t-out">✓ 20 results in 4ms</span>
+<br><span class="t-prompt">$</span><span class="t-cursor" aria-hidden="true"></span>
+    </div>
+  </div>
+</section>

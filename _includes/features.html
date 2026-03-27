@@ -1,0 +1,21 @@
+<section id="overview" class="features-section">
+  <div class="section-inner">
+    <div class="section-tag">Why KillrVideo</div>
+    <h2 class="section-title reveal">Every pattern.<br>Production-ready.</h2>
+    <p class="section-lead reveal">
+      Stop reading docs in isolation. KillrVideo is a fully-functional video-sharing platform
+      purpose-built to demonstrate every Cassandra data modeling pattern in context.
+    </p>
+
+    <div class="features-grid reveal">
+      {% for feature in site.data.features %}
+      <div class="feature-card">
+        <div class="feature-icon" aria-hidden="true">{{ feature.icon }}</div>
+        <h3 class="feature-title">{{ feature.title }}</h3>
+        <p class="feature-body">{{ feature.body }}</p>
+        <a href="{{ feature.link_url | relative_url }}" class="feature-link">{{ feature.link_text }} →</a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>

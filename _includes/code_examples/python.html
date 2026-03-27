@@ -1,0 +1,33 @@
+<span class="cm"># video_service.py — KillrVideo Video Service</span>
+<span class="cm"># Demonstrates: partition key design + vector search</span>
+
+<span class="kw">from</span> astrapy <span class="kw">import</span> <span class="cls">DataAPIClient</span>
+<span class="kw">from</span> datetime <span class="kw">import</span> datetime, UTC
+<span class="kw">from</span> uuid <span class="kw">import</span> uuid4
+
+<span class="kw">class</span> <span class="cls">VideoService</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, db):
+        self.videos = db.<span class="fn">get_collection</span>(<span class="str">"videos"</span>)
+
+    <span class="kw">async def</span> <span class="fn">submit_video</span>(self, user_id: str, title: str,
+                             description: str, tags: list[str]):
+        <span class="cm">"""Insert a new video. user_id is the partition key."""</span>
+        video_id = <span class="fn">str</span>(<span class="fn">uuid4</span>())
+        <span class="kw">await</span> self.videos.<span class="fn">insert_one</span>({
+            <span class="str">"_id"</span>:         video_id,
+            <span class="str">"userId"</span>:      user_id,
+            <span class="str">"title"</span>:       title,
+            <span class="str">"tags"</span>:        tags,
+            <span class="str">"addedDate"</span>:   datetime.<span class="fn">now</span>(UTC).<span class="fn">isoformat</span>(),
+        })
+        <span class="kw">return</span> video_id
+
+    <span class="kw">async def</span> <span class="fn">search_videos</span>(self, query_embedding: list[float], limit=<span class="num">20</span>):
+        <span class="cm">"""Semantic search using vector similarity."""</span>
+        cursor = self.videos.<span class="fn">find</span>(
+            {},
+            sort={<span class="str">"$vector"</span>: query_embedding},
+            limit=limit,
+            include_similarity=<span class="kw">True</span>
+        )
+        <span class="kw">return await</span> cursor.<span class="fn">to_list</span>()

@@ -1,0 +1,38 @@
+<span class="cm">// VideoService.java — KillrVideo Video Service</span>
+<span class="cm">// Java SDK with DataStax Astra DB client</span>
+
+<span class="kw">import</span> com.datastax.astra.client.DataAPIClient;
+<span class="kw">import</span> com.datastax.astra.client.Collection;
+<span class="kw">import</span> com.datastax.astra.client.model.Document;
+<span class="kw">import</span> com.datastax.astra.client.model.FindOptions;
+
+<span class="kw">public class</span> <span class="cls">VideoService</span> {
+
+    <span class="kw">private final</span> <span class="cls">Collection</span>&lt;<span class="cls">Document</span>&gt; videos;
+
+    <span class="kw">public</span> <span class="fn">VideoService</span>(<span class="cls">DataAPIClient</span> client) {
+        <span class="kw">this</span>.videos = client
+            .<span class="fn">getDatabase</span>(System.<span class="fn">getenv</span>(<span class="str">"ASTRA_DB_API_ENDPOINT"</span>))
+            .<span class="fn">getCollection</span>(<span class="str">"videos"</span>);
+    }
+
+    <span class="kw">public</span> String <span class="fn">submitVideo</span>(String userId, String title,
+                                List&lt;String&gt; tags) {
+        <span class="cls">Document</span> doc = <span class="kw">new</span> <span class="cls">Document</span>()
+            .<span class="fn">id</span>(UUID.<span class="fn">randomUUID</span>())
+            .<span class="fn">append</span>(<span class="str">"userId"</span>, userId)
+            .<span class="fn">append</span>(<span class="str">"title"</span>, title)
+            .<span class="fn">append</span>(<span class="str">"tags"</span>, tags)
+            .<span class="fn">append</span>(<span class="str">"addedDate"</span>, Instant.<span class="fn">now</span>());
+        <span class="kw">return</span> videos.<span class="fn">insertOne</span>(doc)
+                      .<span class="fn">getInsertedId</span>()
+                      .<span class="fn">toString</span>();
+    }
+
+    <span class="kw">public</span> List&lt;<span class="cls">Document</span>&gt; <span class="fn">searchVideos</span>(float[] embedding, <span class="kw">int</span> limit) {
+        <span class="kw">return</span> videos.<span class="fn">find</span>(<span class="kw">new</span> <span class="cls">FindOptions</span>()
+            .<span class="fn">sort</span>(<span class="cls">Sorts</span>.<span class="fn">vector</span>(embedding))
+            .<span class="fn">limit</span>(limit))
+            .<span class="fn">all</span>();
+    }
+}

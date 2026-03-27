@@ -1,0 +1,41 @@
+// =============================================================================
+// _responsive.scss — Breakpoint overrides (mobile-last approach)
+// =============================================================================
+
+// ── Large → Medium (≤ 1024px) ──────────────────────────────────────────────
+@media (max-width: #{$breakpoint-lg}) {
+  .hero-terminal  { display: none; }
+  .arch-split     { grid-template-columns: 1fr; }
+  .features-grid  { grid-template-columns: repeat(2, 1fr); }
+}
+
+// ── Medium → Small (≤ 768px) ───────────────────────────────────────────────
+@media (max-width: #{$breakpoint-md}) {
+
+  .site-nav {
+    padding: 0 $space-lg;
+  }
+
+  .nav-links { display: none; }  // Mobile nav: add hamburger in future iteration
+
+  section { padding: $space-2xl $space-lg; }
+
+  .hero { padding: 6.25rem $space-lg 3.75rem; }
+
+  .stats-inner {
+    grid-template-columns: repeat(2, 1fr);
+
+    .stat-item:nth-child(2) { border-right: none; }
+    .stat-item:nth-child(3) { border-top: 1px solid var(--border); }
+    .stat-item:nth-child(4) { border-top: 1px solid var(--border); border-right: none; }
+  }
+
+  .features-grid  { grid-template-columns: 1fr; }
+  .services-grid  { grid-template-columns: 1fr; }
+
+  .cta-inner      { flex-direction: column; }
+  .cta-actions    { flex-direction: column; width: 100%; }
+
+  .footer-inner   { flex-direction: column; gap: $space-lg; }
+  .footer-links   { gap: $space-md; }
+}

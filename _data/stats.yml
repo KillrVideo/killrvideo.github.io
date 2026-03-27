@@ -1,0 +1,15 @@
+- number: "10"
+  suffix: "+"
+  label: Microservices
+
+- number: "5"
+  suffix: "x"
+  label: Language SDKs
+
+- number: "100"
+  suffix: "%"
+  label: Open Source
+
+- number: "∞"
+  suffix: ""
+  label: Scale

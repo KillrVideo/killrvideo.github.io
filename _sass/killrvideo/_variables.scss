@@ -1,0 +1,54 @@
+// =============================================================================
+// _variables.scss — Design tokens & CSS custom properties
+// =============================================================================
+
+// SCSS variables (build-time)
+$max-width:       1200px;
+$nav-height:      60px;
+$border-radius:   4px;
+$border-radius-lg: 8px;
+
+$breakpoint-lg:   1024px;
+$breakpoint-md:   768px;
+
+// Font stacks
+$font-mono:    'JetBrains Mono', monospace;
+$font-display: 'Syne', sans-serif;
+
+// Spacing scale
+$space-xs:  0.25rem;
+$space-sm:  0.5rem;
+$space-md:  1rem;
+$space-lg:  1.5rem;
+$space-xl:  2.5rem;
+$space-2xl: 4rem;
+$space-3xl: 6rem;
+
+// Emit CSS custom properties on :root for runtime theming
+:root {
+  // Backgrounds
+  --bg:       #07090f;
+  --bg2:      #0d1117;
+  --bg3:      #111822;
+  --surface:  #131c2b;
+
+  // Borders
+  --border:   #1e2d42;
+  --border2:  #243347;
+
+  // Text
+  --text:       #c9d8ed;
+  --text-muted: #5a7294;
+  --text-dim:   #3a5270;
+
+  // Accent palette
+  --accent:  #00e5ff;
+  --accent2: #7c3aed;
+  --accent3: #f97316;
+  --green:   #22d3a0;
+  --red:     #ff4d6d;
+
+  // Typography
+  --font-mono:    #{$font-mono};
+  --font-display: #{$font-display};
+}

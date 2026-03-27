@@ -1,0 +1,47 @@
+- icon: "⬡"
+  title: Partition Key Design
+  body: >
+    Learn the right way to partition data for even distribution and blazing-fast reads.
+    See real CQL schemas designed for time-series, user data, and recommendations.
+  link_text: Explore concepts
+  link_url: /concepts/
+
+- icon: "⟳"
+  title: SAI Secondary Indexes
+  body: >
+    Storage-Attached Indexes let you query any column without denormalization.
+    Understand when to use SAI vs. materialized views vs. query-first design.
+  link_text: See examples
+  link_url: /concepts/#sai
+
+- icon: "◈"
+  title: Vector Search + AI
+  body: >
+    Semantic video search using NVIDIA embeddings and Astra DB's native vector
+    capabilities. Build AI-powered recommendation engines with a few lines of code.
+  link_text: AI guide
+  link_url: /advanced/#vector
+
+- icon: "⌭"
+  title: JSON Data API
+  body: >
+    Use the document-oriented Data API instead of CQL. Every endpoint is fully
+    annotated with downloadable OpenAPI specs and test fixtures.
+  link_text: API reference
+  link_url: /services/#api
+
+- icon: "⊞"
+  title: Multi-Language SDKs
+  body: >
+    Implementations in Python, Node.js, Java, Go, and C#. All services implement
+    the same contract so you can compare idioms across languages.
+  link_text: Choose your SDK
+  link_url: /getting-started/#sdks
+
+- icon: "⌘"
+  title: Agent-Friendly Design
+  body: >
+    Every endpoint ships with machine-readable spec artifacts. The site publishes
+    an llms.txt index so AI coding agents get full context instantly.
+  link_text: llms.txt
+  link_url: /llms.txt

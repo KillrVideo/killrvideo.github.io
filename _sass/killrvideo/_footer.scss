@@ -1,0 +1,57 @@
+// =============================================================================
+// _footer.scss — Site footer
+// =============================================================================
+
+.site-footer {
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  padding: $space-2xl - $space-sm $space-xl;
+}
+
+.footer-inner {
+  max-width: $max-width;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-xl;
+  flex-wrap: wrap;
+}
+
+.footer-brand {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: #fff;
+
+  span { color: var(--accent); }
+}
+
+.footer-tagline {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-top: 4px;
+}
+
+.footer-links {
+  display: flex;
+  gap: $space-lg;
+  flex-wrap: wrap;
+
+  a {
+    font-size: 12px;
+    color: var(--text-dim);
+    text-decoration: none;
+    transition: color 0.2s;
+
+    &:hover { color: var(--accent); }
+  }
+}
+
+.footer-license {
+  font-size: 11px;
+  color: var(--text-dim);
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+}

@@ -1,0 +1,32 @@
+<span class="cm">// videoService.js — KillrVideo Video Service</span>
+<span class="cm">// Node.js + @datastax/astra-db-ts SDK</span>
+
+<span class="kw">const</span> { <span class="cls">AstraDB</span> } = <span class="fn">require</span>(<span class="str">"@datastax/astra-db-ts"</span>);
+
+<span class="kw">class</span> <span class="cls">VideoService</span> {
+  <span class="fn">constructor</span>(token, apiEndpoint) {
+    <span class="kw">const</span> client = <span class="kw">new</span> <span class="cls">AstraDB</span>(token, apiEndpoint);
+    <span class="kw">this</span>.videos = client.<span class="fn">collection</span>(<span class="str">"videos"</span>);
+  }
+
+  <span class="kw">async</span> <span class="fn">submitVideo</span>({ userId, title, description, tags }) {
+    <span class="kw">const</span> videoId = <span class="fn">crypto</span>.<span class="fn">randomUUID</span>();
+    <span class="kw">await this</span>.videos.<span class="fn">insertOne</span>({
+      _id:         videoId,
+      userId,
+      title,
+      description,
+      tags,
+      addedDate:   <span class="kw">new</span> <span class="cls">Date</span>().<span class="fn">toISOString</span>(),
+    });
+    <span class="kw">return</span> videoId;
+  }
+
+  <span class="kw">async</span> <span class="fn">searchVideos</span>(queryEmbedding, limit = <span class="num">20</span>) {
+    <span class="kw">return await this</span>.videos.<span class="fn">find</span>({}, {
+      sort: { $vector: queryEmbedding },
+      limit,
+      includeSimilarity: <span class="kw">true</span>,
+    }).<span class="fn">toArray</span>();
+  }
+}

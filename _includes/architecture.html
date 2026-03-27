@@ -1,0 +1,50 @@
+<section id="architecture" class="arch-section">
+  <div class="section-inner">
+    <div class="arch-split">
+      <div class="arch-copy">
+        <div class="section-tag">System Design</div>
+        <h2 class="section-title reveal">Microservices<br>all the way down.</h2>
+        <p class="section-lead reveal">
+          KillrVideo decomposes a video platform into discrete services — each one showing
+          a distinct Cassandra data access pattern. Mix and match the services you need.
+        </p>
+        <div class="reveal">
+          <a href="{{ '/overview/' | relative_url }}" class="btn-secondary">Full Architecture →</a>
+        </div>
+      </div>
+
+      <div class="arch-diagram reveal" aria-label="KillrVideo service topology diagram">
+        <div class="arch-nodes">
+          <div class="arch-row">
+            <div class="arch-node primary">Client App</div>
+          </div>
+          <div class="arch-connector" aria-hidden="true">↓</div>
+          <div class="arch-row">
+            <div class="arch-node secondary">API Gateway</div>
+            <div class="arch-node secondary">gRPC Router</div>
+          </div>
+          <div class="arch-connector" aria-hidden="true">↓</div>
+          <div class="arch-row">
+            <div class="arch-node">User Service</div>
+            <div class="arch-node">Video Service</div>
+            <div class="arch-node">Comment Svc</div>
+          </div>
+          <div class="arch-row">
+            <div class="arch-node">Rating Svc</div>
+            <div class="arch-node">Search Svc</div>
+            <div class="arch-node">Stats Svc</div>
+          </div>
+          <div class="arch-connector" aria-hidden="true">↓</div>
+          <div class="arch-row">
+            <div class="arch-node tertiary">Astra DB / Cassandra</div>
+          </div>
+          <div class="arch-row">
+            <div class="arch-node tertiary">Vector Store</div>
+            <div class="arch-node tertiary">Event Bus</div>
+          </div>
+        </div>
+        <p class="arch-label">KillrVideo Service Topology</p>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,44 @@
+title: KillrVideo
+description: A reference application for building on Apache Cassandra
+baseurl: ""
+url: "https://killrvideo.github.io"
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+theme: null
+
+# Sass
+sass:
+  sass_dir: _sass
+  style: compressed
+
+# Plugins
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+# Exclude from build
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - src/site/llms-full.txt.njk
+
+# Site metadata
+author: KillrVideo Contributors
+github_username: KillrVideo
+license: Apache-2.0
+
+# Navigation
+nav_links:
+  - title: Overview
+    url: "#overview"
+  - title: Services
+    url: "#services"
+  - title: Architecture
+    url: "#architecture"
+  - title: Code
+    url: "#code"

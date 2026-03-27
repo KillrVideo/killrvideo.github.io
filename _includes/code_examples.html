@@ -1,0 +1,33 @@
+<section id="code" class="code-section">
+  <div class="section-inner">
+    <div class="section-tag">Code Examples</div>
+    <h2 class="section-title reveal">Real code.<br>Real patterns.</h2>
+    <p class="section-lead reveal">Every service is fully implemented. Browse the code that powers each feature.</p>
+
+    <div class="reveal">
+      <div class="code-tabs" role="tablist" aria-label="Language examples">
+        {% for example in site.data.code_examples %}
+        <button
+          class="code-tab{% if forloop.first %} active{% endif %}"
+          role="tab"
+          aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+          aria-controls="code-panel"
+          data-lang="{{ example.id }}"
+          data-file="{{ example.filename }}">
+          {{ example.label }}
+        </button>
+        {% endfor %}
+      </div>
+
+      <div class="code-block-wrap" id="code-panel" role="tabpanel">
+        <div class="code-header">
+          <span class="code-filename" id="code-filename">
+            {{ site.data.code_examples[0].filename }}
+          </span>
+          <button class="code-copy" id="code-copy-btn" aria-label="Copy code to clipboard">copy</button>
+        </div>
+        <pre id="code-content" aria-live="polite">{% include code_examples/python.html %}</pre>
+      </div>
+    </div>
+  </div>
+</section>
